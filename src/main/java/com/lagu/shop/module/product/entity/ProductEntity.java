@@ -1,0 +1,152 @@
+package com.lagu.shop.module.product.entity;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Entity
+@Table(name = "product")
+public class ProductEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
+    @SequenceGenerator(name="sequence_template", sequenceName = "product_id_seq", allocationSize = 1)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+    @Column(name = "created_on")
+    @CreationTimestamp
+    private LocalDateTime createdOn;
+
+    @Column(name = "created_by")
+    private Long createdBy;
+
+    @Column(name = "updated_on")
+    @UpdateTimestamp
+    private LocalDateTime updatedOn;
+
+    @Column(name = "updated_by")
+    private Long updatedBy;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Column(name = "uuid")
+    private String uuid;
+
+    @Column(name = "model")
+    private String model;
+
+    @Column(name = "description")
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name="category_id", nullable=false)
+    private CategoryEntity category;
+
+    @OneToMany(mappedBy = "product")
+    private Set<AttributeEntity> attributes;
+
+    public Long getId() {
+        return id;
+    }
+
+    public ProductEntity setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public ProductEntity setUuid(String uuid) {
+        this.uuid = uuid;
+        return this;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public ProductEntity setModel(String model) {
+        this.model = model;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ProductEntity setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public ProductEntity setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+        return this;
+    }
+
+    public Long getCreatedBy() {
+        return createdBy;
+    }
+
+    public ProductEntity setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
+        return this;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public ProductEntity setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
+        return this;
+    }
+
+    public Long getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public ProductEntity setUpdatedBy(Long updatedBy) {
+        this.updatedBy = updatedBy;
+        return this;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public ProductEntity setStatus(Status status) {
+        this.status = status;
+        return this;
+    }
+
+    public CategoryEntity getCategory() {
+        return category;
+    }
+
+    public ProductEntity setCategory(CategoryEntity category) {
+        this.category = category;
+        return this;
+    }
+
+    public Set<AttributeEntity> getAttributes() {
+        return attributes;
+    }
+
+    public ProductEntity setAttributes(Set<AttributeEntity> attributes) {
+        this.attributes = attributes;
+        return this;
+    }
+}
