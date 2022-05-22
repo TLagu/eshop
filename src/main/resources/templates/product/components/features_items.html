@@ -7,6 +7,9 @@
                     						<h2>$56</h2>
                     						<p th:text="${item.model}">...</p>
                     						<p th:text="${item.description}">...</p>
+											<span th:each="attribute : ${item.attributes}">
+												<p th:text="${attribute.name}">...</p>
+											</span>
                     						<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                 						</div>
             						</div>
