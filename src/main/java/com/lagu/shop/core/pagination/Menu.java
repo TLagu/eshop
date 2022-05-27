@@ -1,23 +1,29 @@
 package com.lagu.shop.core.pagination;
 
 public class Menu {
-    private String className;
+    private String classState;
+    private String classType;
     private String textValue;
     private String url;
 
-    public Menu(String className, String textValue, String url) {
-        this.className = className;
+    public Menu(String classState, String classType, String textValue, String url) {
+        this.classState = classState;
+        this.classType = classType;
         this.textValue = textValue;
         this.url = url;
     }
 
-    public String getClassName() {
-        return className;
+    public String getClassState() {
+        return classState;
     }
 
-    public Menu setClassName(String className) {
-        this.className = className;
+    public Menu setClassState(String classState) {
+        this.classState = classState;
         return this;
+    }
+
+    public String getClassType() {
+        return classType;
     }
 
     public String getTextValue() {

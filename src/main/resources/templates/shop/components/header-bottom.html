@@ -14,7 +14,7 @@
                     		<ul class="nav navbar-nav collapse navbar-collapse">
                         		<li th:each="item : ${items}">
 									<a
-										th:classappend="${#strings.equals(item.className, '')} ? '' : ${item.className}"
+										th:classappend="${#strings.equals(item.classState, '')} ? '' : ${item.classState}"
 										th:text="${item.textValue}"
 										th:href="${item.url}"
 									>...</a>

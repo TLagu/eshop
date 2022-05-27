@@ -6,6 +6,7 @@ import com.lagu.shop.module.product.entity.ProductEntity;
 import com.lagu.shop.module.product.mapper.ProductMapper;
 import com.lagu.shop.module.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +26,15 @@ public class ProductWebController {
     @GetMapping({"/", "/home", "/logged", "/logged/home"})
     public String slider(
             Model model,
-            HttpServletRequest request
+            HttpServletRequest request,
+            Authentication authentication
     ) {
-        String prefix = (request.getRequestURI().contains("logged")) ? "/logged" : "";
+        String uri = request.getRequestURI();
+        boolean isLogged = authentication != null && authentication.isAuthenticated();
         List<ProductEntity> randomForSlider = service.getRandomForSlider();
         model.addAttribute("sliderItems", ProductMapper.map(randomForSlider));
-        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu("/", prefix));
-        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(prefix));
+        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
+        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
         return "shop/index.html";
     }
 
@@ -40,19 +43,19 @@ public class ProductWebController {
             @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = DEFAULT_SIZE) int size,
             Model model,
-            HttpServletRequest request
+            HttpServletRequest request,
+            Authentication authentication
     ) {
-        String prefix = (request.getRequestURI().contains("logged")) ? "/logged" : "";
+        String uri = request.getRequestURI();
+        boolean isLogged = authentication != null && authentication.isAuthenticated();
         Map<String, String> params = new HashMap<>();
         ListResponse<ProductDto> allPerPage = service.getAllPerPage(page, size);
         Metadata metadata = allPerPage.getMetadata();
-        List<ProductDto> productItems = allPerPage.getContent();
-        PageWrapper pageWrapper = new PageWrapper(metadata, prefix + "/shop", params);
-        List<PageWrapper.PageItem> pageItems = pageWrapper.getPageWrapper();
-        model.addAttribute("productItems", productItems);
-        model.addAttribute("pageItems", pageItems);
-        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu("/shop", prefix));
-        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(prefix));
+        PageWrapper pageWrapper = new PageWrapper(metadata, uri, params);
+        model.addAttribute("productItems", allPerPage.getContent());
+        model.addAttribute("pageItems", pageWrapper.getPageWrapper());
+        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
+        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
         return "shop/product.html";
     }
 

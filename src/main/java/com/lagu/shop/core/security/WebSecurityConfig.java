@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -49,12 +50,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/logged/*").permitAll()
+                    .antMatchers("/logged/*")
+                    .authenticated()
+                    .anyRequest()
+                    .permitAll()
                 .and()
-                .formLogin().loginPage("/logged/login").usernameParameter("email").defaultSuccessUrl("/logged/shop").permitAll()
+                .formLogin()
+                    .loginPage("/logged/login")
+                    .usernameParameter("email")
+                    .defaultSuccessUrl("/logged/shop")
+                    .permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/").permitAll();
+                .logout()
+                    .logoutSuccessUrl("/shop")
+                    .permitAll();
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/logged/process-register");
+    }
 
 }

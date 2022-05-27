@@ -12,8 +12,8 @@
                 		<div class="shop-menu pull-right">
                     		<ul class="nav navbar-nav">
                         		<li th:each="item : ${items}">
-									<a th:href="${item.url}">
-										<i th:classappend="${item.className}"></i>
+									<a th:href="${item.url}" th:classappend="${item.classState}">
+										<i th:classappend="${item.classType}"></i>
 										<span th:text="${item.textValue}">...</span>
 									</a>
 								</li>

@@ -3,7 +3,6 @@ package com.lagu.shop.module.user;
 import com.lagu.shop.module.user.entity.UserEntity;
 import com.lagu.shop.module.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +47,6 @@ public class UserController {
     public String listUsers(Model model) {
         List<UserEntity> listUsers = userRepo.findAll();
         model.addAttribute("listUsers", listUsers);
-
         return "shop/user.html";
     }
 }
