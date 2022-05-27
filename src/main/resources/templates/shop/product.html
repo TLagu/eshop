@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="product/components/head :: fragment">
+<head th:replace="shop/components/head :: fragment">
 </head><!--/head-->
 
 <body>
 	<header id="header"><!--header-->
 		<!--header_top-->
-		<div th:replace="product/components/header_top :: fragment"></div>
+		<div th:replace="shop/components/header_top :: fragment"></div>
 		<!--header-middle-->
-		<div th:replace="product/components/header-middle :: fragment"></div>
+		<div th:replace="shop/components/header-middle :: fragment"></div>
 		<!--header-bottom-->
-		<div th:replace="product/components/header-bottom :: fragment"></div>
+		<div th:replace="shop/components/header-bottom :: fragment"></div>
 	</header><!--/header-->
 
 	<section>
@@ -18,18 +18,18 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<!--left-sidebar-->
-					<div th:replace="product/components/left-sidebar :: fragment"></div>
+					<div th:replace="shop/components/left-sidebar :: fragment"></div>
 				</div>
 				<div class="col-sm-9 padding-right">
 					<!--features_items-->
 					<div class="features_items"><!--features_items-->
 						<div class="row">
 						<h2 class="title text-center">Features Items</h2>
-						<div th:replace="product/components/features_items :: fragment(items=${productItems})"></div>
+						<div th:replace="shop/components/features_items :: fragment(items=${productItems})"></div>
 						</div>
 						<div class="row">
 						<!--pagination-->
-						<div th:replace="product/components/pagination :: fragment(items=${pageItems})"></div>
+						<div th:replace="shop/components/pagination :: fragment(items=${pageItems})"></div>
 					</div>
 					</div>
 				</div>
@@ -38,7 +38,7 @@
 	</section>
 
 	<!--footer-->
-	<div th:replace="product/components/footer :: fragment"></div>
+	<div th:replace="shop/components/footer :: fragment"></div>
 
     <script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
