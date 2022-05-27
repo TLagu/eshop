@@ -1,4 +1,4 @@
-		<div class="header-bottom" th:fragment="fragment"><!--header-bottom-->
+		<div class="header-bottom" th:fragment="fragment(items)"><!--header-bottom-->
     		<div class="container">
         		<div class="row">
             		<div class="col-sm-9">
@@ -12,9 +12,13 @@
                 		</div>
                 		<div class="mainmenu pull-left">
                     		<ul class="nav navbar-nav collapse navbar-collapse">
-                        		<li><a href="/" class="active">Strona główna</a></li>
-                        		<li><a href="/shop">Sklep</a></li>
-                        		<li><a href="/contact">Kontakt</a></li>
+                        		<li th:each="item : ${items}">
+									<a
+										th:classappend="${#strings.equals(item.className, '')} ? '' : ${item.className}"
+										th:text="${item.textValue}"
+										th:href="${item.url}"
+									>...</a>
+								</li>
                     		</ul>
                 		</div>
             		</div>

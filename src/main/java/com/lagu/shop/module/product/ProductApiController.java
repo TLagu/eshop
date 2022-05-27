@@ -12,13 +12,13 @@ public class ProductApiController {
     @Autowired
     private ProductService service;
 
-    @GetMapping(value = "/api/product/{guid}")
+    @GetMapping(value = "/api/shop/{guid}")
     public ProductDto getOne(@PathVariable String guid) {
         // TODO: IF NULL
         return ProductMapper.map(service.getOne(guid), null);
     }
 
-    @GetMapping("/api/product")
+    @GetMapping("/api/shop")
     public ListResponse<ProductDto> getByPage(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "5") int size
@@ -26,18 +26,18 @@ public class ProductApiController {
         return service.getAllPerPage(page, size);
     }
 
-//    @PostMapping("/api/product")
+//    @PostMapping("/api/shop")
 //    public ProductDto create(@RequestBody ProductForm form) {
 //        return service.create(form);
 //    }
 //
-//    @PutMapping(value = "/api/product/{uuid}")
+//    @PutMapping(value = "/api/shop/{uuid}")
 //    public ProductDto update(@PathVariable String uuid,
 //                                @RequestBody ProductForm form) {
 //        return service.update(uuid, form);
 //    }
 //
-//    @DeleteMapping(value = "/api/product/{uuid}")
+//    @DeleteMapping(value = "/api/shop/{uuid}")
 //    public void delete(@PathVariable String uuid) {
 //        // TODO: IF NULL
 //        service.delete(uuid);

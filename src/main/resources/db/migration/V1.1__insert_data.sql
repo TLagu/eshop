@@ -1,10 +1,10 @@
-INSERT INTO shop.category (id, created_by, updated_by, status, name, description) VALUES
+INSERT INTO category (id, created_by, updated_by, status, name, description) VALUES
     (nextval('shop."category_id_seq"'), 1, 1, 'ACTIVE', 'RAM', 'RAM'),
     (nextval('shop."category_id_seq"'), 1, 1, 'ACTIVE', 'CPU', 'CPU'),
     (nextval('shop."category_id_seq"'), 1, 1, 'ACTIVE', 'GPU', 'GPU');
 COMMIT;
 
-INSERT INTO shop.product (id, created_by, updated_by, status, uuid, model, description, category_id) VALUES
+INSERT INTO product (id, created_by, updated_by, status, uuid, model, description, category_id) VALUES
     (nextval('shop."product_id_seq"'), 1, 1, 'ACTIVE', '4da99500-5bf8-4710-b005-bca9aaede908', 'Model 1', 'Description 1', 1),
     (nextval('shop."product_id_seq"'), 1, 1, 'ACTIVE', '2f68aaa0-39bf-46f9-bd67-62ea34128e00', 'Model 2', 'Description 2', 2),
     (nextval('shop."product_id_seq"'), 1, 1, 'ACTIVE', '4ac53f58-b2c9-46ab-8b4e-c3235459c8c2', 'Model 3', 'Description 3', 3),
@@ -37,7 +37,7 @@ INSERT INTO shop.product (id, created_by, updated_by, status, uuid, model, descr
     (nextval('shop."product_id_seq"'), 1, 1, 'ACTIVE', '75c01bbb-91c3-4e33-82fa-d7fe4b5bafbe', 'Model 30', 'Description 30', 3);
 COMMIT;
 
-INSERT INTO shop.attribute (id, created_by, updated_by, status, product_id, name, description) VALUES
+INSERT INTO attribute (id, created_by, updated_by, status, product_id, name, description) VALUES
     (nextval('shop."attribute_id_seq"'), 1, 1, 'ACTIVE', 1, 'RAM 1', 'RAM 1'),
     (nextval('shop."attribute_id_seq"'), 1, 1, 'ACTIVE', 1, 'RAM 2', 'RAM 2'),
     (nextval('shop."attribute_id_seq"'), 1, 1, 'ACTIVE', 1, 'RAM 3', 'RAM 3'),

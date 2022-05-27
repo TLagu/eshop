@@ -12,7 +12,7 @@ public class AttributeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attribute_generator")
-    @SequenceGenerator(name="attribute_generator", sequenceName = "attribute_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "attribute_generator", sequenceName = "attribute_id_seq", allocationSize = 1)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
@@ -35,7 +35,7 @@ public class AttributeEntity {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name="product_id", nullable=false)
+    @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;
 
     @Column(name = "name")

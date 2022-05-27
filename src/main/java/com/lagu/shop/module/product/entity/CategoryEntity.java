@@ -12,7 +12,7 @@ public class CategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_generator")
-    @SequenceGenerator(name="category_generator", sequenceName = "category_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "category_generator", sequenceName = "category_id_seq", allocationSize = 1)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
