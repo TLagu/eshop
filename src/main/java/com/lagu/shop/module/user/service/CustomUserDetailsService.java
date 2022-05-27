@@ -1,6 +1,7 @@
-package com.lagu.shop.core.security;
+package com.lagu.shop.module.user.service;
 
-import com.lagu.shop.module.user.entity.User;
+import com.lagu.shop.module.user.entity.CustomUserDetails;
+import com.lagu.shop.module.user.entity.UserEntity;
 import com.lagu.shop.module.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,11 +15,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByEmail(username);
-        if (user == null) {
+        UserEntity userEntity = userRepo.findByEmail(username);
+        if (userEntity == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new CustomUserDetails(user);
+        return new CustomUserDetails(userEntity);
     }
 
 }

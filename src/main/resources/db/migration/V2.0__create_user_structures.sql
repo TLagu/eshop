@@ -1,63 +1,20 @@
-DROP TABLE IF EXISTS shop.attribute;
-CREATE TABLE shop.attribute (
+DROP TABLE IF EXISTS shop.user CASCADE;
+CREATE TABLE shop.user (
     id bigint NOT NULL,
     created_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int,
     updated_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_by int,
     status character varying(25),
-    product_id bigint,
-    name character varying(200),
-    description text,
-    CONSTRAINT attribute_pkey PRIMARY KEY (id)
+    email character varying(45) NOT NULL,
+    password character varying(64),
+    first_name character varying(20) NOT NULL,
+    last_name character varying(20) NOT NULL,
+    CONSTRAINT user_pkey PRIMARY KEY (id)
 );
 
-DROP SEQUENCE IF EXISTS shop.attribute_id_seq;
-CREATE SEQUENCE shop.attribute_id_seq
-    INCREMENT 1
-    START 1
-    MINVALUE 1
-    MAXVALUE 9223372036854775807
-    CACHE 1;
-
-DROP TABLE IF EXISTS shop.product;
-CREATE TABLE shop.product (
-    id bigint NOT NULL,
-    created_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int,
-    updated_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by int,
-    status character varying(25),
-    uuid character varying(36),
-    model character varying(200),
-    description text,
-    category_id bigint,
-    CONSTRAINT product_pkey PRIMARY KEY (id)
-);
-
-DROP SEQUENCE IF EXISTS shop.product_id_seq;
-CREATE SEQUENCE shop.product_id_seq
-    INCREMENT 1
-    START 1
-    MINVALUE 1
-    MAXVALUE 9223372036854775807
-    CACHE 1;
-
-DROP TABLE IF EXISTS shop.category;
-CREATE TABLE shop.category (
-    id bigint NOT NULL,
-    created_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int,
-    updated_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by int,
-    status character varying(25),
-    name character varying(200),
-    description text,
-    CONSTRAINT category_pkey PRIMARY KEY (id)
-);
-
-DROP SEQUENCE IF EXISTS shop.category_id_seq;
-CREATE SEQUENCE shop.category_id_seq
+DROP SEQUENCE IF EXISTS shop.user_id_seq;
+CREATE SEQUENCE shop.user_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1

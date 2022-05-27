@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<section id="form" th:fragment="fragment"><!--form-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-1">
+                <div class="login-form"><!--login form-->
+                    <h2>Zaloguj się do konta</h2>
+                    <form th:action="@{/logged/login}" th:object="${user}" method="post">
+                        <input type="email" th:field="${user.email}" placeholder="Adres e-mail" />
+                        <input type="password" th:field="${user.password}" placeholder="Hasło"/>
+                        <input type="hidden" name="_csrf" value="a680ce89-08fb-4e90-8e78-6a0fd045cb68" />
+                        <span>
+                            <input type="checkbox" class="checkbox">
+                            Pozostaw mnie zalogowanym
+                        </span>
+                        <button type="submit" class="btn btn-default">Loguj</button>
+                    </form>
+                </div><!--/login form-->
+            </div>
+            <div class="col-sm-1">
+                <h2 class="or">LUB</h2>
+            </div>
+            <div class="col-sm-4">
+                <div class="signup-form"><!--sign up form-->
+                    <h2>Rejestracja nowego użytkownika!</h2>
+                    <form th:action="@{/logged/process-register}" th:object="${user}" method="post">
+                        <input type="text" th:field="${user.firstName}" placeholder="Imię"/>
+                        <input type="text" th:field="${user.lastName}" placeholder="Nazwisko"/>
+                        <input type="email" th:field="${user.email}" placeholder="Adres e-mail"/>
+                        <input type="password" th:field="${user.password}" placeholder="Hasło"/>
+                        <button type="submit" class="btn btn-default">Rejestruj</button>
+                    </form>
+                    <h3 th:text="${comment}">...</h3>
+                </div><!--/sign up form-->
+            </div>
+        </div>
+    </div>
+</section><!--/form-->

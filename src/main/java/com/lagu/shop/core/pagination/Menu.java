@@ -1,11 +1,11 @@
 package com.lagu.shop.core.pagination;
 
-public class BottomMenu {
+public class Menu {
     private String className;
     private String textValue;
     private String url;
 
-    public BottomMenu(String className, String textValue, String url) {
+    public Menu(String className, String textValue, String url) {
         this.className = className;
         this.textValue = textValue;
         this.url = url;
@@ -13,6 +13,11 @@ public class BottomMenu {
 
     public String getClassName() {
         return className;
+    }
+
+    public Menu setClassName(String className) {
+        this.className = className;
+        return this;
     }
 
     public String getTextValue() {
@@ -23,8 +28,8 @@ public class BottomMenu {
         return url;
     }
 
-    public BottomMenu setClassName(String className) {
-        this.className = className;
+    public Menu setUrl(String url) {
+        this.url = url;
         return this;
     }
 }

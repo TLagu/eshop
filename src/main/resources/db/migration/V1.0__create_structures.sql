@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS shop.attribute;
-CREATE TABLE shop.attribute (
+DROP TABLE IF EXISTS attribute CASCADE;
+CREATE TABLE attribute (
     id bigint NOT NULL,
     created_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int,
@@ -12,16 +12,16 @@ CREATE TABLE shop.attribute (
     CONSTRAINT attribute_pkey PRIMARY KEY (id)
 );
 
-DROP SEQUENCE IF EXISTS shop.attribute_id_seq;
-CREATE SEQUENCE shop.attribute_id_seq
+DROP SEQUENCE IF EXISTS attribute_id_seq;
+CREATE SEQUENCE attribute_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
     MAXVALUE 9223372036854775807
     CACHE 1;
 
-DROP TABLE IF EXISTS shop.product;
-CREATE TABLE shop.product (
+DROP TABLE IF EXISTS product CASCADE;
+CREATE TABLE product (
     id bigint NOT NULL,
     created_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int,
@@ -35,16 +35,16 @@ CREATE TABLE shop.product (
     CONSTRAINT product_pkey PRIMARY KEY (id)
 );
 
-DROP SEQUENCE IF EXISTS shop.product_id_seq;
-CREATE SEQUENCE shop.product_id_seq
+DROP SEQUENCE IF EXISTS product_id_seq;
+CREATE SEQUENCE product_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
     MAXVALUE 9223372036854775807
     CACHE 1;
 
-DROP TABLE IF EXISTS shop.category;
-CREATE TABLE shop.category (
+DROP TABLE IF EXISTS category CASCADE;
+CREATE TABLE category (
     id bigint NOT NULL,
     created_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int,
@@ -56,8 +56,8 @@ CREATE TABLE shop.category (
     CONSTRAINT category_pkey PRIMARY KEY (id)
 );
 
-DROP SEQUENCE IF EXISTS shop.category_id_seq;
-CREATE SEQUENCE shop.category_id_seq
+DROP SEQUENCE IF EXISTS category_id_seq;
+CREATE SEQUENCE category_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
