@@ -6,11 +6,11 @@
 <body>
 	<header id="header"><!--header-->
 		<!--header_top-->
-		<div th:replace="shop/components/header_top :: fragment"></div>
+		<div th:replace="shop/components/header-top :: fragment"></div>
 		<!--header-middle-->
-		<div th:replace="shop/components/header-middle :: fragment"></div>
+		<div th:replace="shop/components/header-middle :: fragment(items=${middleMenuItems})"></div>
 		<!--header-bottom-->
-		<div th:replace="shop/components/header-bottom :: fragment"></div>
+		<div th:replace="shop/components/header-bottom :: fragment(items=${bottomMenuItems})"></div>
 	</header><!--/header-->
 
 	<section>
@@ -25,7 +25,7 @@
 					<div class="features_items"><!--features_items-->
 						<div class="row">
 						<h2 class="title text-center">Features Items</h2>
-						<div th:replace="shop/components/features_items :: fragment(items=${productItems})"></div>
+						<div th:replace="shop/components/features-items :: fragment(items=${productItems})"></div>
 						</div>
 						<div class="row">
 						<!--pagination-->

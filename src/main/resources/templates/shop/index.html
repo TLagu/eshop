@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="product/components/head :: fragment">
+<head th:replace="shop/components/head :: fragment">
 </head><!--/head-->
 
 <body>
 	<header id="header"><!--header-->
 		<!--header_top-->
-		<div th:replace="product/components/header_top :: fragment"></div>
+		<div th:replace="shop/components/header-top :: fragment"></div>
 		<!--header-middle-->
-		<div th:replace="product/components/header-middle :: fragment"></div>
+		<div th:replace="shop/components/header-middle :: fragment(items=${middleMenuItems})"></div>
 		<!--header-bottom-->
-		<div th:replace="product/components/header-bottom :: fragment"></div>
+		<div th:replace="shop/components/header-bottom :: fragment(items=${bottomMenuItems})"></div>
 	</header><!--/header-->
 
 	<!--slider-->
-	<div th:replace="product/components/slider :: fragment(items=${sliderItems})"></div>
+	<div th:replace="shop/components/slider :: fragment(items=${sliderItems})"></div>
 
 	<!--footer-->
-	<div th:replace="product/components/footer :: fragment"></div>
+	<div th:replace="shop/components/footer :: fragment"></div>
 
     <script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>

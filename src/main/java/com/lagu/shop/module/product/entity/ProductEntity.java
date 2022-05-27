@@ -13,7 +13,7 @@ public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
-    @SequenceGenerator(name="sequence_template", sequenceName = "product_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "sequence_template", sequenceName = "product_id_seq", allocationSize = 1)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
@@ -45,7 +45,7 @@ public class ProductEntity {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name="category_id", nullable=false)
+    @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
     @OneToMany(mappedBy = "product")
