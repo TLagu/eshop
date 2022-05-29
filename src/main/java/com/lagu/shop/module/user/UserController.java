@@ -15,14 +15,16 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
-    @GetMapping("/logged/login")
+    @GetMapping("/login")
     public String viewHomePage(Model model) {
         model.addAttribute("user", new UserEntity());
         return "/shop/register-login.html";
     }
 
-    @PostMapping("/logged/process-register")
+    @PostMapping("/process-register")
     public String processRegister(
             Model model,
             UserEntity userEntity
@@ -30,8 +32,7 @@ public class UserController {
         UserEntity user = userRepo.findByEmail(userEntity.getEmail());
         String comment;
         if (user == null) {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encodedPassword = passwordEncoder.encode(userEntity.getPassword());
+            String encodedPassword = encoder.encode(userEntity.getPassword());
             userEntity.setPassword(encodedPassword);
             userRepo.save(userEntity);
             comment = "Konto zostało zarejestrowane";
@@ -43,7 +44,7 @@ public class UserController {
         return "shop/register-login.html";
     }
 
-    @GetMapping("/logged/users")
+    @GetMapping("/users")
     public String listUsers(Model model) {
         List<UserEntity> listUsers = userRepo.findAll();
         model.addAttribute("listUsers", listUsers);

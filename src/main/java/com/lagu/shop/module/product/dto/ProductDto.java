@@ -9,6 +9,9 @@ public class ProductDto {
     private String description;
     private CategoryDto category;
     private Set<AttributeDto> attributes;
+    private boolean cart;
+    private boolean wishlist;
+    private boolean compare;
 
     public String getUuid() {
         return uuid;
@@ -52,6 +55,33 @@ public class ProductDto {
 
     public ProductDto setAttributes(Set<AttributeDto> attributes) {
         this.attributes = attributes;
+        return this;
+    }
+
+    public boolean getCart() {
+        return cart;
+    }
+
+    public ProductDto setCart(boolean cart) {
+        this.cart = cart;
+        return this;
+    }
+
+    public boolean getWishlist() {
+        return wishlist;
+    }
+
+    public ProductDto setWishlist(boolean wishlist) {
+        this.wishlist = wishlist;
+        return this;
+    }
+
+    public boolean getCompare() {
+        return compare;
+    }
+
+    public ProductDto setCompare(boolean compare) {
+        this.compare = compare;
         return this;
     }
 }

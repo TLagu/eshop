@@ -2,21 +2,74 @@
 						    <div class="col-sm-4" th:each="item, iStat : ${items}">
         						<div class="product-image-wrapper">
             						<div class="single-products">
-                						<div class="productinfo text-center">
+                						<div
+												class="productinfo text-center"
+										>
                     						<img src="/images/home/product1.jpg" alt="" />
                     						<h2>$56</h2>
                     						<p th:text="${item.model}">...</p>
                     						<p th:text="${item.description}">...</p>
-											<span th:each="attribute : ${item.attributes}">
+											<!--span th:each="attribute : ${item.attributes}">
 												<p th:text="${attribute.name}">...</p>
+											</span-->
+											<span th:if="${pageSetup.isLogged}">
+                    							<a
+														th:if="${item.cart == false}"
+														th:href="@{/cart/add/} + ${item.uuid}"
+														class="btn btn-default add-to-cart"
+												>
+													<i class="fa fa-shopping-cart"></i>
+													Dodaj do koszyka
+												</a>
+                    							<a
+														th:if="${item.cart}"
+														th:href="@{/cart/remove/} + ${item.uuid}"
+														class="btn btn-default add-to-cart"
+												>
+													<i class="fa fa-shopping-cart"></i>
+													Usuń z koszyka
+												</a>
 											</span>
-                    						<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                 						</div>
             						</div>
-            						<div class="choose">
+            						<div th:if="${pageSetup.isLogged}" class="choose">
                 						<ul class="nav nav-pills nav-justified">
-                    						<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-                    						<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                    						<li>
+												<a
+														th:if="${item.wishlist == false}"
+														th:href="@{/wishlist/add/} + ${item.uuid}"
+												>
+													<i class="fa fa-plus-square"></i>
+													Dodaj do obserwowanych
+												</a>
+											</li>
+											<li>
+												<a
+														th:if="${item.wishlist}"
+														th:href="@{/wishlist/remove/} + ${item.uuid}"
+												>
+													<i class="fa fa-plus-square"></i>
+													Usuń z obserwowanych
+												</a>
+											</li>
+											<li>
+												<a
+														th:if="${item.compare == false}"
+														th:href="@{/compare/add/} + ${item.uuid}"
+												>
+													<i class="fa fa-plus-square"></i>
+													Dodaj do porównania
+												</a>
+											</li>
+                    						<li>
+												<a
+														th:if="${item.compare}"
+														th:href="@{/compare/remove/} + ${item.uuid}"
+												>
+													<i class="fa fa-plus-square"></i>
+													Usuń z porównania
+												</a>
+											</li>
                 						</ul>
             						</div>
         						</div>
