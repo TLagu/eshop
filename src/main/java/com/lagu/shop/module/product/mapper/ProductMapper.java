@@ -15,7 +15,7 @@ public class ProductMapper {
                 .setUuid(entity.getUuid())
                 .setModel(entity.getModel())
                 .setDescription(entity.getDescription())
-                .setCategory(CategoryMapper.map(entity.getCategory()));
+                .setCategory(entity.getCategory());
         if (attribute == null) {
             return result.setAttributes(entity.getAttributes().stream()
                     .map(a -> AttributeMapper.map(a, result))

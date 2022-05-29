@@ -3,6 +3,8 @@ package com.lagu.shop.module.product;
 import com.lagu.shop.core.pagination.*;
 import com.lagu.shop.module.product.dto.ProductDto;
 import com.lagu.shop.module.product.dto.PageSetup;
+import com.lagu.shop.module.product.entity.CategoryEntity;
+import com.lagu.shop.module.product.repository.CategoryRepository;
 import com.lagu.shop.module.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,6 +29,8 @@ public class ProductWebController {
     @Autowired
     private CartWebController cartWebController;
     @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
     private CompareWebController compareWebController;
     @Autowired
     private WishlistWebController wishlistWebController;
@@ -48,21 +52,31 @@ public class ProductWebController {
 
     @GetMapping(value = {"/shop"})
     public String list(
-            @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) int page,
-            @RequestParam(value = "size", defaultValue = DEFAULT_SIZE) int size,
-            @RequestParam(value = "category", required = false) String category,
+            @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) Integer page,
+            @RequestParam(value = "size", defaultValue = DEFAULT_SIZE) Integer size,
+            @RequestParam(value = "category", required = false) Long category,
             Model model,
             HttpServletRequest request,
             Authentication authentication
     ) {
-        httpSession.setAttribute("page", String.valueOf(page));
-        httpSession.setAttribute("size", String.valueOf(size));
-        httpSession.setAttribute("category", category);
         String uri = request.getRequestURI();
         boolean isLogged = ControllerTools.isLogged(authentication);
         PageSetup pageSetup = new PageSetup(uri, isLogged);
-        ListResponse<ProductDto> allPerPage = service.getAllPerPage(page, size);
+
+        httpSession.setAttribute("page", String.valueOf(page));
+        httpSession.setAttribute("size", String.valueOf(size));
+
+        ListResponse<ProductDto> allPerPage;
         Map<String, String> params = new HashMap<>();
+
+        if (category != null) {
+            httpSession.setAttribute("category", category);
+            allPerPage = service.getByCategories(category, page, size);
+            params.put("category", String.valueOf(category));
+        } else {
+            allPerPage = service.getAllPerPage(page, size);
+        }
+
         PageWrapper pageWrapper = new PageWrapper(allPerPage.getMetadata(), uri, params);
         List<ProductDto> products = allPerPage.getContent();
         if (isLogged) {
@@ -70,11 +84,13 @@ public class ProductWebController {
             products = compareWebController.setProductAsAdded(products, authentication);
             products = wishlistWebController.setProductAsAdded(products, authentication);
         }
+        List<CategoryEntity> categories = categoryRepository.findByParentIsNullOrderByName();
         model.addAttribute("productItems", products);
         model.addAttribute("pageItems", pageWrapper.getPageWrapper());
         model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
         model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
         model.addAttribute("pageSetup", pageSetup);
+        model.addAttribute("categoryItems", categories);
         return "shop/product.html";
     }
 
