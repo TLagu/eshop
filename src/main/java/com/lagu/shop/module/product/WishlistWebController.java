@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class WishlistWebController {
@@ -26,11 +25,7 @@ public class WishlistWebController {
             @PathVariable String uuid,
             Authentication authentication
     ) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            service.add(uuid, authentication.getName());
-            return ControllerTools.redirectToShop(httpSession);
-        }
-        return new ModelAndView("redirect:/shop");
+        return ControllerTools.addOrRemove(uuid, authentication, service::add, httpSession);
     }
 
     @GetMapping({"/wishlist/remove/{uuid}"})
@@ -38,23 +33,11 @@ public class WishlistWebController {
             @PathVariable String uuid,
             Authentication authentication
     ) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            service.remove(uuid, authentication.getName());
-            return ControllerTools.redirectToShop(httpSession);
-        }
-        return new ModelAndView("redirect:/shop");
+        return ControllerTools.addOrRemove(uuid, authentication, service::remove, httpSession);
     }
 
     public List<ProductDto> setProductAsAdded(List<ProductDto> products, Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            Set<String> items = service.getProductListByUser(authentication.getName());
-            for (ProductDto product : products) {
-                if (items.contains(product.getUuid())) {
-                    product.setWishlist(true);
-                }
-            }
-        }
-        return products;
+        return ControllerTools.setProductAsAdded(products, authentication, service::getProductListByUser, ProductDto::setWishlist);
     }
 
 }

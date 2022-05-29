@@ -38,7 +38,7 @@ public class ProductWebController {
             Authentication authentication
     ) {
         String uri = request.getRequestURI();
-        boolean isLogged = authentication != null && authentication.isAuthenticated();
+        boolean isLogged = ControllerTools.isLogged(authentication);
         List<ProductDto> randomForSlider = service.getRandomForSlider();
         model.addAttribute("sliderItems", randomForSlider);
         model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
@@ -47,7 +47,7 @@ public class ProductWebController {
     }
 
     @GetMapping(value = {"/shop"})
-    public String loggedOutList(
+    public String list(
             @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = DEFAULT_SIZE) int size,
             @RequestParam(value = "category", required = false) String category,
@@ -59,12 +59,11 @@ public class ProductWebController {
         httpSession.setAttribute("size", String.valueOf(size));
         httpSession.setAttribute("category", category);
         String uri = request.getRequestURI();
-        boolean isLogged = authentication != null && authentication.isAuthenticated();
+        boolean isLogged = ControllerTools.isLogged(authentication);
         PageSetup pageSetup = new PageSetup(uri, isLogged);
-        Map<String, String> params = new HashMap<>();
         ListResponse<ProductDto> allPerPage = service.getAllPerPage(page, size);
-        Metadata metadata = allPerPage.getMetadata();
-        PageWrapper pageWrapper = new PageWrapper(metadata, uri, params);
+        Map<String, String> params = new HashMap<>();
+        PageWrapper pageWrapper = new PageWrapper(allPerPage.getMetadata(), uri, params);
         List<ProductDto> products = allPerPage.getContent();
         if (isLogged) {
             products = cartWebController.setProductAsAdded(products, authentication);

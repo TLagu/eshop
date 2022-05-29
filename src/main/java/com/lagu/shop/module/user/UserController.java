@@ -3,6 +3,7 @@ package com.lagu.shop.module.user;
 import com.lagu.shop.module.user.entity.UserEntity;
 import com.lagu.shop.module.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,11 +28,14 @@ public class UserController {
     @PostMapping("/process-register")
     public String processRegister(
             Model model,
-            UserEntity userEntity
+            UserEntity userEntity,
+            Authentication authentication
     ) {
         UserEntity user = userRepo.findByEmail(userEntity.getEmail());
         String comment;
-        if (user == null) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            comment = "Jesteś zalogowany, nie możesz się zarejestrować";
+        } else if (user == null) {
             String encodedPassword = encoder.encode(userEntity.getPassword());
             userEntity.setPassword(encodedPassword);
             userRepo.save(userEntity);
