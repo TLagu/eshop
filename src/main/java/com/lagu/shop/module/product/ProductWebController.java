@@ -2,8 +2,7 @@ package com.lagu.shop.module.product;
 
 import com.lagu.shop.core.pagination.*;
 import com.lagu.shop.module.product.dto.ProductDto;
-import com.lagu.shop.module.product.entity.ProductEntity;
-import com.lagu.shop.module.product.mapper.ProductMapper;
+import com.lagu.shop.module.product.dto.PageSetup;
 import com.lagu.shop.module.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,50 +11,70 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class ProductWebController {
-    private final static String DEFAULT_PAGE = "0";
-    private final static String DEFAULT_SIZE = "6";
+    public final static String DEFAULT_PAGE = "0";
+    public final static String DEFAULT_SIZE = "6";
     @Autowired
     private ProductService service;
+    @Autowired
+    private HttpSession httpSession;
+    @Autowired
+    private CartWebController cartWebController;
+    @Autowired
+    private CompareWebController compareWebController;
+    @Autowired
+    private WishlistWebController wishlistWebController;
 
-    @GetMapping({"/", "/home", "/logged", "/logged/home"})
+    @GetMapping({"/", "/home"})
     public String slider(
             Model model,
             HttpServletRequest request,
             Authentication authentication
     ) {
         String uri = request.getRequestURI();
-        boolean isLogged = authentication != null && authentication.isAuthenticated();
-        List<ProductEntity> randomForSlider = service.getRandomForSlider();
-        model.addAttribute("sliderItems", ProductMapper.map(randomForSlider));
+        boolean isLogged = ControllerTools.isLogged(authentication);
+        List<ProductDto> randomForSlider = service.getRandomForSlider();
+        model.addAttribute("sliderItems", randomForSlider);
         model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
         model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
         return "shop/index.html";
     }
 
-    @GetMapping(value = {"/shop", "/logged/shop"})
-    public String loggedOutList(
+    @GetMapping(value = {"/shop"})
+    public String list(
             @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = DEFAULT_SIZE) int size,
+            @RequestParam(value = "category", required = false) String category,
             Model model,
             HttpServletRequest request,
             Authentication authentication
     ) {
+        httpSession.setAttribute("page", String.valueOf(page));
+        httpSession.setAttribute("size", String.valueOf(size));
+        httpSession.setAttribute("category", category);
         String uri = request.getRequestURI();
-        boolean isLogged = authentication != null && authentication.isAuthenticated();
-        Map<String, String> params = new HashMap<>();
+        boolean isLogged = ControllerTools.isLogged(authentication);
+        PageSetup pageSetup = new PageSetup(uri, isLogged);
         ListResponse<ProductDto> allPerPage = service.getAllPerPage(page, size);
-        Metadata metadata = allPerPage.getMetadata();
-        PageWrapper pageWrapper = new PageWrapper(metadata, uri, params);
-        model.addAttribute("productItems", allPerPage.getContent());
+        Map<String, String> params = new HashMap<>();
+        PageWrapper pageWrapper = new PageWrapper(allPerPage.getMetadata(), uri, params);
+        List<ProductDto> products = allPerPage.getContent();
+        if (isLogged) {
+            products = cartWebController.setProductAsAdded(products, authentication);
+            products = compareWebController.setProductAsAdded(products, authentication);
+            products = wishlistWebController.setProductAsAdded(products, authentication);
+        }
+        model.addAttribute("productItems", products);
         model.addAttribute("pageItems", pageWrapper.getPageWrapper());
         model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
         model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
+        model.addAttribute("pageSetup", pageSetup);
         return "shop/product.html";
     }
 

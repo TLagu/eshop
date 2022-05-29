@@ -11,22 +11,27 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public ProductEntity getOne(String uuid) {
-        return productRepository.getOneByUuid(uuid);
+    public ProductDto getOne(String uuid) {
+        return ProductMapper.map(productRepository.getOneByUuid(uuid), null);
     }
 
-    public List<ProductEntity> getAll() {
-        return productRepository.findAll();
+    public List<ProductDto> getAll() {
+        return productRepository.findAll().stream()
+                .map(p -> ProductMapper.map(p, null))
+                .collect(Collectors.toList());
     }
 
-    public List<ProductEntity> getRandomForSlider() {
-        return productRepository.findRandomForHeader(PageRequest.of(0,3));
+    public List<ProductDto> getRandomForSlider() {
+        return productRepository.findRandomForHeader(PageRequest.of(0, 3)).stream()
+                .map(p -> ProductMapper.map(p, null))
+                .collect(Collectors.toList());
     }
 
     public ListResponse<ProductDto> getAllPerPage(int page, int size) {

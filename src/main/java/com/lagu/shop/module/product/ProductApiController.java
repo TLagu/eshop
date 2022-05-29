@@ -15,7 +15,8 @@ public class ProductApiController {
     @GetMapping(value = "/api/shop/{guid}")
     public ProductDto getOne(@PathVariable String guid) {
         // TODO: IF NULL
-        return ProductMapper.map(service.getOne(guid), null);
+        if (guid == null) { return null; }
+        return service.getOne(guid);
     }
 
     @GetMapping("/api/shop")

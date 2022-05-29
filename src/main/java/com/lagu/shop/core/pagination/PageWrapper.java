@@ -21,14 +21,10 @@ public class PageWrapper {
 
     public List<PageItem> getPageWrapper() {
         List<PageItem> pageItems = new ArrayList<>();
-        if (metadata.getPage() < 0) {
-            metadata.setPage(0);
-        } else if (metadata.getPage() >= metadata.getTotalPages()) {
-            metadata.setPage(metadata.getTotalPages() - 1);
-        }
+        setCurrentPage();
         int start;
         int stop;
-        int center =  MAX_PAGE_ITEM_DISPLAY - (int) Math.ceil ((MAX_PAGE_ITEM_DISPLAY + 1) / 2.0);
+        int center = MAX_PAGE_ITEM_DISPLAY - (int) Math.ceil((MAX_PAGE_ITEM_DISPLAY + 1) / 2.0);
         PageItem clean = new PageItem("...", "disabled", "#");
         if (metadata.getTotalPages() <= MAX_PAGE_ITEM_DISPLAY) {
             start = 0;
@@ -60,16 +56,32 @@ public class PageWrapper {
         return pageItems;
     }
 
+    public String getCurrentPageUri() {
+        setCurrentPage();
+        return getPageUri(metadata.getPage());
+    }
+
     private PageItem setPageSetup(int i) {
+        return new PageItem(
+                String.valueOf(i + 1),
+                (i == metadata.getPage()) ? "active disabled" : "",
+                getPageUri(i));
+    }
+
+    private String getPageUri(int i) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(url);
         for (Map.Entry param : params.entrySet()) {
             uriComponentsBuilder.queryParam(param.getKey().toString(), param.getValue());
         }
-        String tmpUrl = uriComponentsBuilder.queryParam("page", String.valueOf(i)).build().toUriString();
-        return new PageItem(
-                String.valueOf(i + 1),
-                (i == metadata.getPage()) ? "active disabled" : "",
-                tmpUrl);
+        return uriComponentsBuilder.queryParam("page", String.valueOf(i)).build().toUriString();
+    }
+
+    private void setCurrentPage() {
+        if (metadata.getPage() < 0) {
+            metadata.setPage(0);
+        } else if (metadata.getPage() >= metadata.getTotalPages()) {
+            metadata.setPage(metadata.getTotalPages() - 1);
+        }
     }
 
     public static class PageItem {
@@ -77,17 +89,17 @@ public class PageWrapper {
         private final String className;
         private final String url;
 
-        public PageItem(String textValue, String className, String url){
+        public PageItem(String textValue, String className, String url) {
             this.textValue = textValue;
             this.className = className;
             this.url = url;
         }
 
-        public String getTextValue(){
+        public String getTextValue() {
             return this.textValue;
         }
 
-        public String getClassName(){
+        public String getClassName() {
             return this.className;
         }
 

@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private DataSource dataSource;
 
@@ -50,15 +51,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/logged/*")
+                    .antMatchers("/admin/*")
                     .authenticated()
                     .anyRequest()
                     .permitAll()
                 .and()
                 .formLogin()
-                    .loginPage("/logged/login")
+                    .loginPage("/login")
                     .usernameParameter("email")
-                    .defaultSuccessUrl("/logged/shop")
+                    .defaultSuccessUrl("/shop")
                     .permitAll()
                 .and()
                 .logout()
@@ -68,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/logged/process-register");
+        web.ignoring().antMatchers("/process-register");
     }
 
 }
