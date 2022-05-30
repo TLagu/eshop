@@ -1,13 +1,18 @@
 package com.lagu.shop.module.product.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "category")
+@SQLDelete(sql = "UPDATE category SET status = 'DELETED' WHERE id = ?")
+@Where(clause = "status = 'ACTIVE'")
 public class CategoryEntity {
 
     @Id
@@ -30,15 +35,22 @@ public class CategoryEntity {
     @Column(name = "updated_by")
     private Long updatedBy;
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "varchar(25) default 'ACTIVE'")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.ACTIVE;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    private CategoryEntity parent;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+    private List<CategoryEntity> children;
 
     public Long getId() {
         return id;
@@ -109,6 +121,24 @@ public class CategoryEntity {
 
     public CategoryEntity setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public CategoryEntity getParent() {
+        return parent;
+    }
+
+    public CategoryEntity setParent(CategoryEntity parent) {
+        this.parent = parent;
+        return this;
+    }
+
+    public List<CategoryEntity> getChildren() {
+        return children;
+    }
+
+    public CategoryEntity setChildren(List<CategoryEntity> children) {
+        this.children = children;
         return this;
     }
 }

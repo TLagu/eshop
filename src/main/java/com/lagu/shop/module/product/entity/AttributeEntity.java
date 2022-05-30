@@ -1,13 +1,17 @@
 package com.lagu.shop.module.product.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "attribute")
+@SQLDelete(sql = "UPDATE attribute SET status = 'DELETED' WHERE id = ?")
+@Where(clause = "status = 'ACTIVE'")
 public class AttributeEntity {
 
     @Id
@@ -30,9 +34,9 @@ public class AttributeEntity {
     @Column(name = "updated_by")
     private Long updatedBy;
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "varchar(25) default 'ACTIVE'")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.ACTIVE;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

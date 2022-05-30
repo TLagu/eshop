@@ -2,8 +2,10 @@ package com.lagu.shop.module.product.service;
 
 import com.lagu.shop.core.pagination.ListResponse;
 import com.lagu.shop.module.product.dto.ProductDto;
+import com.lagu.shop.module.product.entity.CategoryEntity;
 import com.lagu.shop.module.product.entity.ProductEntity;
 import com.lagu.shop.module.product.mapper.ProductMapper;
+import com.lagu.shop.module.product.repository.CategoryRepository;
 import com.lagu.shop.module.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public ProductDto getOne(String uuid) {
         return ProductMapper.map(productRepository.getOneByUuid(uuid), null);
@@ -44,6 +48,19 @@ public class ProductService {
                 page
         );
     }
+
+    public ListResponse<ProductDto> getByCategories(long category, int page, int size) {
+        List<CategoryEntity> categories = categoryRepository.findAncestry(category);
+        Page<ProductEntity> pageProduct = productRepository.findByCategories(categories, PageRequest.of(page, size));
+        return new ListResponse<>(
+                ProductMapper.map(pageProduct.getContent()),
+                pageProduct.getTotalPages(),
+                pageProduct.getTotalElements(),
+                size,
+                page
+        );
+    }
+
 
 //    public void createOrUpdate(ProductForm form) {
 //        if (form.isNew()) {

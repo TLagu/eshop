@@ -1,5 +1,7 @@
 package com.lagu.shop.module.product.dto;
 
+import com.lagu.shop.module.product.entity.CategoryEntity;
+
 import java.util.Set;
 
 public class ProductDto {
@@ -7,7 +9,7 @@ public class ProductDto {
     private String uuid;
     private String model;
     private String description;
-    private CategoryDto category;
+    private CategoryEntity category;
     private Set<AttributeDto> attributes;
     private boolean cart;
     private boolean wishlist;
@@ -40,11 +42,11 @@ public class ProductDto {
         return this;
     }
 
-    public CategoryDto getCategory() {
+    public CategoryEntity getCategory() {
         return category;
     }
 
-    public ProductDto setCategory(CategoryDto category) {
+    public ProductDto setCategory(CategoryEntity category) {
         this.category = category;
         return this;
     }

@@ -1,6 +1,8 @@
 package com.lagu.shop.module.product.repository;
 
+import com.lagu.shop.module.product.entity.CategoryEntity;
 import com.lagu.shop.module.product.entity.ProductEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -11,7 +13,10 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<ProductEntity, Long>, JpaSpecificationExecutor<ProductEntity> {
     ProductEntity getOneByUuid(String uuid);
 
-    @Query("SELECT p FROM ProductEntity p ORDER BY RAND()")
+    @Query("SELECT p FROM ProductEntity p WHERE p.status = com.lagu.shop.module.product.entity.Status.ACTIVE ORDER BY RAND()")
     List<ProductEntity> findRandomForHeader(Pageable pageable);
+
+    @Query("SELECT p FROM ProductEntity p WHERE p.category IN :ids")
+    Page<ProductEntity> findByCategories(List<CategoryEntity> ids, Pageable pageable);
 
 }
