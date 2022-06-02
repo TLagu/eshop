@@ -12,9 +12,6 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long>,
 
     List<CategoryEntity> findByParentIsNullOrderByName();
 
-    @Query("SELECT c FROM CategoryEntity c WHERE c.id IN :ids")
-    List<CategoryEntity> findByIds(@Param("ids") List<Long> ids);
-
     @Query(
             value = "WITH RECURSIVE" +
                     "  starting (id, created_on, created_by, updated_on, updated_by, status, name, description, parent_id) AS (" +

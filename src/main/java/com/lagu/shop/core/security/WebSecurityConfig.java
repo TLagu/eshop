@@ -51,20 +51,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/admin/*")
-                    .authenticated()
-                    .anyRequest()
-                    .permitAll()
+                .antMatchers("/admin/**")
+                .hasRole("admin")
+                .antMatchers("/cart/**", "/order/**", "/compare/**", "/wishlist/**")
+                .authenticated()
+                .anyRequest()
+                .permitAll()
                 .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .usernameParameter("email")
-                    .defaultSuccessUrl("/shop")
-                    .permitAll()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .defaultSuccessUrl("/shop")
+                .failureUrl("/login?error")
+                .permitAll()
                 .and()
                 .logout()
-                    .logoutSuccessUrl("/shop")
-                    .permitAll();
+                .logoutSuccessUrl("/shop")
+                .permitAll();
     }
 
     @Override

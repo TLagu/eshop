@@ -1,0 +1,41 @@
+<div class="table-responsive cart_info" th:fragment="fragment(items)">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Produkt</td>
+                        <td class="description"></td>
+                        <td class="price">Cena</td>
+                        <td class="quantity">Ilość</td>
+                        <td class="total">Razem</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${items}">
+                        <td class="cart_product">
+                            <a href=""><img th:src="${item.path}" alt=""></a>
+                        </td>
+                        <td class="cart_description">
+                            <h4><a th:href="'/shop/detail/' + ${item.uuid}" th:text="${item.model}">...</a></h4>
+                            <p th:text="${item.code}">...</p>
+                        </td>
+                        <td class="cart_price">
+                            <p th:text="${item.price} + ' PLN'">...</p>
+                        </td>
+                        <td class="cart_quantity">
+                            <div class="cart_quantity_button">
+                                <a class="cart_quantity_up" th:href="'/cart/add-amount/' + ${item.uuid}"> + </a>
+                                <input class="cart_quantity_input" type="text" name="quantity" th:value="${item.amount}" autocomplete="off" size="2">
+                                <a class="cart_quantity_down" th:href="'/cart/remove-amount/' + ${item.uuid}"> - </a>
+                            </div>
+                        </td>
+                        <td class="cart_total">
+                            <p class="cart_total_price" th:text="${item.total} + ' PLN'">...</p>
+                        </td>
+                        <td class="cart_delete">
+                            <a class="cart_quantity_delete" th:href="'/cart/remove-item/' + ${item.uuid}"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>

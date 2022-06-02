@@ -36,6 +36,9 @@ CREATE TABLE product (
     model character varying(200),
     description text,
     category_id bigint,
+    price numeric(10, 2),
+    path character varying(200),
+    code character varying(50),
     CONSTRAINT product_pkey PRIMARY KEY (id)
 );
 DROP SEQUENCE IF EXISTS product_id_seq;
@@ -77,6 +80,8 @@ CREATE TABLE cart (
     created_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     user_id bigint,
     product_id bigint,
+    amount integer default 1,
+    total numeric(10, 2),
     CONSTRAINT cart_pkey PRIMARY KEY (id)
 );
 DROP SEQUENCE IF EXISTS cart_id_seq;
@@ -117,6 +122,49 @@ CREATE TABLE compare (
 );
 DROP SEQUENCE IF EXISTS compare_id_seq;
 CREATE SEQUENCE compare_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+---------------------------------------------
+-- order_main
+---------------------------------------------
+DROP TABLE IF EXISTS order_main CASCADE;
+CREATE TABLE order_main (
+    id bigint NOT NULL,
+    created_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    uuid character varying(36),
+    user_id bigint,
+    street character varying(100),
+    post_code character varying(6),
+    post character varying(50),
+    total numeric(10, 2),
+    CONSTRAINT order_main_pkey PRIMARY KEY (id)
+);
+DROP SEQUENCE IF EXISTS order_main_id_seq;
+CREATE SEQUENCE order_main_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+---------------------------------------------
+-- order_details
+---------------------------------------------
+DROP TABLE IF EXISTS order_details CASCADE;
+CREATE TABLE order_details (
+    id bigint NOT NULL,
+    created_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    order_id bigint,
+    product_id bigint,
+    price numeric(10, 2),
+    amount integer,
+    total numeric(10, 2),
+    CONSTRAINT order_details_pkey PRIMARY KEY (id)
+);
+DROP SEQUENCE IF EXISTS order_details_id_seq;
+CREATE SEQUENCE order_details_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1

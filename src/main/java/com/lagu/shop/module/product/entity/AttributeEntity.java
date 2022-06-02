@@ -39,7 +39,7 @@ public class AttributeEntity {
     private Status status = Status.ACTIVE;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     private ProductEntity product;
 
     @Column(name = "name")

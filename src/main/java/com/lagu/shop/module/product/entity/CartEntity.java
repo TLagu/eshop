@@ -2,8 +2,6 @@ package com.lagu.shop.module.product.entity;
 
 import com.lagu.shop.module.user.entity.UserEntity;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,9 +24,15 @@ public class CartEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UserEntity user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     private ProductEntity product;
+
+    @Column(name = "amount")
+    private Integer amount;
+
+    @Column(name = "total")
+    private Double total;
 
     public Long getId() {
         return id;
@@ -60,4 +64,35 @@ public class CartEntity {
         this.product = product;
         return this;
     }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public CartEntity setAmount(Integer amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public CartEntity setTotal(Double total) {
+        this.total = total;
+        return this;
+    }
+
+    public void addAmount() {
+        this.amount++;
+        this.total = this.getProduct().getPrice() * this.amount;
+    }
+
+    public void removeAmount() {
+        if (this.amount > 1) {
+            this.amount--;
+            this.total = this.getProduct().getPrice() * this.amount;
+        }
+    }
+
 }

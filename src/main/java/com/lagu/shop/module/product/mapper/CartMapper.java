@@ -8,7 +8,9 @@ public class CartMapper {
     public static CartDto map(CartEntity entity) {
         return new CartDto()
                 .setUser(entity.getUser())
-                .setProduct(entity.getProduct());
+                .setProduct(entity.getProduct())
+                .setAmount(entity.getAmount())
+                .setTotal(entity.getTotal());
     }
 
 }

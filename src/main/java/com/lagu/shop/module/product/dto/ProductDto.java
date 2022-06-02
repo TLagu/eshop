@@ -11,6 +11,9 @@ public class ProductDto {
     private String description;
     private CategoryEntity category;
     private Set<AttributeDto> attributes;
+    private Double price;
+    private String path;
+    private String code;
     private boolean cart;
     private boolean wishlist;
     private boolean compare;
@@ -57,6 +60,33 @@ public class ProductDto {
 
     public ProductDto setAttributes(Set<AttributeDto> attributes) {
         this.attributes = attributes;
+        return this;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public ProductDto setPrice(Double price) {
+        this.price = price;
+        return this;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public ProductDto setPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public ProductDto setCode(String code) {
+        this.code = code;
         return this;
     }
 
