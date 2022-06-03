@@ -2,8 +2,6 @@ package com.lagu.shop.module.product.entity;
 
 import com.lagu.shop.module.user.entity.UserEntity;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

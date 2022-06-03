@@ -94,6 +94,24 @@ public class ProductWebController {
         return "shop/product.html";
     }
 
+    @GetMapping(value = {"/shop/details/{uuid}"})
+    public String details(
+            @PathVariable String uuid,
+            Model model,
+            HttpServletRequest request,
+            Authentication authentication
+    ) {
+        String uri = request.getRequestURI();
+        boolean isLogged = ControllerTools.isLogged(authentication);
+        ProductDto product = service.getOne(uuid);
+        List<CategoryEntity> categories = categoryRepository.findByParentIsNullOrderByName();
+        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
+        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
+        model.addAttribute("productDetails", product);
+        model.addAttribute("categoryItems", categories);
+        return "shop/product-details.html";
+    }
+
 //
 //    @GetMapping(value = "/shop/details/{uuid}")
 //    public String details(@PathVariable("uuid") String uuid, Model model) {

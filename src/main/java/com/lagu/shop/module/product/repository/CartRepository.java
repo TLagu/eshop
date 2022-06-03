@@ -12,6 +12,6 @@ public interface CartRepository extends JpaRepository<CartEntity, Long>, JpaSpec
 
     CartEntity findByUserAndProduct(UserEntity user, ProductEntity product);
 
-    List<CartEntity> findByUser(UserEntity user);
+    List<CartEntity> findByUserOrderByProduct(UserEntity user);
 
 }

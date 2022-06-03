@@ -25,13 +25,13 @@ public class Metadata {
         return page;
     }
 
-    public int getSize() {
-        return size;
-    }
-
     public Metadata setPage(int page) {
         this.page = page;
         return this;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public Metadata setSize(int size) {

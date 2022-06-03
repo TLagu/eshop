@@ -21,7 +21,7 @@ public class MenuNavigator {
     );
 
     private final List<Menu> loggedMiddleMenu = List.of(
-            new Menu("", "a fa-userEntity", "Konto", "/account"),
+            new Menu("", "a fa-userEntity", "Konto", "/order"),
             new Menu("", "fa fa-star", "Obserwowane", "/wish-list"),
             new Menu("", "fa fa-crosshairs", "Porównanie", "/checkout"),
             new Menu("", "fa fa-shopping-cart", "Koszyk", "/cart"),

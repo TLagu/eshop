@@ -7,7 +7,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -52,8 +52,17 @@ public class ProductEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
+    @Column(name = "price", precision = 10, scale = 2)
+    private Double price;
+
+    @Column(name = "path")
+    private String path;
+
+    @Column(name = "code")
+    private String code;
+
     @OneToMany(mappedBy = "product")
-    private Set<AttributeEntity> attributes;
+    private List<AttributeEntity> attributes;
 
     public Long getId() {
         return id;
@@ -145,12 +154,39 @@ public class ProductEntity {
         return this;
     }
 
-    public Set<AttributeEntity> getAttributes() {
+    public List<AttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public ProductEntity setAttributes(Set<AttributeEntity> attributes) {
+    public ProductEntity setAttributes(List<AttributeEntity> attributes) {
         this.attributes = attributes;
+        return this;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public ProductEntity setPrice(Double price) {
+        this.price = price;
+        return this;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public ProductEntity setPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public ProductEntity setCode(String code) {
+        this.code = code;
         return this;
     }
 }

@@ -1,0 +1,24 @@
+<div class="table-responsive cart_info" th:fragment="fragment(items)">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr class="cart_menu">
+                        <td class="description">Data zamówienia</td>
+                        <td class="description">Numer zamówienia</td>
+                        <td class="total">Razem</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${items}">
+                        <td class="cart_description">
+                            <h4 th:text="${item.createdOn}"> ... </h4>
+                        </td>
+                        <td class="cart_description">
+                            <h4><a th:href="'/order/details/' + ${item.uuid}" th:text="${item.uuid}">...</a></h4>
+                        </td>
+                        <td class="cart_price">
+                            <p th:text="${item.total} + ' PLN'">...</p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>

@@ -3,8 +3,6 @@ package com.lagu.shop.module.product.dto;
 import com.lagu.shop.module.product.entity.ProductEntity;
 import com.lagu.shop.module.user.entity.UserEntity;
 
-import java.time.LocalDateTime;
-
 public class WishlistDto {
 
     private UserEntity user;

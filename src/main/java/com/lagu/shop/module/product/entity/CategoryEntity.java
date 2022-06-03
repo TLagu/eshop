@@ -46,10 +46,10 @@ public class CategoryEntity {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    @JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = false)
     private CategoryEntity parent;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+    @OneToMany(mappedBy = "parent")
     private List<CategoryEntity> children;
 
     public Long getId() {

@@ -2,7 +2,6 @@ package com.lagu.shop.module.product;
 
 import com.lagu.shop.core.pagination.ListResponse;
 import com.lagu.shop.module.product.dto.ProductDto;
-import com.lagu.shop.module.product.mapper.ProductMapper;
 import com.lagu.shop.module.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,9 @@ public class ProductApiController {
     @GetMapping(value = "/api/shop/{guid}")
     public ProductDto getOne(@PathVariable String guid) {
         // TODO: IF NULL
-        if (guid == null) { return null; }
+        if (guid == null) {
+            return null;
+        }
         return service.getOne(guid);
     }
 

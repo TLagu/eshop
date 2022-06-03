@@ -1,0 +1,34 @@
+<div class="col-sm-9 padding-right" th:fragment="fragment">
+							<!--product-details-->
+							<div class="product-details">
+								<div class="col-sm-5">
+									<div class="view-product">
+										<img th:src="${productDetails.path}" alt="" />
+									</div>
+								</div>
+								<div class="col-sm-7">
+									<!--/product-information-->
+									<div class="product-information">
+										<h2 th:text="${productDetails.model}"> ... </h2>
+										<p th:text="${productDetails.code}"> ... </p>
+										<span>
+											<span th:text="${productDetails.price} + ' PLN'"> ... </span>
+										</span>
+									</div>
+									<!--/product-information-->
+								</div>
+							</div>
+							<!--/product-details-->
+							<!--category-tab-->
+							<div class="category-tab shop-details-tab">
+								<div class="col-sm-12">
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#details" data-toggle="tab">Details</a></li>
+									</ul>
+								</div>
+								<div class="tab-content">
+									<div class="tab-pane fade" id="details" >
+										<p th:text="${productDetails.description}"> ... </p>
+									</div>
+								</div>
+							</div><!--/category-tab-->

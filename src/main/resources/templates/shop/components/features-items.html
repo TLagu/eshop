@@ -5,14 +5,16 @@
                 						<div
 												class="productinfo text-center"
 										>
-                    						<img src="/images/home/product1.jpg" alt="" />
-                    						<h2>$56</h2>
-                    						<p th:text="${item.model}">...</p>
+											<div class="productinfo img">
+												<a th:href="@{/shop/details/} + ${item.uuid}">
+													<img th:src="${item.path}" alt="" />
+												</a>
+											</div>
+                    						<h2 th:text="${item.price} + ' PLN'">...</h2>
+                    						<p><a th:text="${item.model}" th:href="@{/shop/details/} + ${item.uuid}"> ... </a></p>
                     						<p th:text="${item.description}">...</p>
 											<p th:text="${item.category.name}">...</p>
-											<!--span th:each="attribute : ${item.attributes}">
-												<p th:text="${attribute.name}">...</p>
-											</span-->
+											<p th:text="${item.price}">...</p>
 											<span th:if="${pageSetup.isLogged}">
                     							<a
 														th:if="${item.cart == false}"

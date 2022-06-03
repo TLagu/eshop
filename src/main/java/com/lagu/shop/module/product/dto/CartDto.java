@@ -9,6 +9,10 @@ public class CartDto {
 
     private ProductEntity product;
 
+    private Integer amount;
+
+    private Double total;
+
     public UserEntity getUser() {
         return user;
     }
@@ -27,4 +31,21 @@ public class CartDto {
         return this;
     }
 
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public CartDto setAmount(Integer amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public CartDto setTotal(Double total) {
+        this.total = total;
+        return this;
+    }
 }
