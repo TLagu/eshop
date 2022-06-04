@@ -20,7 +20,7 @@ public class ServiceTools {
             CartRepository cartRepository
     ) {
         UserEntity user = userRepository.findByEmail(email);
-        ProductEntity product = productRepository.getOneByUuid(uuid);
+        ProductEntity product = productRepository.getByUuid(uuid);
         if (user == null || product == null) {
             return;
         }

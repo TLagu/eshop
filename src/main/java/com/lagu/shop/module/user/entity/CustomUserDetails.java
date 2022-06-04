@@ -1,13 +1,16 @@
 package com.lagu.shop.module.user.entity;
 
+import com.lagu.shop.module.product.entity.Status;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class CustomUserDetails implements UserDetails {
 
-    private UserEntity userEntity;
+    private final UserEntity userEntity;
 
     public CustomUserDetails(UserEntity userEntity) {
         this.userEntity = userEntity;
@@ -15,7 +18,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singleton(new SimpleGrantedAuthority(userEntity.getRole().name()));
     }
 
     @Override
@@ -30,12 +33,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return userEntity.getStatus() == Status.ACTIVE;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return userEntity.getStatus() == Status.ACTIVE;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return userEntity.getStatus() == Status.ACTIVE;
     }
 
     public String getFullName() {

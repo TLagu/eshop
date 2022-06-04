@@ -3,17 +3,19 @@ package com.lagu.shop.module.product;
 import com.lagu.shop.core.pagination.ListResponse;
 import com.lagu.shop.module.product.dto.ProductDto;
 import com.lagu.shop.module.product.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProductApiController {
-    @Autowired
-    private ProductService service;
+
+    private final ProductService service;
+
+    public ProductApiController(ProductService service) {
+        this.service = service;
+    }
 
     @GetMapping(value = "/api/shop/{guid}")
     public ProductDto getOne(@PathVariable String guid) {
-        // TODO: IF NULL
         if (guid == null) {
             return null;
         }

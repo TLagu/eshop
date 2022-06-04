@@ -25,7 +25,7 @@ public class CartService {
 
     public void add(String uuid, String email) {
         UserEntity user = userRepository.findByEmail(email);
-        ProductEntity product = productRepository.getOneByUuid(uuid);
+        ProductEntity product = productRepository.getByUuid(uuid);
         if (user != null && product != null) {
             CartEntity item = cartRepository.findByUserAndProduct(user, product);
             if (item == null) {
@@ -41,7 +41,7 @@ public class CartService {
 
     public void remove(String uuid, String email) {
         UserEntity user = userRepository.findByEmail(email);
-        ProductEntity product = productRepository.getOneByUuid(uuid);
+        ProductEntity product = productRepository.getByUuid(uuid);
         if (user != null && product != null) {
             CartEntity item = cartRepository.findByUserAndProduct(user, product);
             if (item != null) {

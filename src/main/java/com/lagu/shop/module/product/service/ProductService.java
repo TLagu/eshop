@@ -23,7 +23,7 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     public ProductDto getOne(String uuid) {
-        return ProductMapper.map(productRepository.getOneByUuid(uuid), null);
+        return ProductMapper.map(productRepository.getByUuid(uuid), null);
     }
 
     public List<ProductDto> getAll() {

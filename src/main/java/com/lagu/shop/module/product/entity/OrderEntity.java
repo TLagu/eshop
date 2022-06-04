@@ -5,7 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "order_main")
@@ -40,8 +40,8 @@ public class OrderEntity {
     @Column(name = "total")
     private Double total;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderDetailsEntity> orderDetails;
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private Set<OrderDetailsEntity> orderDetails;
 
     public Long getId() {
         return id;
@@ -110,11 +110,11 @@ public class OrderEntity {
         return this;
     }
 
-    public List<OrderDetailsEntity> getOrderDetails() {
+    public Set<OrderDetailsEntity> getOrderDetails() {
         return orderDetails;
     }
 
-    public OrderEntity setOrderDetails(List<OrderDetailsEntity> orderDetails) {
+    public OrderEntity setOrderDetails(Set<OrderDetailsEntity> orderDetails) {
         this.orderDetails = orderDetails;
         return this;
     }

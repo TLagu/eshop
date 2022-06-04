@@ -6,7 +6,6 @@ import com.lagu.shop.module.product.dto.PageSetup;
 import com.lagu.shop.module.product.entity.CategoryEntity;
 import com.lagu.shop.module.product.repository.CategoryRepository;
 import com.lagu.shop.module.product.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,18 +21,29 @@ import java.util.Map;
 public class ProductWebController {
     public final static String DEFAULT_PAGE = "0";
     public final static String DEFAULT_SIZE = "6";
-    @Autowired
-    private ProductService service;
-    @Autowired
-    private HttpSession httpSession;
-    @Autowired
-    private CartWebController cartWebController;
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private CompareWebController compareWebController;
-    @Autowired
-    private WishlistWebController wishlistWebController;
+
+    private final ProductService service;
+    private final HttpSession httpSession;
+    private final CartWebController cartWebController;
+    private final CategoryRepository categoryRepository;
+    private final CompareWebController compareWebController;
+    private final WishlistWebController wishlistWebController;
+
+    public ProductWebController(
+            ProductService service,
+            HttpSession httpSession,
+            CartWebController cartWebController,
+            CategoryRepository categoryRepository,
+            CompareWebController compareWebController,
+            WishlistWebController wishlistWebController
+    ) {
+        this.service = service;
+        this.httpSession = httpSession;
+        this.cartWebController = cartWebController;
+        this.categoryRepository = categoryRepository;
+        this.compareWebController = compareWebController;
+        this.wishlistWebController = wishlistWebController;
+    }
 
     @GetMapping({"/", "/home"})
     public String slider(
@@ -47,7 +57,7 @@ public class ProductWebController {
         model.addAttribute("sliderItems", randomForSlider);
         model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
         model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
-        return "shop/index.html";
+        return "shop/index";
     }
 
     @GetMapping(value = {"/shop"})
@@ -91,7 +101,7 @@ public class ProductWebController {
         model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
         model.addAttribute("pageSetup", pageSetup);
         model.addAttribute("categoryItems", categories);
-        return "shop/product.html";
+        return "shop/product";
     }
 
     @GetMapping(value = {"/shop/details/{uuid}"})
@@ -109,7 +119,7 @@ public class ProductWebController {
         model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
         model.addAttribute("productDetails", product);
         model.addAttribute("categoryItems", categories);
-        return "shop/product-details.html";
+        return "shop/product-details";
     }
 
 //

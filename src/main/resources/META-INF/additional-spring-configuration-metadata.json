@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "flyway.url",
+      "type": "java.lang.String",
+      "description": "Description for flyway.url."
+    },
+    {
+      "name": "flyway.schemas",
+      "type": "java.lang.String",
+      "description": "Description for flyway.schemas."
+    }
+  ] }

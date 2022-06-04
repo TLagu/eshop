@@ -15,10 +15,13 @@ import java.util.List;
 @Controller
 public class CompareWebController {
 
-    @Autowired
-    private CompareService service;
-    @Autowired
-    private HttpSession httpSession;
+    private final CompareService service;
+    private final HttpSession httpSession;
+
+    public CompareWebController(CompareService service, HttpSession httpSession) {
+        this.service = service;
+        this.httpSession = httpSession;
+    }
 
     @GetMapping({"/compare/add/{uuid}"})
     public ModelAndView add(
