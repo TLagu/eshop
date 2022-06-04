@@ -10,6 +10,7 @@ CREATE TABLE shop.user (
     password character varying(64),
     first_name character varying(20) NOT NULL,
     last_name character varying(20) NOT NULL,
+    role character varying(20) NOT NULL DEFAULT 'USER',
     CONSTRAINT user_pkey PRIMARY KEY (id)
 );
 

@@ -1,30 +1,34 @@
 package com.lagu.shop.core.security;
 
-import javax.sql.DataSource;
-
+import com.lagu.shop.module.user.repository.UserRepository;
 import com.lagu.shop.module.user.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private DataSource dataSource;
+    private final UserRepository userRepo;
+    private final AuthenticationSuccessHandler successHandler;
+
+    public WebSecurityConfig(UserRepository userRepo, AuthenticationSuccessHandler successHandler) {
+        this.userRepo = userRepo;
+        this.successHandler = successHandler;
+    }
 
     @Bean
+    @Override
     public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
+        return new CustomUserDetailsService(userRepo);
     }
 
     @Bean
@@ -52,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/admin/**")
-                .hasRole("admin")
+                .hasAuthority("ADMIN")
                 .antMatchers("/cart/**", "/order/**", "/compare/**", "/wishlist/**")
                 .authenticated()
                 .anyRequest()
@@ -61,18 +65,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/shop")
+                .successHandler(successHandler)
                 .failureUrl("/login?error")
                 .permitAll()
                 .and()
                 .logout()
                 .logoutSuccessUrl("/shop")
                 .permitAll();
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/process-register");
     }
 
 }

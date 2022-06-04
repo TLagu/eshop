@@ -17,11 +17,11 @@ import java.util.List;
 @Controller
 public class AccountWebController {
 
-    @Autowired
-    private OrderService service;
+    private final OrderService service;
 
-    @Autowired
-    private OrderDetailsService orderDetailsService;
+    public AccountWebController(OrderService service) {
+        this.service = service;
+    }
 
     @GetMapping({"/order"})
     public String list(
@@ -34,7 +34,7 @@ public class AccountWebController {
         model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, true));
         model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, true));
         model.addAttribute("orderItems", orders);
-        return "shop/orders.html";
+        return "shop/orders";
     }
 
     @GetMapping({"/order/details/{uuid}"})
@@ -49,7 +49,7 @@ public class AccountWebController {
         model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, true));
         model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, true));
         model.addAttribute("order", order);
-        return "shop/order.html";
+        return "shop/order";
     }
 
 }

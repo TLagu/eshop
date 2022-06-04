@@ -15,10 +15,13 @@ import java.util.List;
 @Controller
 public class WishlistWebController {
 
-    @Autowired
-    private WishlistService service;
-    @Autowired
-    private HttpSession httpSession;
+    private final WishlistService service;
+    private final HttpSession httpSession;
+
+    public WishlistWebController(WishlistService service, HttpSession httpSession) {
+        this.service = service;
+        this.httpSession = httpSession;
+    }
 
     @GetMapping({"/wishlist/add/{uuid}"})
     public ModelAndView addToCart(

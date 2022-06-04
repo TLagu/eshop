@@ -7,7 +7,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "category")
@@ -49,8 +49,8 @@ public class CategoryEntity {
     @JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = false)
     private CategoryEntity parent;
 
-    @OneToMany(mappedBy = "parent")
-    private List<CategoryEntity> children;
+    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+    private Set<CategoryEntity> children;
 
     public Long getId() {
         return id;
@@ -133,11 +133,11 @@ public class CategoryEntity {
         return this;
     }
 
-    public List<CategoryEntity> getChildren() {
+    public Set<CategoryEntity> getChildren() {
         return children;
     }
 
-    public CategoryEntity setChildren(List<CategoryEntity> children) {
+    public CategoryEntity setChildren(Set<CategoryEntity> children) {
         this.children = children;
         return this;
     }

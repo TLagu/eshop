@@ -6,8 +6,6 @@ import com.lagu.shop.module.product.dto.OrderDto;
 import com.lagu.shop.module.product.dto.ProductDto;
 import com.lagu.shop.module.product.service.CartService;
 import com.lagu.shop.module.product.service.OrderService;
-import com.lagu.shop.module.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,14 +21,15 @@ import java.util.List;
 @Controller
 public class CartWebController {
 
-    @Autowired
-    private CartService service;
-    @Autowired
-    private UserRepository userRepo;
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    private HttpSession httpSession;
+    private final CartService service;
+    private final OrderService orderService;
+    private final HttpSession httpSession;
+
+    public CartWebController(CartService service, OrderService orderService, HttpSession httpSession) {
+        this.service = service;
+        this.orderService = orderService;
+        this.httpSession = httpSession;
+    }
 
     @GetMapping({"/cart/add/{uuid}"})
     public ModelAndView add(
@@ -124,7 +123,7 @@ public class CartWebController {
         model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, true));
         model.addAttribute("cartItems", carts);
         model.addAttribute("order", order);
-        return "shop/cart.html";
+        return "shop/cart";
     }
 
 }

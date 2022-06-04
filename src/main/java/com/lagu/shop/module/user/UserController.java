@@ -2,7 +2,6 @@ package com.lagu.shop.module.user;
 
 import com.lagu.shop.module.user.entity.UserEntity;
 import com.lagu.shop.module.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -14,15 +13,20 @@ import java.util.List;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserRepository userRepo;
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+
+    private final UserRepository userRepo;
+
+    private final BCryptPasswordEncoder encoder;
+
+    public UserController(UserRepository userRepo, BCryptPasswordEncoder encoder) {
+        this.userRepo = userRepo;
+        this.encoder = encoder;
+    }
 
     @GetMapping("/login")
     public String viewHomePage(Model model) {
         model.addAttribute("user", new UserEntity());
-        return "/shop/register-login.html";
+        return "/shop/register-login";
     }
 
     @PostMapping("/process-register")
@@ -45,13 +49,19 @@ public class UserController {
         }
         model.addAttribute("user", userEntity);
         model.addAttribute("comment", comment);
-        return "shop/register-login.html";
+        return "shop/register-login";
     }
 
     @GetMapping("/users")
     public String listUsers(Model model) {
         List<UserEntity> listUsers = userRepo.findAll();
         model.addAttribute("listUsers", listUsers);
-        return "shop/user.html";
+        return "shop/user";
     }
+
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        return "shop/admin";
+    }
+
 }

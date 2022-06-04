@@ -51,6 +51,10 @@ public class UserEntity {
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
 
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private UserRole role = UserRole.USER;
+
     public Long getId() {
         return id;
     }
@@ -93,6 +97,24 @@ public class UserEntity {
 
     public UserEntity setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public UserEntity setStatus(Status status) {
+        this.status = status;
+        return this;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public UserEntity setRole(UserRole role) {
+        this.role = role;
         return this;
     }
 }
