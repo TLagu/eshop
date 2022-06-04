@@ -7,7 +7,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -61,8 +61,8 @@ public class ProductEntity {
     @Column(name = "code")
     private String code;
 
-    @OneToMany(mappedBy = "product")
-    private List<AttributeEntity> attributes;
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    private Set<AttributeEntity> attributes;
 
     public Long getId() {
         return id;
@@ -154,11 +154,11 @@ public class ProductEntity {
         return this;
     }
 
-    public List<AttributeEntity> getAttributes() {
+    public Set<AttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public ProductEntity setAttributes(List<AttributeEntity> attributes) {
+    public ProductEntity setAttributes(Set<AttributeEntity> attributes) {
         this.attributes = attributes;
         return this;
     }

@@ -16,7 +16,7 @@
                             <h4><a th:href="'/order/details/' + ${item.uuid}" th:text="${item.uuid}">...</a></h4>
                         </td>
                         <td class="cart_price">
-                            <p th:text="${item.total} + ' PLN'">...</p>
+                            <p><span th:text="${#numbers.formatDecimal(item.total, 3, 'WHITESPACE', 2, 'COMMA')}"> ... </span> PLN</p>
                         </td>
                     </tr>
                     </tbody>

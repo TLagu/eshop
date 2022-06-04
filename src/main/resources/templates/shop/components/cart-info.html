@@ -20,7 +20,7 @@
                             <p th:text="${item.code}">...</p>
                         </td>
                         <td class="cart_price">
-                            <p th:text="${item.price} + ' PLN'">...</p>
+                            <p><span th:text="${#numbers.formatDecimal(item.price, 3, 'WHITESPACE', 2, 'COMMA')}"> ... </span> PLN</p>
                         </td>
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">
@@ -30,7 +30,7 @@
                             </div>
                         </td>
                         <td class="cart_total">
-                            <p class="cart_total_price" th:text="${item.total} + ' PLN'">...</p>
+                            <p class="cart_total_price"><span th:text="${item.total}"> ... </span> PLN</p>
                         </td>
                         <td class="cart_delete">
                             <a class="cart_quantity_delete" th:href="'/cart/remove-item/' + ${item.uuid}"><i class="fa fa-times"></i></a>

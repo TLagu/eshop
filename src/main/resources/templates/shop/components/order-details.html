@@ -17,13 +17,13 @@
                             </h4>
                         </td>
                         <td class="cart_price">
-                            <h4 th:text="${details.price} + ' PLN'"> ... </h4>
+                            <h4><span th:text="${#numbers.formatDecimal(details.price, 3, 'WHITESPACE', 2, 'COMMA')}"> ... </span> PLN</h4>
                         </td>
                         <td class="cart_quantity">
                             <p th:text="${details.amount}">...</p>
                         </td>
                         <td class="cart_total">
-                            <p th:text="${details.total} + ' PLN'">...</p>
+                            <p><span th:text="${details.total}"> ... </span> PLN</p>
                         </td>
                     </tr>
                     </tbody>
