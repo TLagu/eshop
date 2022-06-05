@@ -1,16 +1,16 @@
-					<div class="left-sidebar" th:fragment="fragment(items)">
+					<div class="left-sidebar" th:fragment="fragment">
     					<h2>Kategorie</h2>
 						<!--category-products-->
     					<div class="panel-group category-products" id="accordian">
-        					<div class="panel panel-default" th:each="item : ${items}">
+        					<div class="panel panel-default" th:each="category : ${categories}">
             					<div class="panel-heading">
                 					<h4 class="panel-title">
-										<a th:href="'/shop?category=' + ${item.id}" th:text="${item.name}">...</a>
+										<a th:href="'/shop?category=' + ${category.id}" th:text="${category.name}">...</a>
                 					</h4>
             					</div>
-								<div class="panel-body" th:if="${#sets.size(item.children) > 0}">
+								<div class="panel-body" th:if="${#sets.size(category.children) > 0}">
 									<ul>
-										<li th:each="child : ${item.children}">
+										<li th:each="child : ${category.children}">
 											<a th:href="'/shop?category=' + ${child.id}" th:text="${child.name}">...</a>
 										</li>
 									</ul>

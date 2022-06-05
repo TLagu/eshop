@@ -7,7 +7,6 @@ import com.lagu.shop.module.product.repository.OrderDetailsRepository;
 import com.lagu.shop.module.product.repository.OrderRepository;
 import com.lagu.shop.module.user.entity.UserEntity;
 import com.lagu.shop.module.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +15,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderDetailsService {
-    @Autowired
-    private OrderDetailsRepository orderDetailsRepository;
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private UserRepository userRepository;
+
+    private final OrderDetailsRepository orderDetailsRepository;
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+
+    public OrderDetailsService(OrderDetailsRepository orderDetailsRepository, OrderRepository orderRepository, UserRepository userRepository) {
+        this.orderDetailsRepository = orderDetailsRepository;
+        this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
+    }
 
     public List<OrderDetailsDto> getOrders(Authentication authentication, String uuid) {
         UserEntity user = userRepository.findByEmail(authentication.getName());

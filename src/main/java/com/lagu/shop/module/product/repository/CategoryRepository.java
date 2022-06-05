@@ -12,6 +12,8 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long>,
 
     List<CategoryEntity> findByParentIsNullOrderByName();
 
+    List<CategoryEntity> findByParentIsNullAndIdIsNotOrderByName(Long id);
+
     @Query(
             value = "WITH RECURSIVE" +
                     "  starting (id, created_on, created_by, updated_on, updated_by, status, name, description, parent_id) AS (" +

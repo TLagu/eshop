@@ -116,4 +116,9 @@ public class ProductDto {
         this.compare = compare;
         return this;
     }
+
+    public boolean isNew() {
+        return uuid == null || uuid.isBlank();
+    }
+
 }

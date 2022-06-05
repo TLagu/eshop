@@ -1,0 +1,45 @@
+<div class="table-responsive cart_info" th:fragment="fragment">
+    <form action="/admin/user" th:object="${userForm}" method="post">
+        <div class="chose_area">
+            <ul class="user_info">
+                <li class="single_field">
+                    <label>E-mail:</label>
+                    <input type="text" th:field="${userForm.email}" placeholder="E-mail...">
+                </li>
+            </ul>
+            <ul class="user_info">
+                <li class="single_field">
+                    <label>Hasło:</label>
+                    <input type="password" th:field="${userForm.password}" placeholder="Hasło...">
+                </li>
+            </ul>
+            <ul class="user_info">
+                <li class="single_field">
+                    <label>Imię:</label>
+                    <input type="text" th:field="${userForm.firstName}" placeholder="Imię...">
+                </li>
+            </ul>
+            <ul class="user_info">
+                <li class="single_field">
+                    <label>Nazwisko:</label>
+                    <input type="text" th:field="${userForm.lastName}" placeholder="Nazwisko...">
+                </li>
+            </ul>
+            <ul class="user_info">
+                <li class="single_field">
+                    <label>Rola:</label>
+                    <select id="role" th:field="${userForm.role}">
+                        <option
+                                th:each="role : ${roles}"
+                                th:value="${role.toString()}"
+                                th:text="${role.toString()}"
+                                th:selected="${userForm.role == role}"
+                        ></option>
+                    </select>
+                </li>
+            </ul>
+            <button class="btn btn-default check_out" type="submit">Zapisz</button>
+            <input type="hidden" name="uuid" th:value="${userForm.uuid}">
+        </div>
+    </form>
+</div>

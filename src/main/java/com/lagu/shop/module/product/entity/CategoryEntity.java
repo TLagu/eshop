@@ -45,8 +45,8 @@ public class CategoryEntity {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
     private CategoryEntity parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)

@@ -8,7 +8,6 @@ import com.lagu.shop.module.product.repository.CartRepository;
 import com.lagu.shop.module.product.repository.ProductRepository;
 import com.lagu.shop.module.user.entity.UserEntity;
 import com.lagu.shop.module.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,12 +15,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class CartService {
-    @Autowired
-    private CartRepository cartRepository;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private UserRepository userRepository;
+
+    private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+
+    public CartService(CartRepository cartRepository, ProductRepository productRepository, UserRepository userRepository) {
+        this.cartRepository = cartRepository;
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+    }
 
     public void add(String uuid, String email) {
         UserEntity user = userRepository.findByEmail(email);

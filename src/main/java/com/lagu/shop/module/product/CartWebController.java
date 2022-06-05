@@ -119,9 +119,9 @@ public class CartWebController {
         String uri = request.getRequestURI();
         List<CartFormDto> carts = service.getProductListByUser(authentication.getName());
         OrderDto order = orderService.getInitialOrder(authentication);
-        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, true));
-        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, true));
-        model.addAttribute("cartItems", carts);
+        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, true));
+        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, true));
+        model.addAttribute("carts", carts);
         model.addAttribute("order", order);
         return "shop/cart";
     }

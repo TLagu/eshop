@@ -2,9 +2,7 @@ package com.lagu.shop.module.product;
 
 import com.lagu.shop.core.pagination.MenuNavigator;
 import com.lagu.shop.module.product.dto.OrderDto;
-import com.lagu.shop.module.product.service.OrderDetailsService;
 import com.lagu.shop.module.product.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,9 +29,9 @@ public class AccountWebController {
     ) {
         String uri = request.getRequestURI();
         List<OrderDto> orders = service.getUserOrders(authentication);
-        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, true));
-        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, true));
-        model.addAttribute("orderItems", orders);
+        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, true));
+        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, true));
+        model.addAttribute("orders", orders);
         return "shop/orders";
     }
 
@@ -46,8 +44,8 @@ public class AccountWebController {
     ) {
         String uri = request.getRequestURI();
         OrderDto order = service.getOrderByUuid(authentication, uuid);
-        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, true));
-        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, true));
+        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, true));
+        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, true));
         model.addAttribute("order", order);
         return "shop/order";
     }

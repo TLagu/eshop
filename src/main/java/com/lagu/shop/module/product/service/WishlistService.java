@@ -6,7 +6,6 @@ import com.lagu.shop.module.product.repository.ProductRepository;
 import com.lagu.shop.module.product.repository.WishlistRepository;
 import com.lagu.shop.module.user.entity.UserEntity;
 import com.lagu.shop.module.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -16,12 +15,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class WishlistService {
-    @Autowired
-    private WishlistRepository wishlistRepository;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private UserRepository userRepository;
+
+    private final WishlistRepository wishlistRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+
+    public WishlistService(WishlistRepository wishlistRepository, ProductRepository productRepository, UserRepository userRepository) {
+        this.wishlistRepository = wishlistRepository;
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+    }
 
     public void add(String uuid, String email) {
         UserEntity user = userRepository.findByEmail(email);

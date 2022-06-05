@@ -1,8 +1,8 @@
-<ul class="pagination" th:fragment="fragment(items)">
+<ul class="pagination" th:fragment="fragment">
 							<li
-									th:each="item : ${items}"
-									th:classappend="${#strings.equals(item.className, '')} ? '' : ${item.className}"
+									th:each="page : ${pages}"
+									th:classappend="${#strings.equals(page.className, '')} ? '' : ${page.className}"
 							>
-								<a th:href="${item.url}" th:text="${item.textValue}">...</a>
+								<a th:href="${page.url}" th:text="${page.textValue}">...</a>
 							</li>
 						</ul>

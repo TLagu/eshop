@@ -8,9 +8,9 @@
 		<!--header_top-->
 		<div th:replace="shop/components/header-top :: fragment"></div>
 		<!--header-middle-->
-		<div th:replace="shop/components/header-middle :: fragment(items=${middleMenuItems})"></div>
+		<div th:replace="shop/components/header-middle :: fragment"></div>
 		<!--header-bottom-->
-		<div th:replace="shop/components/header-bottom :: fragment(items=${bottomMenuItems})"></div>
+		<div th:replace="shop/components/header-bottom :: fragment"></div>
 	</header><!--/header-->
 
 	<section>
@@ -18,19 +18,19 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<!--left-sidebar-->
-					<div th:replace="shop/components/left-sidebar :: fragment(items=${categoryItems})"></div>
+					<div th:replace="shop/components/left-sidebar :: fragment"></div>
 				</div>
 				<div class="col-sm-9 padding-right">
 					<!--features_items-->
 					<div class="features_items"><!--features_items-->
 						<div class="row">
-						<h2 class="title text-center">Produkty</h2>
-						<div th:replace="shop/components/features-items :: fragment(items=${productItems})"></div>
+							<h2 class="title text-center">Produkty</h2>
+							<div th:replace="shop/components/features-items :: fragment"></div>
 						</div>
 						<div class="row">
 						<!--pagination-->
-						<div th:replace="shop/components/pagination :: fragment(items=${pageItems})"></div>
-					</div>
+							<div th:replace="shop/components/pagination :: fragment"></div>
+						</div>
 					</div>
 				</div>
 			</div>
