@@ -1,32 +1,31 @@
 package com.lagu.shop.module.product.dto;
 
-import com.lagu.shop.module.product.entity.ProductEntity;
-import com.lagu.shop.module.user.entity.UserEntity;
+import com.lagu.shop.module.user.dto.UserDto;
 
 public class CartDto {
 
-    private UserEntity user;
+    private UserDto user;
 
-    private ProductEntity product;
+    private ProductDto product;
 
     private Integer amount;
 
     private Double total;
 
-    public UserEntity getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public CartDto setUser(UserEntity user) {
+    public CartDto setUser(UserDto user) {
         this.user = user;
         return this;
     }
 
-    public ProductEntity getProduct() {
+    public ProductDto getProduct() {
         return product;
     }
 
-    public CartDto setProduct(ProductEntity product) {
+    public CartDto setProduct(ProductDto product) {
         this.product = product;
         return this;
     }

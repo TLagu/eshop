@@ -3,15 +3,14 @@ package com.lagu.shop.module.product;
 import com.lagu.shop.core.pagination.ListResponse;
 import com.lagu.shop.core.pagination.MenuNavigator;
 import com.lagu.shop.core.pagination.PageWrapper;
+import com.lagu.shop.module.product.dto.AttributeDto;
 import com.lagu.shop.module.product.dto.ProductDto;
+import com.lagu.shop.module.product.dto.ProductForm;
 import com.lagu.shop.module.product.service.CategoryService;
 import com.lagu.shop.module.product.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -70,11 +69,11 @@ public class AdminProductWebController {
         return "shop/admin-product-form";
     }
 
-//    @PostMapping("/admin/product")
-//    public String createOrUpdate(ProductDto product) {
-//        service.createOrUpdate(product);
-//        return "redirect:/shop/admin-product-list";
-//    }
+    @PostMapping("/admin/product")
+    public String createOrUpdate(@ModelAttribute(name = "productForm") ProductForm product) {
+        service.createOrUpdate(product);
+        return "redirect:/admin/product";
+    }
 
     @GetMapping("/admin/product/{uuid}/delete")
     public String deleteByGet(@PathVariable("uuid") String uuid) {
@@ -82,7 +81,7 @@ public class AdminProductWebController {
         return "redirect:/admin/product";
     }
 
-    @PostMapping("/shop/product/{uuid}/delete")
+    @DeleteMapping("/shop/product/{uuid}/delete")
     public String deleteByPost(@PathVariable("uuid") String uuid) {
         service.delete(uuid);
         return "redirect:/admin/product";

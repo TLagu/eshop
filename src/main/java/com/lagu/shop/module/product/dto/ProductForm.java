@@ -1,16 +1,15 @@
 package com.lagu.shop.module.product.dto;
 
-import com.lagu.shop.module.product.entity.CategoryEntity;
+import java.io.Serializable;
+import java.util.List;
 
-import java.util.Set;
-
-public class ProductForm {
+public class ProductForm implements Serializable {
 
     private String uuid;
     private String model;
     private String description;
     private Long category;
-//    private Set<AttributeDto> attributes;
+    private List<AttributeForm> attributes;
     private Double price;
     private String path;
     private String code;
@@ -48,6 +47,15 @@ public class ProductForm {
 
     public ProductForm setCategory(Long category) {
         this.category = category;
+        return this;
+    }
+
+    public List<AttributeForm> getAttributes() {
+        return attributes;
+    }
+
+    public ProductForm setAttributes(List<AttributeForm> attributes) {
+        this.attributes = attributes;
         return this;
     }
 

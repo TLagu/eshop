@@ -1,7 +1,7 @@
 package com.lagu.shop.module.product;
 
 import com.lagu.shop.core.pagination.MenuNavigator;
-import com.lagu.shop.module.product.dto.CartFormDto;
+import com.lagu.shop.module.product.dto.CartForm;
 import com.lagu.shop.module.product.dto.OrderDto;
 import com.lagu.shop.module.product.dto.ProductDto;
 import com.lagu.shop.module.product.service.CartService;
@@ -117,7 +117,7 @@ public class CartWebController {
             Authentication authentication
     ) {
         String uri = request.getRequestURI();
-        List<CartFormDto> carts = service.getProductListByUser(authentication.getName());
+        List<CartForm> carts = service.getProductListByUser(authentication.getName());
         OrderDto order = orderService.getInitialOrder(authentication);
         model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, true));
         model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, true));

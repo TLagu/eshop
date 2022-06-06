@@ -38,6 +38,14 @@
                     <input type="text" th:field="*{code}" placeholder="Kod produktu...">
                 </li>
             </ul>
+            <ul class="user_info" th:each="attribute, i : *{attributes}">
+                <li class="single_field">
+                    <label><span th:text="*{attributes[__${i.index}__].name}"> ... </span>:</label>
+                    <input type="hidden" name="id" th:field="*{attributes[__${i.index}__].id}">
+                    <input type="hidden" name="name" th:field="*{attributes[__${i.index}__].name}">
+                    <input type="text" name="description" th:field="*{attributes[__${i.index}__].description}">
+                </li>
+            </ul>
             <button class="btn btn-default check_out" type="submit">Zapisz</button>
             <input type="hidden" name="uuid" th:value="*{uuid}">
         </div>

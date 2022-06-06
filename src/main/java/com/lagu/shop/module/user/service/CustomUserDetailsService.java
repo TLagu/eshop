@@ -1,7 +1,6 @@
 package com.lagu.shop.module.user.service;
 
-import com.lagu.shop.core.pagination.ListResponse;
-import com.lagu.shop.module.user.entity.CustomUserDetails;
+import com.lagu.shop.core.security.CustomUserDetails;
 import com.lagu.shop.module.user.entity.UserEntity;
 import com.lagu.shop.module.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -6,6 +6,7 @@ import com.lagu.shop.module.product.dto.CategoryForm;
 import com.lagu.shop.module.product.service.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,7 +64,7 @@ public class AdminCategoryWebController {
         return "redirect:/admin/category";
     }
 
-    @PostMapping(value = "/admin/category/{id}/delete")
+    @DeleteMapping(value = "/admin/category/{id}/delete")
     public String deletePost(@PathVariable Long id) {
         service.delete(id);
         return "redirect:/admin/category";

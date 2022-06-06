@@ -1,8 +1,8 @@
 package com.lagu.shop.module.product.dto;
 
 public class PageSetup {
-    private String uri;
-    private boolean isLogged;
+    private final String uri;
+    private final boolean isLogged;
 
     public PageSetup(String uri, boolean isLogged) {
         this.uri = uri;

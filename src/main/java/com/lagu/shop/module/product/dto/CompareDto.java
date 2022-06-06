@@ -1,15 +1,12 @@
 package com.lagu.shop.module.product.dto;
 
-import com.lagu.shop.module.product.entity.ProductEntity;
 import com.lagu.shop.module.user.entity.UserEntity;
-
-import java.time.LocalDateTime;
 
 public class CompareDto {
 
     private UserEntity user;
 
-    private ProductEntity product;
+    private ProductDto product;
 
     public UserEntity getUser() {
         return user;
@@ -20,11 +17,11 @@ public class CompareDto {
         return this;
     }
 
-    public ProductEntity getProduct() {
+    public ProductDto getProduct() {
         return product;
     }
 
-    public CompareDto setProduct(ProductEntity product) {
+    public CompareDto setProduct(ProductDto product) {
         this.product = product;
         return this;
     }

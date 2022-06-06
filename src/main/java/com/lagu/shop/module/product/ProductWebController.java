@@ -4,7 +4,7 @@ import com.lagu.shop.core.pagination.*;
 import com.lagu.shop.module.product.dto.ProductDto;
 import com.lagu.shop.module.product.dto.PageSetup;
 import com.lagu.shop.module.product.entity.CategoryEntity;
-import com.lagu.shop.module.product.repository.CategoryRepository;
+import com.lagu.shop.module.product.service.CategoryService;
 import com.lagu.shop.module.product.service.ProductService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,7 @@ public class ProductWebController {
     private final ProductService service;
     private final HttpSession httpSession;
     private final CartWebController cartWebController;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final CompareWebController compareWebController;
     private final WishlistWebController wishlistWebController;
 
@@ -33,14 +33,14 @@ public class ProductWebController {
             ProductService service,
             HttpSession httpSession,
             CartWebController cartWebController,
-            CategoryRepository categoryRepository,
+            CategoryService categoryService,
             CompareWebController compareWebController,
             WishlistWebController wishlistWebController
     ) {
         this.service = service;
         this.httpSession = httpSession;
         this.cartWebController = cartWebController;
-        this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
         this.compareWebController = compareWebController;
         this.wishlistWebController = wishlistWebController;
     }
@@ -94,7 +94,7 @@ public class ProductWebController {
             products = compareWebController.setProductAsAdded(products, authentication);
             products = wishlistWebController.setProductAsAdded(products, authentication);
         }
-        List<CategoryEntity> categories = categoryRepository.findByParentIsNullOrderByName();
+        List<CategoryEntity> categories = categoryService.getMainCategoryWithSubcategories();
         model.addAttribute("products", products);
         model.addAttribute("pages", pageWrapper.getPageWrapper());
         model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
@@ -114,7 +114,7 @@ public class ProductWebController {
         String uri = request.getRequestURI();
         boolean isLogged = ControllerTools.isLogged(authentication);
         ProductDto product = service.getByUuid(uuid);
-        List<CategoryEntity> categories = categoryRepository.findByParentIsNullOrderByName();
+        List<CategoryEntity> categories = categoryService.getMainCategoryWithSubcategories();
         model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
         model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
         model.addAttribute("productDetails", product);
