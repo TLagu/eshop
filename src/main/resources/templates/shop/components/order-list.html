@@ -1,4 +1,4 @@
-<div class="table-responsive cart_info" th:fragment="fragment(items)">
+<div class="table-responsive cart_info" th:fragment="fragment">
                 <table class="table table-condensed">
                     <thead>
                     <tr class="cart_menu">
@@ -8,15 +8,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="item : ${items}">
+                    <tr th:each="order : ${orders}">
                         <td class="cart_description">
-                            <h4 th:text="${item.createdOn}"> ... </h4>
+                            <h4 th:text="${order.createdOn}"> ... </h4>
                         </td>
                         <td class="cart_description">
-                            <h4><a th:href="'/order/details/' + ${item.uuid}" th:text="${item.uuid}">...</a></h4>
+                            <h4><a th:href="'/order/details/' + ${order.uuid}" th:text="${order.uuid}">...</a></h4>
                         </td>
                         <td class="cart_price">
-                            <p><span th:text="${#numbers.formatDecimal(item.total, 3, 'WHITESPACE', 2, 'COMMA')}"> ... </span> PLN</p>
+                            <p><span th:text="${#numbers.formatDecimal(order.total, 3, 'WHITESPACE', 2, 'COMMA')}"> ... </span> PLN</p>
                         </td>
                     </tr>
                     </tbody>

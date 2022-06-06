@@ -1,32 +1,32 @@
-						<div th:fragment="fragment(items)">
-						    <div class="col-sm-4" th:each="item, iStat : ${items}">
+						<div th:fragment="fragment">
+						    <div class="col-sm-4" th:each="product, iStat : ${products}">
         						<div class="product-image-wrapper">
             						<div class="single-products">
                 						<div
 												class="productinfo text-center"
 										>
 											<div class="productinfo img">
-												<a th:href="@{/shop/details/} + ${item.uuid}">
-													<img th:src="${item.path}" alt="" />
+												<a th:href="@{/shop/details/} + ${product.uuid}">
+													<img th:src="${product.path}" alt="" />
 												</a>
 											</div>
-                    						<h2><span th:text="${#numbers.formatDecimal(item.price, 3, 'WHITESPACE', 2, 'COMMA')}"> ... </span> PLN</h2>
-                    						<p><a th:text="${item.model}" th:href="@{/shop/details/} + ${item.uuid}"> ... </a></p>
-                    						<p th:text="${item.description}"> ... </p>
-											<p th:text="${item.category.name}"> ... </p>
-											<p><span th:text="${#numbers.formatDecimal(item.price, 3, 'WHITESPACE', 2, 'COMMA')}"> ... </span> PLN</p>
+                    						<h2><span th:text="${#numbers.formatDecimal(product.price, 3, 'WHITESPACE', 2, 'COMMA')}"> ... </span> PLN</h2>
+                    						<p><a th:text="${product.model}" th:href="@{/shop/details/} + ${product.uuid}"> ... </a></p>
+                    						<p th:text="${product.description}"> ... </p>
+											<p th:text="${product.category.name}"> ... </p>
+											<p><span th:text="${#numbers.formatDecimal(product.price, 3, 'WHITESPACE', 2, 'COMMA')}"> ... </span> PLN</p>
 											<span th:if="${pageSetup.isLogged}">
                     							<a
-														th:if="${item.cart == false}"
-														th:href="@{/cart/add/} + ${item.uuid}"
+														th:if="${product.cart == false}"
+														th:href="@{/cart/add/} + ${product.uuid}"
 														class="btn btn-default add-to-cart"
 												>
 													<i class="fa fa-shopping-cart"></i>
 													Dodaj do koszyka
 												</a>
                     							<a
-														th:if="${item.cart}"
-														th:href="@{/cart/remove/} + ${item.uuid}"
+														th:if="${product.cart}"
+														th:href="@{/cart/remove/} + ${product.uuid}"
 														class="btn btn-default add-to-cart"
 												>
 													<i class="fa fa-shopping-cart"></i>
@@ -39,8 +39,8 @@
                 						<ul class="nav nav-pills nav-justified">
                     						<li>
 												<a
-														th:if="${item.wishlist == false}"
-														th:href="@{/wishlist/add/} + ${item.uuid}"
+														th:if="${product.wishlist == false}"
+														th:href="@{/wishlist/add/} + ${product.uuid}"
 												>
 													<i class="fa fa-plus-square"></i>
 													Dodaj do obserwowanych
@@ -48,8 +48,8 @@
 											</li>
 											<li>
 												<a
-														th:if="${item.wishlist}"
-														th:href="@{/wishlist/remove/} + ${item.uuid}"
+														th:if="${product.wishlist}"
+														th:href="@{/wishlist/remove/} + ${product.uuid}"
 												>
 													<i class="fa fa-plus-square"></i>
 													Usuń z obserwowanych
@@ -57,8 +57,8 @@
 											</li>
 											<li>
 												<a
-														th:if="${item.compare == false}"
-														th:href="@{/compare/add/} + ${item.uuid}"
+														th:if="${product.compare == false}"
+														th:href="@{/compare/add/} + ${product.uuid}"
 												>
 													<i class="fa fa-plus-square"></i>
 													Dodaj do porównania
@@ -66,8 +66,8 @@
 											</li>
                     						<li>
 												<a
-														th:if="${item.compare}"
-														th:href="@{/compare/remove/} + ${item.uuid}"
+														th:if="${product.compare}"
+														th:href="@{/compare/remove/} + ${product.uuid}"
 												>
 													<i class="fa fa-plus-square"></i>
 													Usuń z porównania

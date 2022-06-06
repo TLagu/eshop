@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import java.util.List;
 
 @Controller
@@ -54,14 +53,9 @@ public class UserController {
 
     @GetMapping("/users")
     public String listUsers(Model model) {
-        List<UserEntity> listUsers = userRepo.findAll();
-        model.addAttribute("listUsers", listUsers);
+        List<UserEntity> users = userRepo.findAll();
+        model.addAttribute("users", users);
         return "shop/user";
-    }
-
-    @GetMapping("/admin")
-    public String admin(Model model) {
-        return "shop/admin";
     }
 
 }

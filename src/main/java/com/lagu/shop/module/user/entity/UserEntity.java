@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user")
-@SQLDelete(sql = "UPDATE user SET status = 'DELETED' WHERE id = ?")
+@SQLDelete(sql = "UPDATE \"user\" SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status = 'ACTIVE'")
 public class UserEntity {
 
@@ -39,6 +39,9 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
 
+    @Column(name = "uuid")
+    private String uuid;
+
     @Column(nullable = false, unique = true, length = 45)
     private String email;
 
@@ -61,6 +64,40 @@ public class UserEntity {
 
     public UserEntity setId(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public Long getCreatedBy() {
+        return createdBy;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public Long getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public UserEntity setStatus(Status status) {
+        this.status = status;
+        return this;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public UserEntity setUuid(String uuid) {
+        this.uuid = uuid;
         return this;
     }
 
@@ -100,15 +137,6 @@ public class UserEntity {
         return this;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public UserEntity setStatus(Status status) {
-        this.status = status;
-        return this;
-    }
-
     public UserRole getRole() {
         return role;
     }
@@ -117,4 +145,5 @@ public class UserEntity {
         this.role = role;
         return this;
     }
+
 }

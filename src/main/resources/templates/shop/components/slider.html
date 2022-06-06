@@ -1,4 +1,4 @@
-<section id="slider" th:fragment="fragment(items)"><!--slider-->
+<section id="slider" th:fragment="fragment"><!--slider-->
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -6,17 +6,17 @@
                     <ol class="carousel-indicators">
                         <li
                                 data-target="#slider-carousel"
-                                th:each="item, iStat : ${items}"
+                                th:each="slider, iStat : ${sliders}"
                                 th:data-slide-to="${iStat.index}"
                                 th:classappend="${iStat.first} ? 'active'"
                         ></li>
                     </ol>
 
                     <div class="carousel-inner">
-                        <div class="item" th:each="item, iStat : ${items}" th:classappend="${iStat.first} ? 'active'">
+                        <div class="item" th:each="slider, iStat : ${sliders}" th:classappend="${iStat.first} ? 'active'">
                             <div class="col-sm-12">
-                                <p th:text="${item.model}">...</p>
-                                <p th:text="${item.description}">...</p>
+                                <p th:text="${slider.model}">...</p>
+                                <p th:text="${slider.description}">...</p>
                                 <button type="button" class="btn btn-default get">Get it now</button>
                             </div>
                         </div>

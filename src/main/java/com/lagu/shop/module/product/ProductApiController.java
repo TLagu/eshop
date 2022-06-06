@@ -19,7 +19,7 @@ public class ProductApiController {
         if (guid == null) {
             return null;
         }
-        return service.getOne(guid);
+        return service.getByUuid(guid);
     }
 
     @GetMapping("/api/shop")
@@ -30,20 +30,4 @@ public class ProductApiController {
         return service.getAllPerPage(page, size);
     }
 
-//    @PostMapping("/api/shop")
-//    public ProductDto create(@RequestBody ProductForm form) {
-//        return service.create(form);
-//    }
-//
-//    @PutMapping(value = "/api/shop/{uuid}")
-//    public ProductDto update(@PathVariable String uuid,
-//                                @RequestBody ProductForm form) {
-//        return service.update(uuid, form);
-//    }
-//
-//    @DeleteMapping(value = "/api/shop/{uuid}")
-//    public void delete(@PathVariable String uuid) {
-//        // TODO: IF NULL
-//        service.delete(uuid);
-//    }
 }

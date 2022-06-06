@@ -1,45 +1,58 @@
 package com.lagu.shop.core.pagination;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuNavigator {
 
-    private final List<Menu> bottomMenu = List.of(
-            new Menu("", "", "Strona główna", "/home"),
-            new Menu("", "", "Sklep", "/shop"),
-            new Menu("", "", "Kontakt", "/contact")
-    );
-
-    private final List<Menu> loggedBottomMenu = List.of(
-            new Menu("", "", "Strona główna", "/home"),
-            new Menu("", "", "Sklep", "/shop"),
-            new Menu("", "", "Kontakt", "/contact")
-    );
-
-    private final List<Menu> middleMenu = List.of(
+    private final List<Menu> userMiddleMenu = List.of(
             new Menu("", "fa fa-lock", "Logowanie", "/login")
     );
 
-    private final List<Menu> loggedMiddleMenu = List.of(
-            new Menu("", "a fa-userEntity", "Konto", "/order"),
+    private final List<Menu> loggedUserMiddleMenu = List.of(
+            new Menu("", "fa fa-user", "Konto", "/order"),
             new Menu("", "fa fa-star", "Obserwowane", "/wish-list"),
             new Menu("", "fa fa-crosshairs", "Porównanie", "/checkout"),
             new Menu("", "fa fa-shopping-cart", "Koszyk", "/cart"),
             new Menu("", "fa fa-lock", "Wylogowanie", "/logout")
     );
 
-    public List<Menu> getBottomMenu(String url, boolean isLogged) {
-        List<Menu> menu = (isLogged) ? loggedBottomMenu : bottomMenu;
-        for (Menu menuItem : menu) {
-            if (menuItem.getUrl().equals(url)) {
-                menuItem.setClassState("active");
-            }
-        }
-        return menu;
+    private final List<Menu> userBottomMenu = List.of(
+            new Menu("", "", "Strona główna", "/home"),
+            new Menu("", "", "Sklep", "/shop"),
+            new Menu("", "", "Kontakt", "/contact")
+    );
+
+    private final List<Menu> loggedUserBottomMenu = List.of(
+            new Menu("", "", "Strona główna", "/home"),
+            new Menu("", "", "Sklep", "/shop"),
+            new Menu("", "", "Kontakt", "/contact")
+    );
+
+    private final List<Menu> loggedAdminMiddleMenu = List.of(
+            new Menu("", "fa fa-suitcase", "Produkty", "/admin/product"),
+            new Menu("", "fa fa-gear", "Słowniki", "/admin/category"),
+            new Menu("", "fa fa-user", "Użytkownicy", "/admin/user"),
+            new Menu("", "fa fa-lock", "Wylogowanie", "/logout")
+    );
+
+    public List<Menu> getUserBottomMenu(String url, boolean isLogged) {
+        return getMenu(url, (isLogged) ? loggedUserBottomMenu : userBottomMenu);
     }
 
-    public List<Menu> getMiddleMenu(String url, boolean isLogged) {
-        List<Menu> menu = (isLogged) ? loggedMiddleMenu : middleMenu;
+    public List<Menu> getUserMiddleMenu(String url, boolean isLogged) {
+        return getMenu(url, (isLogged) ? loggedUserMiddleMenu : userMiddleMenu);
+    }
+
+    public List<Menu> getAdminBottomMenu(String url) {
+        return getMenu(url, new ArrayList<>());
+    }
+
+    public List<Menu> getAdminMiddleMenu(String url) {
+        return getMenu(url, loggedAdminMiddleMenu);
+    }
+
+    public List<Menu> getMenu(String url, List<Menu> menu) {
         for (Menu menuItem : menu) {
             if (menuItem.getUrl().equals(url)) {
                 menuItem.setClassState("active");

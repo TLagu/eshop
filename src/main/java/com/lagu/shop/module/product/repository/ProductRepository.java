@@ -14,7 +14,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
 
     ProductEntity getByUuid(String uuid);
 
-    @Query("SELECT p FROM ProductEntity p WHERE p.status = com.lagu.shop.module.product.entity.Status.ACTIVE ORDER BY RAND()")
+    @Query("SELECT p FROM ProductEntity p ORDER BY RAND()")
     List<ProductEntity> findRandomForHeader(Pageable pageable);
 
     @Query("SELECT p FROM ProductEntity p WHERE p.category IN :ids")

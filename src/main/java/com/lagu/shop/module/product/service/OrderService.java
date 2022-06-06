@@ -10,7 +10,6 @@ import com.lagu.shop.module.product.repository.OrderDetailsRepository;
 import com.lagu.shop.module.product.repository.OrderRepository;
 import com.lagu.shop.module.user.entity.UserEntity;
 import com.lagu.shop.module.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +19,23 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private CartRepository cartRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private OrderDetailsRepository orderDetailsRepository;
+
+    private final OrderRepository orderRepository;
+    private final CartRepository cartRepository;
+    private final UserRepository userRepository;
+    private final OrderDetailsRepository orderDetailsRepository;
+
+    public OrderService(
+            OrderRepository orderRepository,
+            CartRepository cartRepository,
+            UserRepository userRepository,
+            OrderDetailsRepository orderDetailsRepository
+    ) {
+        this.orderRepository = orderRepository;
+        this.cartRepository = cartRepository;
+        this.userRepository = userRepository;
+        this.orderDetailsRepository = orderDetailsRepository;
+    }
 
     public OrderDto getInitialOrder(Authentication authentication) {
         UserEntity user = userRepository.findByEmail(authentication.getName());

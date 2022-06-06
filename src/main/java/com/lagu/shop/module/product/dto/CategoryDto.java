@@ -1,30 +1,53 @@
 package com.lagu.shop.module.product.dto;
 
-import com.lagu.shop.module.product.entity.ProductEntity;
-import com.lagu.shop.module.user.entity.UserEntity;
-
 public class CategoryDto {
 
-    private UserEntity user;
+    private Long id;
 
-    private ProductEntity product;
+    private String name;
 
-    public UserEntity getUser() {
-        return user;
+    private String description;
+
+    private CategoryDto parent;
+
+    public Long getId() {
+        return id;
     }
 
-    public CategoryDto setUser(UserEntity user) {
-        this.user = user;
+    public CategoryDto setId(Long id) {
+        this.id = id;
         return this;
     }
 
-    public ProductEntity getProduct() {
-        return product;
+    public String getName() {
+        return name;
     }
 
-    public CategoryDto setProduct(ProductEntity product) {
-        this.product = product;
+    public CategoryDto setName(String name) {
+        this.name = name;
         return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public CategoryDto setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public CategoryDto getParent() {
+        return parent;
+    }
+
+    public CategoryDto setParent(CategoryDto parent) {
+        this.parent = parent;
+        return this;
+    }
+
+    public boolean isNew() {
+        return id == null || id == 0;
     }
 
 }

@@ -54,9 +54,9 @@ public class ProductWebController {
         String uri = request.getRequestURI();
         boolean isLogged = ControllerTools.isLogged(authentication);
         List<ProductDto> randomForSlider = service.getRandomForSlider();
-        model.addAttribute("sliderItems", randomForSlider);
-        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
-        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
+        model.addAttribute("sliders", randomForSlider);
+        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
+        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
         return "shop/index";
     }
 
@@ -95,12 +95,12 @@ public class ProductWebController {
             products = wishlistWebController.setProductAsAdded(products, authentication);
         }
         List<CategoryEntity> categories = categoryRepository.findByParentIsNullOrderByName();
-        model.addAttribute("productItems", products);
-        model.addAttribute("pageItems", pageWrapper.getPageWrapper());
-        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
-        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
+        model.addAttribute("products", products);
+        model.addAttribute("pages", pageWrapper.getPageWrapper());
+        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
+        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
         model.addAttribute("pageSetup", pageSetup);
-        model.addAttribute("categoryItems", categories);
+        model.addAttribute("categories", categories);
         return "shop/product";
     }
 
@@ -113,45 +113,13 @@ public class ProductWebController {
     ) {
         String uri = request.getRequestURI();
         boolean isLogged = ControllerTools.isLogged(authentication);
-        ProductDto product = service.getOne(uuid);
+        ProductDto product = service.getByUuid(uuid);
         List<CategoryEntity> categories = categoryRepository.findByParentIsNullOrderByName();
-        model.addAttribute("bottomMenuItems", new MenuNavigator().getBottomMenu(uri, isLogged));
-        model.addAttribute("middleMenuItems", new MenuNavigator().getMiddleMenu(uri, isLogged));
+        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
+        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
         model.addAttribute("productDetails", product);
-        model.addAttribute("categoryItems", categories);
+        model.addAttribute("categories", categories);
         return "shop/product-details";
     }
 
-//
-//    @GetMapping(value = "/shop/details/{uuid}")
-//    public String details(@PathVariable("uuid") String uuid, Model model) {
-//            model.addAttribute("products", service.getOne(uuid));
-//            return "shop/details.html";
-//    }
-//
-//    @GetMapping("/shop")
-//    public ListResponse<ProductDto> getByPage(
-//            @RequestParam(value = "page", defaultValue = "0") int page,
-//            @RequestParam(value = "size", defaultValue = "10") int size
-//    ) {
-//        return service.getAllPerPage(page, size);
-//    }
-//
-//    @PostMapping("/shop")
-//    public ProductDto create(@RequestBody ProductForm form) {
-//        return service.create(form);
-//    }
-//
-//    @PutMapping(value = "/shop/{uuid}")
-//    public ProductDto update(@PathVariable String uuid,
-//                              @RequestBody ProductForm form) {
-//        return service.update(uuid, form);
-//    }
-//
-//    @DeleteMapping(value = "/shop/{uuid}")
-//    public void delete(@PathVariable String uuid) {
-//        // TODO: IF NULL
-//        // TODO: jak zwrócić KOD 202
-//        service.delete(uuid);
-//    }
 }

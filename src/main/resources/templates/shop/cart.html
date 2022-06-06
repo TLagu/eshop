@@ -8,9 +8,9 @@
 		<!--header_top-->
 		<div th:replace="shop/components/header-top :: fragment"></div>
 		<!--header-middle-->
-		<div th:replace="shop/components/header-middle :: fragment(items=${middleMenuItems})"></div>
+		<div th:replace="shop/components/header-middle :: fragment"></div>
 		<!--header-bottom-->
-		<div th:replace="shop/components/header-bottom :: fragment(items=${bottomMenuItems})"></div>
+		<div th:replace="shop/components/header-bottom :: fragment"></div>
 	</header><!--/header-->
 
 	<!--cart_items-->
@@ -21,7 +21,7 @@
 					<li class="active">Koszyk</li>
 				</ol>
 			</div>
-			<div th:replace="shop/components/cart-info :: fragment(items=${cartItems})"></div>
+			<div th:replace="shop/components/cart-info :: fragment"></div>
 			<div th:replace="shop/components/order-summary :: fragment"></div>
 		</div>
 	</section>
