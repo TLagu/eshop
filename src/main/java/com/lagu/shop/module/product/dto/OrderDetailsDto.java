@@ -1,13 +1,10 @@
 package com.lagu.shop.module.product.dto;
 
-import com.lagu.shop.module.product.entity.OrderEntity;
-import com.lagu.shop.module.product.entity.ProductEntity;
-
 public class OrderDetailsDto {
 
-    private OrderEntity order;
+    private OrderDto order;
 
-    private ProductEntity product;
+    private ProductDto product;
 
     private Double price;
 
@@ -15,20 +12,20 @@ public class OrderDetailsDto {
 
     private Double total;
 
-    public OrderEntity getOrder() {
+    public OrderDto getOrder() {
         return order;
     }
 
-    public OrderDetailsDto setOrder(OrderEntity order) {
+    public OrderDetailsDto setOrder(OrderDto order) {
         this.order = order;
         return this;
     }
 
-    public ProductEntity getProduct() {
+    public ProductDto getProduct() {
         return product;
     }
 
-    public OrderDetailsDto setProduct(ProductEntity product) {
+    public OrderDetailsDto setProduct(ProductDto product) {
         this.product = product;
         return this;
     }

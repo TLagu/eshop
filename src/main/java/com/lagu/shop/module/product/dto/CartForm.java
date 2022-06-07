@@ -1,13 +1,12 @@
 package com.lagu.shop.module.product.dto;
 
-import com.lagu.shop.module.product.entity.ProductEntity;
-import com.lagu.shop.module.user.entity.UserEntity;
+import com.lagu.shop.module.user.dto.UserDto;
 
-public class CartFormDto {
+public class CartForm {
 
-    private UserEntity user;
+    private UserDto user;
 
-    private ProductEntity product;
+    private ProductDto product;
 
     private Integer amount;
 
@@ -23,20 +22,20 @@ public class CartFormDto {
 
     private String path;
 
-    public UserEntity getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public CartFormDto setUser(UserEntity user) {
+    public CartForm setUser(UserDto user) {
         this.user = user;
         return this;
     }
 
-    public ProductEntity getProduct() {
+    public ProductDto getProduct() {
         return product;
     }
 
-    public CartFormDto setProduct(ProductEntity product) {
+    public CartForm setProduct(ProductDto product) {
         this.product = product;
         return this;
     }
@@ -45,7 +44,7 @@ public class CartFormDto {
         return amount;
     }
 
-    public CartFormDto setAmount(Integer amount) {
+    public CartForm setAmount(Integer amount) {
         this.amount = amount;
         return this;
     }
@@ -54,7 +53,7 @@ public class CartFormDto {
         return total;
     }
 
-    public CartFormDto setTotal(Double total) {
+    public CartForm setTotal(Double total) {
         this.total = total;
         return this;
     }
@@ -63,7 +62,7 @@ public class CartFormDto {
         return uuid;
     }
 
-    public CartFormDto setUuid(String uuid) {
+    public CartForm setUuid(String uuid) {
         this.uuid = uuid;
         return this;
     }
@@ -72,7 +71,7 @@ public class CartFormDto {
         return model;
     }
 
-    public CartFormDto setModel(String model) {
+    public CartForm setModel(String model) {
         this.model = model;
         return this;
     }
@@ -81,7 +80,7 @@ public class CartFormDto {
         return code;
     }
 
-    public CartFormDto setCode(String code) {
+    public CartForm setCode(String code) {
         this.code = code;
         return this;
     }
@@ -90,7 +89,7 @@ public class CartFormDto {
         return price;
     }
 
-    public CartFormDto setPrice(Double price) {
+    public CartForm setPrice(Double price) {
         this.price = price;
         return this;
     }
@@ -99,7 +98,7 @@ public class CartFormDto {
         return path;
     }
 
-    public CartFormDto setPath(String path) {
+    public CartForm setPath(String path) {
         this.path = path;
         return this;
     }

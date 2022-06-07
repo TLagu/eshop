@@ -1,4 +1,4 @@
-package com.lagu.shop.module.user.entity;
+package com.lagu.shop.module.user.service;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

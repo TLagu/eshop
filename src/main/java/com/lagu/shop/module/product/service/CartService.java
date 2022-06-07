@@ -1,6 +1,6 @@
 package com.lagu.shop.module.product.service;
 
-import com.lagu.shop.module.product.dto.CartFormDto;
+import com.lagu.shop.module.product.dto.CartForm;
 import com.lagu.shop.module.product.entity.CartEntity;
 import com.lagu.shop.module.product.entity.ProductEntity;
 import com.lagu.shop.module.product.mapper.CartFormMapper;
@@ -73,9 +73,9 @@ public class CartService {
         return items;
     }
 
-    public List<CartFormDto> getProductListByUser(String email) {
+    public List<CartForm> getProductListByUser(String email) {
         UserEntity user = userRepository.findByEmail(email);
-        List<CartFormDto> items = new ArrayList<>();
+        List<CartForm> items = new ArrayList<>();
         if (user != null) {
             List<CartEntity> byUser = cartRepository.findByUserOrderByProduct(user);
             if (byUser != null) {

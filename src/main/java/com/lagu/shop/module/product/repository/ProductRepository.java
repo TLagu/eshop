@@ -9,10 +9,13 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long>, JpaSpecificationExecutor<ProductEntity> {
 
     ProductEntity getByUuid(String uuid);
+
+    Optional<ProductEntity> findByUuid(String uuid);
 
     @Query("SELECT p FROM ProductEntity p ORDER BY RAND()")
     List<ProductEntity> findRandomForHeader(Pageable pageable);

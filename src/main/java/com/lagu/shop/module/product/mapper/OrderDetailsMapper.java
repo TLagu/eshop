@@ -7,8 +7,8 @@ public class OrderDetailsMapper {
 
     public static OrderDetailsDto map(OrderDetailsEntity entity) {
         return new OrderDetailsDto()
-                .setOrder(entity.getOrder())
-                .setProduct(entity.getProduct())
+                .setOrder(OrderMapper.map(entity.getOrder(), null))
+                .setProduct(ProductMapper.map(entity.getProduct(), null))
                 .setPrice(entity.getPrice())
                 .setAmount(entity.getAmount())
                 .setTotal(entity.getTotal());

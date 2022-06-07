@@ -8,7 +8,7 @@ public class CompareMapper {
     public static CompareDto map(CompareEntity entity) {
         return new CompareDto()
                 .setUser(entity.getUser())
-                .setProduct(entity.getProduct());
+                .setProduct(ProductMapper.map(entity.getProduct(), null));
     }
 
 }

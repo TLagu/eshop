@@ -1,6 +1,7 @@
-package com.lagu.shop.module.user.entity;
+package com.lagu.shop.core.security;
 
 import com.lagu.shop.module.product.entity.Status;
+import com.lagu.shop.module.user.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

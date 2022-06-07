@@ -1,6 +1,6 @@
 package com.lagu.shop.module.product.dto;
 
-public class AttributeDto {
+public class AttributeForm {
 
     private Long id;
     private String name;
@@ -10,7 +10,7 @@ public class AttributeDto {
         return id;
     }
 
-    public AttributeDto setId(Long id) {
+    public AttributeForm setId(Long id) {
         this.id = id;
         return this;
     }
@@ -19,7 +19,7 @@ public class AttributeDto {
         return name;
     }
 
-    public AttributeDto setName(String name) {
+    public AttributeForm setName(String name) {
         this.name = name;
         return this;
     }
@@ -28,7 +28,7 @@ public class AttributeDto {
         return description;
     }
 
-    public AttributeDto setDescription(String description) {
+    public AttributeForm setDescription(String description) {
         this.description = description;
         return this;
     }
