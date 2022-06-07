@@ -24,7 +24,9 @@
             		</div>
             		<div class="col-sm-3">
                 		<div class="search_box pull-right">
-                    		<input type="text" placeholder="Znajdź..."/>
+							<form action="/shop" th:object="${search}" method="post">
+                    			<input type="text" id="search" name="search" placeholder="Znajdź..."/>
+							</form>
                 		</div>
             		</div>
         		</div>

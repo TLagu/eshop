@@ -61,7 +61,7 @@ public class ProductEntity {
     @Column(name = "code")
     private String code;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<AttributeEntity> attributes;
 
     public Long getId() {

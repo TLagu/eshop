@@ -23,4 +23,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
     @Query("SELECT p FROM ProductEntity p WHERE p.category IN :ids")
     Page<ProductEntity> findByCategories(List<CategoryEntity> ids, Pageable pageable);
 
+    @Query("SELECT p FROM ProductEntity p " +
+            " WHERE LOWER(p.model) LIKE ('%' || LOWER(:searchText) || '%') " +
+            " OR LOWER(p.description) LIKE ('%' || LOWER(:searchText) || '%')")
+    List<ProductEntity> searchProduct(String searchText);
+
 }
