@@ -90,7 +90,7 @@ public class ProductService {
             attributes = productForm.getAttributes().stream()
                     .map(a -> AttributeFormMapper.map(a, product))
                     .collect(Collectors.toSet());
-            attributes.forEach(attributeRepository::saveAndFlush);
+            //attributes.forEach(attributeRepository::saveAndFlush);
         }
         product.setAttributes(attributes);
         ProductEntity productUpdate = productRepository.saveAndFlush(product);
@@ -116,13 +116,20 @@ public class ProductService {
                 .setAttributes(attributes);
         // TODO: Dlaczego nie działa saveAndFlush razem z Setem
         ProductEntity productUpdated = productRepository.saveAndFlush(product);
-        attributes.forEach(attributeRepository::saveAndFlush);
+        // attributes.forEach(attributeRepository::saveAndFlush);
         return ProductMapper.map(productUpdated, null);
     }
 
     public void delete(String uuid) {
         ProductEntity entity = productRepository.getByUuid(uuid);
         productRepository.delete(entity);
+    }
+
+    public List<ProductDto> searchProducts(String search) {
+        List<ProductEntity> products = productRepository.searchProduct(search);
+        return products.stream()
+                .map(p -> ProductMapper.map(p, null))
+                .collect(Collectors.toList());
     }
 
 }

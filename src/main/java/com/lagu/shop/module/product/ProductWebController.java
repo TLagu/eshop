@@ -1,6 +1,7 @@
 package com.lagu.shop.module.product;
 
 import com.lagu.shop.core.pagination.*;
+import com.lagu.shop.module.product.dto.CategoryDto;
 import com.lagu.shop.module.product.dto.ProductDto;
 import com.lagu.shop.module.product.dto.PageSetup;
 import com.lagu.shop.module.product.entity.CategoryEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,9 @@ public class ProductWebController {
     private final CategoryService categoryService;
     private final CompareWebController compareWebController;
     private final WishlistWebController wishlistWebController;
+
+    String uri = "/shop";
+    boolean isLogged = false;
 
     public ProductWebController(
             ProductService service,
@@ -51,8 +56,7 @@ public class ProductWebController {
             HttpServletRequest request,
             Authentication authentication
     ) {
-        String uri = request.getRequestURI();
-        boolean isLogged = ControllerTools.isLogged(authentication);
+        setPageSetup(request, authentication);
         List<ProductDto> randomForSlider = service.getRandomForSlider();
         model.addAttribute("sliders", randomForSlider);
         model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
@@ -69,9 +73,7 @@ public class ProductWebController {
             HttpServletRequest request,
             Authentication authentication
     ) {
-        String uri = request.getRequestURI();
-        boolean isLogged = ControllerTools.isLogged(authentication);
-        PageSetup pageSetup = new PageSetup(uri, isLogged);
+        setPageSetup(request, authentication);
 
         httpSession.setAttribute("page", String.valueOf(page));
         httpSession.setAttribute("size", String.valueOf(size));
@@ -99,7 +101,7 @@ public class ProductWebController {
         model.addAttribute("pages", pageWrapper.getPageWrapper());
         model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
         model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
-        model.addAttribute("pageSetup", pageSetup);
+        model.addAttribute("pageSetup", new PageSetup(uri, isLogged));
         model.addAttribute("categories", categories);
         return "shop/product";
     }
@@ -111,8 +113,7 @@ public class ProductWebController {
             HttpServletRequest request,
             Authentication authentication
     ) {
-        String uri = request.getRequestURI();
-        boolean isLogged = ControllerTools.isLogged(authentication);
+        setPageSetup(request, authentication);
         ProductDto product = service.getByUuid(uuid);
         List<CategoryEntity> categories = categoryService.getMainCategoryWithSubcategories();
         model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
@@ -120,6 +121,27 @@ public class ProductWebController {
         model.addAttribute("productDetails", product);
         model.addAttribute("categories", categories);
         return "shop/product-details";
+    }
+
+    @PostMapping(value = {"/shop"})
+    public String search(String search, Model model, HttpServletRequest request, Authentication authentication) {
+        setPageSetup(request, authentication);
+        List<ProductDto> products = new ArrayList<>();
+        if (search.length() > 2) {
+            products = service.searchProducts(search);
+        }
+        List<CategoryEntity> categories = categoryService.getMainCategoryWithSubcategories();
+        model.addAttribute("products", products);
+        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
+        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
+        model.addAttribute("pageSetup", new PageSetup(uri, isLogged));
+        model.addAttribute("categories", categories);
+        return "shop/product";
+    }
+
+    private void setPageSetup(HttpServletRequest request, Authentication authentication) {
+        this.uri = request.getRequestURI();
+        this.isLogged = ControllerTools.isLogged(authentication);
     }
 
 }
