@@ -90,7 +90,6 @@ public class ProductService {
             attributes = productForm.getAttributes().stream()
                     .map(a -> AttributeFormMapper.map(a, product))
                     .collect(Collectors.toSet());
-            //attributes.forEach(attributeRepository::saveAndFlush);
         }
         product.setAttributes(attributes);
         ProductEntity productUpdate = productRepository.saveAndFlush(product);
@@ -114,9 +113,7 @@ public class ProductService {
                 .setPrice(productForm.getPrice())
                 .setCode(productForm.getCode())
                 .setAttributes(attributes);
-        // TODO: Dlaczego nie działa saveAndFlush razem z Setem
         ProductEntity productUpdated = productRepository.saveAndFlush(product);
-        // attributes.forEach(attributeRepository::saveAndFlush);
         return ProductMapper.map(productUpdated, null);
     }
 

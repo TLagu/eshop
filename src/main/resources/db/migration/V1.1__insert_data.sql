@@ -15,6 +15,18 @@ INSERT INTO category (id, created_by, updated_by, status, name, description, par
     );
 COMMIT;
 ---------------------------------------------
+-- category_attribute
+---------------------------------------------
+INSERT INTO category_attribute (id, created_by, updated_by, status, category_id, name) (
+    SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Pojemność modułu' FROM category WHERE name = 'RAM' UNION
+    SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Ilość modułów' FROM category WHERE name = 'RAM' UNION
+    SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Całkowita pojemność' FROM category WHERE name = 'RAM' UNION
+    SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Częstotliwość pracy' FROM category WHERE name = 'RAM' UNION
+    SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Typ gniazda' FROM product WHERE model = 'CPU' UNION
+    SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Ilość rdzeni' FROM product WHERE model = 'CPU'
+);
+COMMIT;
+---------------------------------------------
 -- product
 ---------------------------------------------
 INSERT INTO product (id, created_by, updated_by, status, uuid, model, description, category_id, price, path, code)

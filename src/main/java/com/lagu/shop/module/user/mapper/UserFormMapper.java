@@ -9,11 +9,21 @@ import java.util.UUID;
 
 public class UserFormMapper {
 
-    public static UserEntity map(UserForm form) {
+    public static UserEntity map(UserForm userForm, UserRole userRole) {
         return new UserEntity()
                 .setStatus(Status.ACTIVE)
                 .setUuid(UUID.randomUUID().toString())
-                .setRole(UserRole.USER);
+                .setEmail(userForm.getEmail())
+                .setFirstName(userForm.getFirstName())
+                .setLastName(userForm.getLastName())
+                .setRole(userRole)
+                .setLongitude(userForm.getLongitude())
+                .setLatitude(userForm.getLatitude())
+                .setCountry(userForm.getCountry())
+                .setCity(userForm.getCity())
+                .setPostCode(userForm.getPostCode())
+                .setPost(userForm.getPost())
+                .setStreet(userForm.getStreet());
     }
 
 }

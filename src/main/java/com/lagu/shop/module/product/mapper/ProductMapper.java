@@ -15,7 +15,7 @@ public class ProductMapper {
                 .setUuid(entity.getUuid())
                 .setModel(entity.getModel())
                 .setDescription(entity.getDescription())
-                .setCategory(CategoryMapper.map(entity.getCategory()))
+                .setCategory(CategoryMapper.map(entity.getCategory(), null))
                 .setPrice(entity.getPrice())
                 .setPath(entity.getPath())
                 .setCode(entity.getCode());

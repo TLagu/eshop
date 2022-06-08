@@ -27,6 +27,19 @@
                     </select>
                 </li>
             </ul>
+            <ul class="user_info" th:each="template, i : *{templates}">
+                <li class="single_field">
+                    <label><span th:text="'Parametr: ' + ${i.index}"> ... </span>:</label>
+                    <input type="hidden" name="id" th:field="*{templates[__${i.index}__].id}">
+                    <input type="text" name="name" th:field="*{templates[__${i.index}__].name}">
+                    <a th:href="'/admin/category/' + ${categoryForm.id} + '/template/' + ${template.id} + '/delete'"><i class="fa fa-times fa-delete fa-action">&nbsp;</i></a>
+                </li>
+            </ul>
+            <ul class="user_info">
+                <li class="single_field">
+                    <a th:href="'/admin/category/' + ${categoryForm.id} + '/template/add'"><i class="fa fa-plus fa-action">Dodaj parametr</i></a>
+                </li>
+            </ul>
             <button class="btn btn-default check_out" type="submit">Zapisz</button>
             <input type="hidden" name="id" th:value="*{id}">
         </div>

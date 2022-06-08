@@ -4,6 +4,7 @@ import com.lagu.shop.core.pagination.MenuNavigator;
 import com.lagu.shop.module.product.dto.CategoryDto;
 import com.lagu.shop.module.product.dto.CategoryForm;
 import com.lagu.shop.module.product.service.CategoryService;
+import com.lagu.shop.module.product.service.TemplateService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,9 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminCategoryWebController {
 
     private final CategoryService service;
+    private final TemplateService templateService;
 
-    public AdminCategoryWebController(CategoryService service) {
+    public AdminCategoryWebController(CategoryService service, TemplateService templateService) {
         this.service = service;
+        this.templateService = templateService;
     }
 
     @GetMapping({"/admin/category"})
@@ -68,6 +71,12 @@ public class AdminCategoryWebController {
     public String deletePost(@PathVariable Long id) {
         service.delete(id);
         return "redirect:/admin/category";
+    }
+
+    @GetMapping(value = "/admin/category/{cid}/template/{tid}/delete")
+    public String deleteTemplatePost(@PathVariable Long cid, @PathVariable Long tid) {
+        templateService.delete(cid, tid);
+        return "redirect:/admin/category/" + cid + "/edit";
     }
 
     private Model setCommonAttributes(HttpServletRequest request, Model model) {

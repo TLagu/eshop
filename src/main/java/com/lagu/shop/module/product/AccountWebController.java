@@ -1,8 +1,10 @@
 package com.lagu.shop.module.product;
 
-import com.lagu.shop.core.pagination.MenuNavigator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lagu.shop.module.product.dto.OrderDto;
+import com.lagu.shop.module.product.service.ForecastService;
 import com.lagu.shop.module.product.service.OrderService;
+import com.lagu.shop.module.user.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,15 +12,33 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
 public class AccountWebController {
 
     private final OrderService service;
+    private final HttpSession httpSession;
+    private final UserService userService;
+    private final ForecastService forecastService;
+    private final ObjectMapper objectMapper;
 
-    public AccountWebController(OrderService service) {
+    String uri = "/order";
+    boolean isLogged = true;
+
+    public AccountWebController(
+            OrderService service,
+            HttpSession httpSession,
+            UserService userService,
+            ForecastService forecastService,
+            ObjectMapper objectMapper
+    ) {
         this.service = service;
+        this.httpSession = httpSession;
+        this.userService = userService;
+        this.forecastService = forecastService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping({"/order"})
@@ -29,8 +49,7 @@ public class AccountWebController {
     ) {
         String uri = request.getRequestURI();
         List<OrderDto> orders = service.getUserOrders(authentication);
-        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, true));
-        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, true));
+        setCommonModelSettings(model, authentication);
         model.addAttribute("orders", orders);
         return "shop/orders";
     }
@@ -44,10 +63,14 @@ public class AccountWebController {
     ) {
         String uri = request.getRequestURI();
         OrderDto order = service.getOrderByUuid(authentication, uuid);
-        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, true));
-        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, true));
+        setCommonModelSettings(model, authentication);
         model.addAttribute("order", order);
         return "shop/order";
+    }
+
+    private void setCommonModelSettings(Model model, Authentication authentication) {
+        ControllerTools.setCommonModelSettings(model, authentication, httpSession, userService,
+                objectMapper, forecastService, isLogged, uri);
     }
 
 }

@@ -1,12 +1,14 @@
 package com.lagu.shop.module.product;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lagu.shop.core.pagination.*;
-import com.lagu.shop.module.product.dto.CategoryDto;
 import com.lagu.shop.module.product.dto.ProductDto;
 import com.lagu.shop.module.product.dto.PageSetup;
 import com.lagu.shop.module.product.entity.CategoryEntity;
 import com.lagu.shop.module.product.service.CategoryService;
+import com.lagu.shop.module.product.service.ForecastService;
 import com.lagu.shop.module.product.service.ProductService;
+import com.lagu.shop.module.user.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +32,9 @@ public class ProductWebController {
     private final CategoryService categoryService;
     private final CompareWebController compareWebController;
     private final WishlistWebController wishlistWebController;
+    private final UserService userService;
+    private final ForecastService forecastService;
+    private final ObjectMapper objectMapper;
 
     String uri = "/shop";
     boolean isLogged = false;
@@ -40,7 +45,10 @@ public class ProductWebController {
             CartWebController cartWebController,
             CategoryService categoryService,
             CompareWebController compareWebController,
-            WishlistWebController wishlistWebController
+            WishlistWebController wishlistWebController,
+            UserService userService,
+            ForecastService forecastService,
+            ObjectMapper objectMapper
     ) {
         this.service = service;
         this.httpSession = httpSession;
@@ -48,6 +56,9 @@ public class ProductWebController {
         this.categoryService = categoryService;
         this.compareWebController = compareWebController;
         this.wishlistWebController = wishlistWebController;
+        this.userService = userService;
+        this.forecastService = forecastService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping({"/", "/home"})
@@ -59,8 +70,7 @@ public class ProductWebController {
         setPageSetup(request, authentication);
         List<ProductDto> randomForSlider = service.getRandomForSlider();
         model.addAttribute("sliders", randomForSlider);
-        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
-        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
+        setCommonModelSettings(model, authentication);
         return "shop/index";
     }
 
@@ -99,10 +109,9 @@ public class ProductWebController {
         List<CategoryEntity> categories = categoryService.getMainCategoryWithSubcategories();
         model.addAttribute("products", products);
         model.addAttribute("pages", pageWrapper.getPageWrapper());
-        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
-        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
         model.addAttribute("pageSetup", new PageSetup(uri, isLogged));
         model.addAttribute("categories", categories);
+        setCommonModelSettings(model, authentication);
         return "shop/product";
     }
 
@@ -116,10 +125,9 @@ public class ProductWebController {
         setPageSetup(request, authentication);
         ProductDto product = service.getByUuid(uuid);
         List<CategoryEntity> categories = categoryService.getMainCategoryWithSubcategories();
-        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
-        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
         model.addAttribute("productDetails", product);
         model.addAttribute("categories", categories);
+        setCommonModelSettings(model, authentication);
         return "shop/product-details";
     }
 
@@ -132,10 +140,9 @@ public class ProductWebController {
         }
         List<CategoryEntity> categories = categoryService.getMainCategoryWithSubcategories();
         model.addAttribute("products", products);
-        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
-        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
         model.addAttribute("pageSetup", new PageSetup(uri, isLogged));
         model.addAttribute("categories", categories);
+        setCommonModelSettings(model, authentication);
         return "shop/product";
     }
 
@@ -144,4 +151,8 @@ public class ProductWebController {
         this.isLogged = ControllerTools.isLogged(authentication);
     }
 
+    private void setCommonModelSettings(Model model, Authentication authentication) {
+        ControllerTools.setCommonModelSettings(model, authentication, httpSession, userService,
+                objectMapper, forecastService, isLogged, uri);
+    }
 }

@@ -52,6 +52,9 @@ public class CategoryEntity {
     @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
     private Set<CategoryEntity> children;
 
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<TemplateEntity> templates;
+
     public Long getId() {
         return id;
     }
@@ -139,6 +142,15 @@ public class CategoryEntity {
 
     public CategoryEntity setChildren(Set<CategoryEntity> children) {
         this.children = children;
+        return this;
+    }
+
+    public Set<TemplateEntity> getTemplates() {
+        return templates;
+    }
+
+    public CategoryEntity setTemplates(Set<TemplateEntity> templates) {
+        this.templates = templates;
         return this;
     }
 }

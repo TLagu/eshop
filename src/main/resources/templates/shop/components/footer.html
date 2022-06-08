@@ -5,7 +5,11 @@
                     <div class="col-sm-2">
                         <div class="companyinfo">
                             <h2><span>e</span>-shopper</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
+                            <p>
+                                Temperatura: <span th:text="${forecast?.temperature}"> ... </span><br />
+                                Ciśnienie: <span th:text="${forecast?.pressure}"> ... </span><br />
+                                Wilgotność: <span th:text="${forecast?.humidity}"> ... </span>
+                            </p>
                         </div>
                     </div>
                     <div class="col-sm-7">

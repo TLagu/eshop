@@ -30,7 +30,7 @@ public class AdminUserWebController {
     }
 
     @GetMapping({"/admin/user"})
-    public String slider(
+    public String list(
             @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) Integer page,
             @RequestParam(value = "size", defaultValue = DEFAULT_SIZE) Integer size,
             Model model,

@@ -21,6 +21,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public UserDto getByEmail(String email) {
+        return UserMapper.map(userRepository.findByEmail(email));
+    }
+
     public ListResponse<UserDto> getAllPerPage(int page, int size) {
         Page<UserEntity> pageProduct = userRepository.findAll(PageRequest.of(page, size));
         return new ListResponse<>(
@@ -33,39 +37,44 @@ public class UserService {
     }
 
     public UserDto getByUuid(String uuid) {
-        UserEntity entity = userRepository.getByUuid(uuid);
-        return UserMapper.map(entity);
+        return UserMapper.map(userRepository.getByUuid(uuid));
     }
 
-    public void createOrUpdate(UserForm user) {
+    public UserDto createOrUpdate(UserForm user) {
         if (user.isNew()) {
-            create(user);
-        } else {
-            update(user.getUuid(), user);
+            return create(user);
         }
-    }
-
-    public UserDto create(UserForm user) {
-        UserEntity bookEntity = UserFormMapper.map(user);
-        UserEntity bookUpdate = userRepository.saveAndFlush(bookEntity);
-        return UserMapper.map(bookUpdate);
-    }
-
-    public UserDto update(String uuid, UserForm userForm) {
-        String role = userForm.getRole();
-        UserRole userRole = UserRole.valueOf(role);
-        UserEntity user = userRepository.getByUuid(uuid)
-                .setEmail(userForm.getEmail())
-                .setFirstName(userForm.getFirstName())
-                .setLastName(userForm.getLastName())
-                .setRole(userRole);
-        UserEntity userUpdated = userRepository.saveAndFlush(user);
-        return UserMapper.map(userUpdated);
+        return update(user.getUuid(), user);
     }
 
     public void delete(String uuid) {
         UserEntity entity = userRepository.getByUuid(uuid);
         userRepository.delete(entity);
+    }
+
+    private UserDto create(UserForm userForm) {
+        UserRole userRole = UserRole.valueOf(userForm.getRole());
+        UserEntity bookEntity = UserFormMapper.map(userForm, userRole);
+        UserEntity bookUpdate = userRepository.saveAndFlush(bookEntity);
+        return UserMapper.map(bookUpdate);
+    }
+
+    private UserDto update(String uuid, UserForm userForm) {
+        UserRole userRole = UserRole.valueOf(userForm.getRole());
+        UserEntity user = userRepository.getByUuid(uuid)
+                .setEmail(userForm.getEmail())
+                .setFirstName(userForm.getFirstName())
+                .setLastName(userForm.getLastName())
+                .setRole(userRole)
+                .setLongitude(userForm.getLongitude())
+                .setLatitude(userForm.getLatitude())
+                .setCountry(userForm.getCountry())
+                .setCity(userForm.getCity())
+                .setPostCode(userForm.getPostCode())
+                .setPost(userForm.getPost())
+                .setStreet(userForm.getStreet());
+        UserEntity userUpdated = userRepository.saveAndFlush(user);
+        return UserMapper.map(userUpdated);
     }
 
 }
