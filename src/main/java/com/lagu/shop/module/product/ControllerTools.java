@@ -1,10 +1,19 @@
 package com.lagu.shop.module.product;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lagu.shop.core.pagination.MenuNavigator;
+import com.lagu.shop.module.product.dto.Forecast;
 import com.lagu.shop.module.product.dto.ProductDto;
+import com.lagu.shop.module.product.service.ForecastService;
+import com.lagu.shop.module.user.dto.UserDto;
+import com.lagu.shop.module.user.repository.UserRepository;
+import com.lagu.shop.module.user.service.UserService;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Set;
@@ -65,6 +74,39 @@ public class ControllerTools {
 
     public static boolean isLogged(Authentication authentication) {
         return authentication != null && authentication.isAuthenticated();
+    }
+
+    public static void setCommonModelSettings(
+            Model model,
+            Authentication authentication,
+            HttpSession httpSession,
+            UserService userService,
+            ObjectMapper objectMapper,
+            ForecastService forecastService,
+            boolean isLogged,
+            String uri
+    ) {
+        if (isLogged) {
+            Double temperature = null;
+            Integer pressure = null;
+            Integer humidity = null;
+            Forecast forecast = new Forecast();
+            try {
+                temperature = Double.parseDouble(httpSession.getAttribute("temperature").toString());
+                pressure = Integer.parseInt(httpSession.getAttribute("pressure").toString());
+                humidity = Integer.parseInt(httpSession.getAttribute("humidity").toString());
+                forecast = new Forecast(temperature, pressure, humidity);
+            } catch (Exception e) {
+                // ignore
+            }
+            if (temperature == null || pressure == null || humidity == null) {
+                UserDto user = userService.getByEmail(authentication.getName());
+                forecast = forecastService.getForecast(objectMapper, user.getLatitude(), user.getLongitude());
+            }
+            model.addAttribute("forecast", forecast);
+        }
+        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
+        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
     }
 
 }

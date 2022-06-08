@@ -1,14 +1,14 @@
 package com.lagu.shop.module.product.dto;
 
+import java.util.Set;
+
 public class CategoryDto {
 
     private Long id;
-
     private String name;
-
     private String description;
-
     private CategoryDto parent;
+    private Set<TemplateDto> templates;
 
     public Long getId() {
         return id;
@@ -43,6 +43,15 @@ public class CategoryDto {
 
     public CategoryDto setParent(CategoryDto parent) {
         this.parent = parent;
+        return this;
+    }
+
+    public Set<TemplateDto> getTemplates() {
+        return templates;
+    }
+
+    public CategoryDto setTemplates(Set<TemplateDto> templates) {
+        this.templates = templates;
         return this;
     }
 

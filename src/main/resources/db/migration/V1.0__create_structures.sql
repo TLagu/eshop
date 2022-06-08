@@ -49,6 +49,28 @@ CREATE SEQUENCE product_id_seq
     MAXVALUE 9223372036854775807
     CACHE 1;
 ---------------------------------------------
+-- category_attribute
+---------------------------------------------
+DROP TABLE IF EXISTS category_attribute CASCADE;
+CREATE TABLE category_attribute (
+    id bigint NOT NULL,
+    created_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int,
+    updated_on timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_by int,
+    status character varying(25),
+    category_id bigint,
+    name character varying(200),
+    CONSTRAINT category_attribute_pkey PRIMARY KEY (id)
+);
+DROP SEQUENCE IF EXISTS category_attribute_id_seq;
+CREATE SEQUENCE category_attribute_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+---------------------------------------------
 -- category
 ---------------------------------------------
 DROP TABLE IF EXISTS category CASCADE;

@@ -12,6 +12,13 @@ CREATE TABLE "user" (
     first_name character varying(20) NOT NULL,
     last_name character varying(20) NOT NULL,
     role character varying(20) NOT NULL DEFAULT 'USER',
+    longitude numeric(8, 5),
+    latitude numeric(8, 5),
+    country character varying(100),
+    city character varying(100),
+    post_code character varying(6),
+    post character varying(100),
+    street character varying(200),
     CONSTRAINT user_pkey PRIMARY KEY (id)
 );
 

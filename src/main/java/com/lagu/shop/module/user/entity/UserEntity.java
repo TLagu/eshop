@@ -58,6 +58,27 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "post_code")
+    private String postCode;
+
+    @Column(name = "post")
+    private String post;
+
+    @Column(name = "street")
+    private String street;
+
     public Long getId() {
         return id;
     }
@@ -146,4 +167,66 @@ public class UserEntity {
         return this;
     }
 
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public UserEntity setLongitude(Double longitude) {
+        this.longitude = longitude;
+        return this;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public UserEntity setLatitude(Double latitude) {
+        this.latitude = latitude;
+        return this;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public UserEntity setCountry(String country) {
+        this.country = country;
+        return this;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public UserEntity setCity(String city) {
+        this.city = city;
+        return this;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public UserEntity setPostCode(String postCode) {
+        this.postCode = postCode;
+        return this;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public UserEntity setPost(String post) {
+        this.post = post;
+        return this;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public UserEntity setStreet(String street) {
+        this.street = street;
+        return this;
+    }
 }

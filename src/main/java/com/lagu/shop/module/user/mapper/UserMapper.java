@@ -18,7 +18,14 @@ public class UserMapper {
                 .setEmail(entity.getEmail())
                 .setFirstName(entity.getFirstName())
                 .setLastName(entity.getLastName())
-                .setRole(entity.getRole());
+                .setRole(entity.getRole())
+                .setLongitude(entity.getLongitude())
+                .setLatitude(entity.getLatitude())
+                .setCountry(entity.getCountry())
+                .setCity(entity.getCity())
+                .setPostCode(entity.getPostCode())
+                .setPost(entity.getPost())
+                .setStreet(entity.getStreet());
     }
 
     public static List<UserDto> map(List<UserEntity> entities) {

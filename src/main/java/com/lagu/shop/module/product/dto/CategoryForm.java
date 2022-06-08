@@ -1,14 +1,14 @@
 package com.lagu.shop.module.product.dto;
 
+import java.util.List;
+
 public class CategoryForm {
 
     private Long id = 0L;
-
     private String name;
-
     private String description;
-
     private Long parent;
+    private List<TemplateForm> templates;
 
     public Long getId() {
         return id;
@@ -43,6 +43,15 @@ public class CategoryForm {
 
     public CategoryForm setParent(Long parent) {
         this.parent = parent;
+        return this;
+    }
+
+    public List<TemplateForm> getTemplates() {
+        return templates;
+    }
+
+    public CategoryForm setTemplates(List<TemplateForm> templates) {
+        this.templates = templates;
         return this;
     }
 

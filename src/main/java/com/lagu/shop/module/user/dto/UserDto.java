@@ -12,6 +12,13 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private UserRole role = UserRole.USER;
+    private Double longitude;
+    private Double latitude;
+    private String country;
+    private String city;
+    private String postCode;
+    private String post;
+    private String street;
 
     public Status getStatus() {
         return status;
@@ -71,8 +78,67 @@ public class UserDto {
         return this;
     }
 
-    public boolean isNew() {
-        return uuid == null || uuid.isBlank();
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public UserDto setLongitude(Double longitude) {
+        this.longitude = longitude;
+        return this;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public UserDto setLatitude(Double latitude) {
+        this.latitude = latitude;
+        return this;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public UserDto setCountry(String country) {
+        this.country = country;
+        return this;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public UserDto setCity(String city) {
+        this.city = city;
+        return this;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public UserDto setPostCode(String postCode) {
+        this.postCode = postCode;
+        return this;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public UserDto setPost(String post) {
+        this.post = post;
+        return this;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public UserDto setStreet(String street) {
+        this.street = street;
+        return this;
     }
 
 }
