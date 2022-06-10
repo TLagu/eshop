@@ -19,7 +19,7 @@ public class CategoryMapper {
                 .setName(entity.getName())
                 .setDescription(entity.getDescription())
                 .setParent(CategoryMapper.map(entity.getParent(), null));
-        if (template == null) {
+        if (template == null && entity.getTemplates() != null) {
             return result.setTemplates(entity.getTemplates().stream()
                     .map(CategoryTemplateMapper::map)
                     .collect(Collectors.toSet()));

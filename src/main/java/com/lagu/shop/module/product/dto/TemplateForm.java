@@ -1,10 +1,13 @@
 package com.lagu.shop.module.product.dto;
 
+import javax.validation.constraints.Size;
+
 public class TemplateForm {
 
     private Long id;
     private String status;
     private Long category;
+    @Size(min = 3, max = 200, message = "Długość powinny być pomiędzy 3 i 200")
     private String name;
 
     public Long getId() {

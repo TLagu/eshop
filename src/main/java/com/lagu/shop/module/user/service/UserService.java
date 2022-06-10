@@ -10,6 +10,7 @@ import com.lagu.shop.module.user.mapper.UserMapper;
 import com.lagu.shop.module.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,11 +41,8 @@ public class UserService {
         return UserMapper.map(userRepository.getByUuid(uuid));
     }
 
-    public UserDto createOrUpdate(UserForm user) {
-        if (user.isNew()) {
-            return create(user);
-        }
-        return update(user.getUuid(), user);
+    public UserDto createOrUpdate(UserForm user, BCryptPasswordEncoder encoder) {
+        return (user.isNew()) ? create(user, encoder) : update(user.getUuid(), user, encoder);
     }
 
     public void delete(String uuid) {
@@ -52,14 +50,14 @@ public class UserService {
         userRepository.delete(entity);
     }
 
-    private UserDto create(UserForm userForm) {
+    private UserDto create(UserForm userForm, BCryptPasswordEncoder encoder) {
         UserRole userRole = UserRole.valueOf(userForm.getRole());
-        UserEntity bookEntity = UserFormMapper.map(userForm, userRole);
+        UserEntity bookEntity = UserFormMapper.map(userForm, userRole, encoder);
         UserEntity bookUpdate = userRepository.saveAndFlush(bookEntity);
         return UserMapper.map(bookUpdate);
     }
 
-    private UserDto update(String uuid, UserForm userForm) {
+    private UserDto update(String uuid, UserForm userForm, BCryptPasswordEncoder encoder) {
         UserRole userRole = UserRole.valueOf(userForm.getRole());
         UserEntity user = userRepository.getByUuid(uuid)
                 .setEmail(userForm.getEmail())

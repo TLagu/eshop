@@ -1,6 +1,7 @@
 package com.lagu.shop.module.product.service;
 
 import com.lagu.shop.module.product.entity.CategoryEntity;
+import com.lagu.shop.module.product.entity.Status;
 import com.lagu.shop.module.product.entity.TemplateEntity;
 import com.lagu.shop.module.product.repository.CategoryRepository;
 import com.lagu.shop.module.product.repository.TemplateRepository;
@@ -22,5 +23,16 @@ public class TemplateService {
                 .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono kategorii!!!"));
         TemplateEntity template = templateRepository.findByIdAndCategory(tid, category);
         templateRepository.delete(template);
+    }
+
+    public void addTemplate(Long cid) {
+        CategoryEntity category = categoryRepository.findById(cid)
+                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono kategorii!!!"));
+        TemplateEntity template = new TemplateEntity()
+                .setCategory(category)
+                .setStatus(Status.ACTIVE)
+                .setCreatedBy(1L)
+                .setUpdatedBy(1L);
+        templateRepository.saveAndFlush(template);
     }
 }

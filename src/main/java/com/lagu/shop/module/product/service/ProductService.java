@@ -12,11 +12,10 @@ import com.lagu.shop.module.product.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,8 +33,12 @@ public class ProductService {
         this.attributeRepository = attributeRepository;
     }
 
-    public ProductDto getByUuid(String uuid) {
+    public ProductDto getDtoByUuid(String uuid) {
         return ProductMapper.map(productRepository.getByUuid(uuid), null);
+    }
+
+    public ProductForm getFormByUuid(String uuid) {
+        return ProductFormMapper.map(productRepository.getByUuid(uuid));
     }
 
     public List<ProductDto> getAll() {
@@ -73,15 +76,17 @@ public class ProductService {
         );
     }
 
-    public void createOrUpdate(ProductForm product) {
-        if (product.isNew()) {
-            create(product);
-        } else {
-            update(product.getUuid(), product);
-        }
+    public ProductEntity createOrUpdate(ProductForm product, MultipartFile multipartFile) throws IOException {
+        ProductEntity productEntity = (product.isNew()) ? create(product) : update(product.getUuid(), product);
+        String fileName = "foto.jpg";
+        String uploadDir = "/img/" + productEntity.getId() + "/";
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        productEntity.setPath(uploadDir + fileName);
+        productRepository.saveAndFlush(productEntity);
+        return productEntity;
     }
 
-    public ProductDto create(ProductForm productForm) {
+    public ProductEntity create(ProductForm productForm) {
         CategoryEntity category = categoryRepository.findById(productForm.getCategory())
                 .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono wybranej kategorii!!!"));
         ProductEntity product = ProductFormMapper.map(productForm, category, null);
@@ -90,31 +95,53 @@ public class ProductService {
             attributes = productForm.getAttributes().stream()
                     .map(a -> AttributeFormMapper.map(a, product))
                     .collect(Collectors.toSet());
+        } else if (category.getTemplates() != null) {
+            attributes = category.getTemplates().stream()
+                    .map(t -> new AttributeEntity()
+                            .setCreatedBy(1L)
+                            .setProduct(product)
+                            .setName(t.getName())
+                    )
+                    .collect(Collectors.toSet());
         }
         product.setAttributes(attributes);
-        ProductEntity productUpdate = productRepository.saveAndFlush(product);
-        return ProductMapper.map(productUpdate, null);
+        return productRepository.saveAndFlush(product);
     }
 
-    public ProductDto update(String uuid, ProductForm productForm) {
+    public ProductEntity update(String uuid, ProductForm productForm) {
         CategoryEntity category = categoryRepository.findById(productForm.getCategory())
                 .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono wybranej kategorii!!!"));
-        Set<AttributeEntity> attributes = productForm.getAttributes().stream()
-                .map(a -> attributeRepository.findById(a.getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono atrybutu do aktualizacji!!!"))
-                        .setDescription(a.getDescription())
-                )
-                .collect(Collectors.toSet());
-        ProductEntity product = productRepository.findByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono produktu do aktualizacji!!!"))
-                .setModel(productForm.getModel())
+        final ProductEntity product = productRepository.findByUuid(productForm.getUuid())
+                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono produktu do aktualizacji!!!"));
+        Set<AttributeEntity> attributes = null;
+        if (Objects.equals(product.getCategory().getId(), productForm.getCategory())) {
+            if (productForm.getAttributes() != null && productForm.getAttributes().size() > 0) {
+                attributes = productForm.getAttributes().stream()
+                        .map(a -> attributeRepository.findById(a.getId())
+                                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono atrybutu do aktualizacji!!!"))
+                                .setDescription(a.getDescription())
+                        )
+                        .collect(Collectors.toSet());
+            }
+        } else if (category.getTemplates() != null) {
+            attributes = category.getTemplates().stream()
+                    .map(t -> new AttributeEntity()
+                            .setCreatedBy(1L)
+                            .setProduct(product)
+                            .setName(t.getName())
+                    )
+                    .collect(Collectors.toSet());
+            if (product.getAttributes() != null) {
+                product.getAttributes().forEach(a -> attributeRepository.deleteById(a.getId()));
+            }
+        }
+        product.setModel(productForm.getModel())
                 .setDescription(productForm.getDescription())
                 .setCategory(category)
                 .setPrice(productForm.getPrice())
                 .setCode(productForm.getCode())
                 .setAttributes(attributes);
-        ProductEntity productUpdated = productRepository.saveAndFlush(product);
-        return ProductMapper.map(productUpdated, null);
+        return productRepository.saveAndFlush(product);
     }
 
     public void delete(String uuid) {

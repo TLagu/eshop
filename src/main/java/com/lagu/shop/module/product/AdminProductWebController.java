@@ -3,16 +3,20 @@ package com.lagu.shop.module.product;
 import com.lagu.shop.core.pagination.ListResponse;
 import com.lagu.shop.core.pagination.MenuNavigator;
 import com.lagu.shop.core.pagination.PageWrapper;
-import com.lagu.shop.module.product.dto.AttributeDto;
 import com.lagu.shop.module.product.dto.ProductDto;
 import com.lagu.shop.module.product.dto.ProductForm;
+import com.lagu.shop.module.product.entity.ProductEntity;
 import com.lagu.shop.module.product.service.CategoryService;
 import com.lagu.shop.module.product.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,14 +53,14 @@ public class AdminProductWebController {
     @GetMapping("/admin/product/{uuid}")
     public String details(@PathVariable("uuid") String uuid, Model model, HttpServletRequest request) {
         setCommonAttributes(request, model);
-        model.addAttribute("product", service.getByUuid(uuid));
+        model.addAttribute("product", service.getDtoByUuid(uuid));
         return "shop/admin-product-details";
     }
 
     @GetMapping("/admin/product-form")
     public String form(Model model, HttpServletRequest request) {
         setCommonAttributes(request, model);
-        model.addAttribute("productForm", new ProductDto());
+        model.addAttribute("productForm", new ProductForm());
         model.addAttribute("categories", categoryService.getAll());
         return "shop/admin-product-form";
     }
@@ -64,15 +68,23 @@ public class AdminProductWebController {
     @GetMapping("/admin/product/{uuid}/edit")
     public String edit(@PathVariable("uuid") String uuid, Model model, HttpServletRequest request) {
         setCommonAttributes(request, model);
-        model.addAttribute("productForm", service.getByUuid(uuid));
+        model.addAttribute("productForm", service.getFormByUuid(uuid));
         model.addAttribute("categories", categoryService.getAll());
         return "shop/admin-product-form";
     }
 
     @PostMapping("/admin/product")
-    public String createOrUpdate(@ModelAttribute(name = "productForm") ProductForm product) {
-        service.createOrUpdate(product);
-        return "redirect:/admin/product";
+    public String createOrUpdate(@Valid @ModelAttribute("productForm") ProductForm productForm,
+                                 BindingResult result, Model model, HttpServletRequest request,
+                                 @RequestParam("image") MultipartFile multipartFile
+    ) throws IOException {
+        if (result.hasErrors()) {
+            setCommonAttributes(request, model);
+            model.addAttribute("categories", categoryService.getAll());
+            return "shop/admin-product-form";
+        }
+        ProductEntity productEntity = service.createOrUpdate(productForm, multipartFile);
+        return "redirect:/admin/product/" + productEntity.getUuid() + "/edit";
     }
 
     @GetMapping("/admin/product/{uuid}/delete")
@@ -87,11 +99,10 @@ public class AdminProductWebController {
         return "redirect:/admin/product";
     }
 
-    private Model setCommonAttributes(HttpServletRequest request, Model model) {
+    private void setCommonAttributes(HttpServletRequest request, Model model) {
         String uri = request.getRequestURI();
         model.addAttribute("bottomMenus", new MenuNavigator().getAdminBottomMenu(uri));
         model.addAttribute("middleMenus", new MenuNavigator().getAdminMiddleMenu(uri));
-        return model;
     }
 
 }

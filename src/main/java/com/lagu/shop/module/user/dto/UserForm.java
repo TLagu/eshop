@@ -1,20 +1,33 @@
 package com.lagu.shop.module.user.dto;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class UserForm {
 
     private String status;
     private String uuid;
+    @Size(min = 6, max = 45, message = "Długość powinny być pomiędzy 6 i 45")
+    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"
+            , message = "Niepoprawny format maila")
     private String email;
     private String password;
+    @Size(min = 3, max = 20, message = "Długość powinny być pomiędzy 3 i 20")
     private String firstName;
+    @Size(min = 3, max = 20, message = "Długość powinny być pomiędzy 3 i 20")
     private String lastName;
     private String role;
     private Double longitude;
     private Double latitude;
+    @Size(min = 3, max = 100, message = "Długość powinny być pomiędzy 3 i 100")
     private String country;
+    @Size(min = 3, max = 100, message = "Długość powinny być pomiędzy 3 i 100")
     private String city;
+    @Pattern(regexp = "^\\d{2}-\\d{3}$", message = "Niepoprawny format kodu pocztowego (00-000)")
     private String postCode;
+    @Size(min = 3, max = 100, message = "Długość powinny być pomiędzy 3 i 100")
     private String post;
+    @Size(min = 3, max = 200, message = "Długość powinny być pomiędzy 3 i 200")
     private String street;
 
     public String getStatus() {

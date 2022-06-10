@@ -19,7 +19,7 @@ public class ProductApiController {
         if (guid == null) {
             return null;
         }
-        return service.getByUuid(guid);
+        return service.getDtoByUuid(guid);
     }
 
     @GetMapping("/api/shop")
