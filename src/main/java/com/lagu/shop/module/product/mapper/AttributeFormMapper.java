@@ -17,4 +17,12 @@ public class AttributeFormMapper {
                 .setDescription(form.getDescription());
     }
 
+    public static AttributeForm map (AttributeEntity entity) {
+        return new AttributeForm()
+                .setId(entity.getId())
+                .setProduct(entity.getProduct().getId())
+                .setName(entity.getName())
+                .setDescription(entity.getDescription());
+    }
+
 }

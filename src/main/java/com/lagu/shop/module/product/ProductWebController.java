@@ -123,7 +123,7 @@ public class ProductWebController {
             Authentication authentication
     ) {
         setPageSetup(request, authentication);
-        ProductDto product = service.getByUuid(uuid);
+        ProductDto product = service.getDtoByUuid(uuid);
         List<CategoryEntity> categories = categoryService.getMainCategoryWithSubcategories();
         model.addAttribute("productDetails", product);
         model.addAttribute("categories", categories);

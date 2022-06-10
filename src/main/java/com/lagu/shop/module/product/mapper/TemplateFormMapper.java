@@ -5,7 +5,7 @@ import com.lagu.shop.module.product.entity.CategoryEntity;
 import com.lagu.shop.module.product.entity.TemplateEntity;
 import com.lagu.shop.module.product.entity.Status;
 
-public class CategoryTemplateFormMapper {
+public class TemplateFormMapper {
 
     public static TemplateEntity map(TemplateForm form, CategoryEntity category) {
         return new TemplateEntity()
@@ -13,6 +13,13 @@ public class CategoryTemplateFormMapper {
                 .setName(form.getName())
                 .setCategory(category);
 
+    }
+
+    public static TemplateForm map(TemplateEntity entity) {
+        return new TemplateForm()
+                .setId(entity.getId())
+                .setName(entity.getName())
+                .setCategory((entity.getCategory() == null) ? null : entity.getCategory().getId());
     }
 
 }

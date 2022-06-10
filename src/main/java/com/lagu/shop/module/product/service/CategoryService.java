@@ -2,8 +2,6 @@ package com.lagu.shop.module.product.service;
 
 import com.lagu.shop.module.product.dto.CategoryDto;
 import com.lagu.shop.module.product.dto.CategoryForm;
-import com.lagu.shop.module.product.dto.TemplateForm;
-import com.lagu.shop.module.product.entity.AttributeEntity;
 import com.lagu.shop.module.product.entity.CategoryEntity;
 import com.lagu.shop.module.product.entity.TemplateEntity;
 import com.lagu.shop.module.product.mapper.CategoryFormMapper;
@@ -36,9 +34,14 @@ public class CategoryService {
         return categories.stream().map(c -> CategoryMapper.map(c, null)).collect(Collectors.toList());
     }
 
-    public CategoryDto getById(Long id) {
+    public CategoryDto getDtoById(Long id) {
         Optional<CategoryEntity> entity = categoryRepository.findById(id);
         return CategoryMapper.map(entity.orElse(null), null);
+    }
+
+    public CategoryForm getFormById(Long id) {
+        Optional<CategoryEntity> entity = categoryRepository.findById(id);
+        return (entity.isEmpty()) ? null : CategoryFormMapper.map(entity.get());
     }
 
     public List<CategoryDto> getByParentIsNull() {
@@ -51,38 +54,38 @@ public class CategoryService {
         return categories.stream().map(c -> CategoryMapper.map(c, null)).collect(Collectors.toList());
     }
 
-    public void createOrUpdate(CategoryForm category) {
+    public CategoryEntity createOrUpdate(CategoryForm category) {
         if (category.isNew()) {
-            create(category);
-        } else {
-            update(category.getId(), category);
+            return create(category);
         }
+        return update(category.getId(), category);
     }
 
-    public CategoryDto create(CategoryForm categoryForm) {
+    public CategoryEntity create(CategoryForm categoryForm) {
         Optional<CategoryEntity> parent = categoryRepository.findById(categoryForm.getParent());
         Set<TemplateEntity> templates = new HashSet<>();
         CategoryEntity categoryEntity = CategoryFormMapper.map(categoryForm, parent.orElse(null), templates);
-        CategoryEntity categoryUpdate = categoryRepository.saveAndFlush(categoryEntity);
-        return CategoryMapper.map(categoryUpdate, null);
+        return categoryRepository.saveAndFlush(categoryEntity);
     }
 
-    public CategoryDto update(Long id, CategoryForm categoryForm) {
+    public CategoryEntity update(Long id, CategoryForm categoryForm) {
         CategoryEntity parent = categoryRepository.findById(categoryForm.getParent()).orElse(null);
-        Set<TemplateEntity> templates = categoryForm.getTemplates().stream()
-                .map(c -> templateRepository.findById(c.getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono parametru do aktualizacji!!!"))
-                        .setName(c.getName())
-                )
-                .collect(Collectors.toSet());
+        Set<TemplateEntity> templates = null;
+        if (categoryForm.getTemplates() != null && categoryForm.getTemplates().size() > 0) {
+            templates = categoryForm.getTemplates().stream()
+                    .map(c -> templateRepository.findById(c.getId())
+                            .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono parametru do aktualizacji!!!"))
+                            .setName(c.getName())
+                    )
+                    .collect(Collectors.toSet());
+        }
         CategoryEntity category = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono kategorii do aktualizacji!!!"))
                 .setName(categoryForm.getName())
                 .setDescription(categoryForm.getDescription())
                 .setParent(parent)
                 .setTemplates(templates);
-        CategoryEntity categoryUpdated = categoryRepository.saveAndFlush(category);
-        return CategoryMapper.map(categoryUpdated, null);
+        return categoryRepository.saveAndFlush(category);
     }
 
     public void delete(Long id) {

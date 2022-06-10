@@ -7,11 +7,14 @@ import com.lagu.shop.module.user.dto.UserDto;
 import com.lagu.shop.module.user.dto.UserForm;
 import com.lagu.shop.module.user.entity.UserRole;
 import com.lagu.shop.module.user.service.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,9 +27,11 @@ public class AdminUserWebController {
     public final static String DEFAULT_SIZE = "25";
 
     private final UserService service;
+    private final BCryptPasswordEncoder encoder;
 
-    public AdminUserWebController(UserService service) {
+    public AdminUserWebController(UserService service, BCryptPasswordEncoder encoder) {
         this.service = service;
+        this.encoder = encoder;
     }
 
     @GetMapping({"/admin/user"})
@@ -71,8 +76,15 @@ public class AdminUserWebController {
     }
 
     @PostMapping("/admin/user")
-    public String createOrUpdate(UserForm user) {
-        service.createOrUpdate(user);
+    public String createOrUpdate(@Valid UserForm userForm, BindingResult result, Model model,
+                                 HttpServletRequest request) {
+        if (result.hasErrors()) {
+            setCommonAttributes(request, model);
+            List<String> roles = Arrays.stream(UserRole.values()).map(Enum::toString).collect(Collectors.toList());
+            model.addAttribute("roles", roles);
+            return "shop/admin-user-form";
+        }
+        service.createOrUpdate(userForm, encoder);
         return "redirect:/admin/user";
     }
 
@@ -88,11 +100,10 @@ public class AdminUserWebController {
         return "redirect:/admin/user";
     }
 
-    private Model setCommonAttributes(HttpServletRequest request, Model model) {
+    private void setCommonAttributes(HttpServletRequest request, Model model) {
         String uri = request.getRequestURI();
         model.addAttribute("bottomMenus", new MenuNavigator().getAdminBottomMenu(uri));
         model.addAttribute("middleMenus", new MenuNavigator().getAdminMiddleMenu(uri));
-        return model;
     }
 
 }

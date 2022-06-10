@@ -1,16 +1,18 @@
 <div class="table-responsive cart_info" th:fragment="fragment">
-    <form action="/admin/category" th:object="${categoryForm}" method="post">
+    <form th:action="@{/admin/category}" th:object="${categoryForm}" method="post">
         <div class="chose_area">
             <ul class="user_info">
                 <li class="single_field">
                     <label>Nazwa kategorii:</label>
                     <input type="text" th:field="*{name}" placeholder="Nazwa kategorii...">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                 </li>
             </ul>
             <ul class="user_info">
                 <li class="single_field">
                     <label>Opis kategorii:</label>
                     <input type="text" th:field="*{description}" placeholder="Opis kategorii...">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
                 </li>
             </ul>
             <ul class="user_info">
@@ -22,7 +24,7 @@
                                 th:each="category : ${categories}"
                                 th:value="${category.id}"
                                 th:text="${category.name}"
-                                th:selected="*{parent?.id} == ${category.id}"
+                                th:selected="${categoryForm?.parent} == ${category.id}"
                         ></option>
                     </select>
                 </li>
@@ -41,6 +43,7 @@
                 </li>
             </ul>
             <button class="btn btn-default check_out" type="submit">Zapisz</button>
+            <a class="btn btn-default check_out"  href="/admin/category">Cancel</a>
             <input type="hidden" name="id" th:value="*{id}">
         </div>
     </form>

@@ -4,7 +4,8 @@
             <ul class="user_info">
                 <li class="single_field">
                     <label>E-mail:</label>
-                    <input type="text" th:field="${userForm.email}" placeholder="E-mail...">
+                    <input type="email" th:field="*{email}" placeholder="E-mail...">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                 </li>
             </ul>
             <ul class="user_info">
@@ -16,13 +17,15 @@
             <ul class="user_info">
                 <li class="single_field">
                     <label>Imię:</label>
-                    <input type="text" th:field="${userForm.firstName}" placeholder="Imię...">
+                    <input type="text" th:field="*{firstName}" placeholder="Imię...">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
                 </li>
             </ul>
             <ul class="user_info">
                 <li class="single_field">
                     <label>Nazwisko:</label>
-                    <input type="text" th:field="${userForm.lastName}" placeholder="Nazwisko...">
+                    <input type="text" th:field="*{lastName}" placeholder="Nazwisko...">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                 </li>
             </ul>
             <ul class="user_info">
@@ -41,47 +44,53 @@
             <ul class="user_info">
                 <li class="single_field">
                     <label>Długość geograficzna:</label>
-                    <input type="text" th:field="${userForm.longitude}" placeholder="Długość geograficzna...">
+                    <input type="text" th:field="*{longitude}" placeholder="Długość geograficzna...">
                 </li>
             </ul>
             <ul class="user_info">
                 <li class="single_field">
                     <label>Szerokość geograficzna:</label>
-                    <input type="text" th:field="${userForm.latitude}" placeholder="Szerokość geograficzna...">
+                    <input type="text" th:field="*{latitude}" placeholder="Szerokość geograficzna...">
                 </li>
             </ul>
             <ul class="user_info">
                 <li class="single_field">
                     <label>Kraj:</label>
-                    <input type="text" th:field="${userForm.country}" placeholder="Kraj...">
+                    <input type="text" th:field="*{country}" placeholder="Kraj...">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></div>
                 </li>
             </ul>
             <ul class="user_info">
                 <li class="single_field">
                     <label>Miejscowość:</label>
-                    <input type="text" th:field="${userForm.city}" placeholder="Miejscowość...">
+                    <input type="text" th:field="*{city}" placeholder="Miejscowość...">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
                 </li>
             </ul>
             <ul class="user_info">
                 <li class="single_field">
                     <label>Kod pocztowy:</label>
-                    <input type="text" th:field="${userForm.postCode}" placeholder="Kod pocztowy...">
+                    <input type="text" th:field="*{postCode}" placeholder="Kod pocztowy...">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}"></div>
                 </li>
             </ul>
             <ul class="user_info">
                 <li class="single_field">
                     <label>Poczta:</label>
-                    <input type="text" th:field="${userForm.post}" placeholder="Poczta...">
+                    <input type="text" th:field="*{post}" placeholder="Poczta...">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('post')}" th:errors="*{post}"></div>
                 </li>
             </ul>
             <ul class="user_info">
                 <li class="single_field">
                     <label>Ulica:</label>
-                    <input type="text" th:field="${userForm.street}" placeholder="Ulica...">
+                    <input type="text" th:field="*{street}" placeholder="Ulica...">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('street')}" th:errors="*{street}"></div>
                 </li>
             </ul>
             <button class="btn btn-default check_out" type="submit">Zapisz</button>
-            <input type="hidden" name="uuid" th:value="${userForm.uuid}">
+            <a class="btn btn-default check_out" href="/admin/user">Cancel</a>
+            <input type="hidden" name="uuid" th:value="*{uuid}">
         </div>
     </form>
 </div>

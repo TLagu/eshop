@@ -14,7 +14,6 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepo;
-
     private final BCryptPasswordEncoder encoder;
 
     public UserController(UserRepository userRepo, BCryptPasswordEncoder encoder) {

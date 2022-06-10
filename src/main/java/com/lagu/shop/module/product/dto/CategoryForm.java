@@ -1,11 +1,14 @@
 package com.lagu.shop.module.product.dto;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class CategoryForm {
 
     private Long id = 0L;
+    @Size(min = 3, max = 25, message = "Długość powinny być pomiędzy 3 i 25")
     private String name;
+    @Size(min = 3, max = 200, message = "Długość powinny być pomiędzy 3 i 200")
     private String description;
     private Long parent;
     private List<TemplateForm> templates;
