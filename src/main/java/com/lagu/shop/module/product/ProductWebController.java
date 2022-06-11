@@ -2,6 +2,7 @@ package com.lagu.shop.module.product;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lagu.shop.core.pagination.*;
+import com.lagu.shop.core.util.ControllerTools;
 import com.lagu.shop.module.product.dto.ProductDto;
 import com.lagu.shop.module.product.dto.PageSetup;
 import com.lagu.shop.module.product.entity.CategoryEntity;
@@ -30,8 +31,6 @@ public class ProductWebController {
     private final HttpSession httpSession;
     private final CartWebController cartWebController;
     private final CategoryService categoryService;
-    private final CompareWebController compareWebController;
-    private final WishlistWebController wishlistWebController;
     private final UserService userService;
     private final ForecastService forecastService;
     private final ObjectMapper objectMapper;
@@ -44,8 +43,6 @@ public class ProductWebController {
             HttpSession httpSession,
             CartWebController cartWebController,
             CategoryService categoryService,
-            CompareWebController compareWebController,
-            WishlistWebController wishlistWebController,
             UserService userService,
             ForecastService forecastService,
             ObjectMapper objectMapper
@@ -54,8 +51,6 @@ public class ProductWebController {
         this.httpSession = httpSession;
         this.cartWebController = cartWebController;
         this.categoryService = categoryService;
-        this.compareWebController = compareWebController;
-        this.wishlistWebController = wishlistWebController;
         this.userService = userService;
         this.forecastService = forecastService;
         this.objectMapper = objectMapper;
@@ -103,8 +98,6 @@ public class ProductWebController {
         List<ProductDto> products = allPerPage.getContent();
         if (isLogged) {
             products = cartWebController.setProductAsAdded(products, authentication);
-            products = compareWebController.setProductAsAdded(products, authentication);
-            products = wishlistWebController.setProductAsAdded(products, authentication);
         }
         List<CategoryEntity> categories = categoryService.getMainCategoryWithSubcategories();
         model.addAttribute("products", products);

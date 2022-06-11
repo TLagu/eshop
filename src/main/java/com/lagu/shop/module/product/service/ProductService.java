@@ -77,12 +77,14 @@ public class ProductService {
     }
 
     public ProductEntity createOrUpdate(ProductForm product, MultipartFile multipartFile) throws IOException {
-        ProductEntity productEntity = (product.isNew()) ? create(product) : update(product.getUuid(), product);
-        String fileName = "foto.jpg";
-        String uploadDir = "/img/" + productEntity.getId() + "/";
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-        productEntity.setPath(uploadDir + fileName);
-        productRepository.saveAndFlush(productEntity);
+        ProductEntity productEntity = (product.isNew()) ? create(product) : update(product);
+        if (!multipartFile.isEmpty()) {
+            String fileName = "foto.jpg";
+            String uploadDir = "/img/" + productEntity.getId() + "/";
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            productEntity.setPath(uploadDir + fileName);
+            productEntity = productRepository.saveAndFlush(productEntity);
+        }
         return productEntity;
     }
 
@@ -90,25 +92,33 @@ public class ProductService {
         CategoryEntity category = categoryRepository.findById(productForm.getCategory())
                 .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono wybranej kategorii!!!"));
         ProductEntity product = ProductFormMapper.map(productForm, category, null);
-        Set<AttributeEntity> attributes = new HashSet<>();
+        ProductEntity saved = productRepository.saveAndFlush(product);
+        Set<AttributeEntity> attributes = null;
         if (productForm.getAttributes() != null) {
-            attributes = productForm.getAttributes().stream()
-                    .map(a -> AttributeFormMapper.map(a, product))
-                    .collect(Collectors.toSet());
+            if (productForm.getAttributes() != null) {
+                attributes = productForm.getAttributes().stream()
+                        .map(a -> AttributeFormMapper.map(a, saved))
+                        .collect(Collectors.toSet());
+                attributeRepository.deleteAllByProduct(product);
+                attributeRepository.flush();
+            }
         } else if (category.getTemplates() != null) {
             attributes = category.getTemplates().stream()
                     .map(t -> new AttributeEntity()
                             .setCreatedBy(1L)
-                            .setProduct(product)
+                            .setProduct(saved)
                             .setName(t.getName())
                     )
                     .collect(Collectors.toSet());
         }
-        product.setAttributes(attributes);
-        return productRepository.saveAndFlush(product);
+        product.getAttributes().clear();
+        if (attributes != null) {
+            product.getAttributes().addAll(attributes);
+        }
+        return productRepository.saveAndFlush(saved);
     }
 
-    public ProductEntity update(String uuid, ProductForm productForm) {
+    public ProductEntity update(ProductForm productForm) {
         CategoryEntity category = categoryRepository.findById(productForm.getCategory())
                 .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono wybranej kategorii!!!"));
         final ProductEntity product = productRepository.findByUuid(productForm.getUuid())

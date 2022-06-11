@@ -79,6 +79,10 @@ public class UserEntity {
     @Column(name = "street")
     private String street;
 
+    @Column(name = "contact")
+    @Enumerated(EnumType.STRING)
+    private ContactType contact;
+
     public Long getId() {
         return id;
     }
@@ -229,4 +233,14 @@ public class UserEntity {
         this.street = street;
         return this;
     }
+
+    public ContactType getContact() {
+        return contact;
+    }
+
+    public UserEntity setContact(ContactType contact) {
+        this.contact = contact;
+        return this;
+    }
+
 }

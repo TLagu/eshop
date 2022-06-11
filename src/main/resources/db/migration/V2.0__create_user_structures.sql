@@ -19,6 +19,7 @@ CREATE TABLE "user" (
     post_code character varying(6),
     post character varying(100),
     street character varying(200),
+    contact character varying(20),
     CONSTRAINT user_pkey PRIMARY KEY (id)
 );
 

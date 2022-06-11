@@ -3,11 +3,12 @@ package com.lagu.shop.module.product.entity;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "order_details")
-public class OrderDetailsEntity {
+public class OrderDetailsEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_details_generator")

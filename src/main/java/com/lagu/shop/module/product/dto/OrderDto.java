@@ -3,25 +3,18 @@ package com.lagu.shop.module.product.dto;
 import com.lagu.shop.module.user.entity.UserEntity;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 public class OrderDto {
 
     private LocalDateTime createdOn;
-
     private String uuid;
-
     private UserEntity user;
-
     private String street;
-
     private String postCode;
-
     private String post;
-
     private Double total;
-
-    private List<OrderDetailsDto> orderDetails;
+    private Set<OrderDetailsDto> orderDetails;
 
     public String getUuid() {
         return uuid;
@@ -86,11 +79,11 @@ public class OrderDto {
         return this;
     }
 
-    public List<OrderDetailsDto> getOrderDetails() {
+    public Set<OrderDetailsDto> getOrderDetails() {
         return orderDetails;
     }
 
-    public OrderDto setOrderDetails(List<OrderDetailsDto> orderDetails) {
+    public OrderDto setOrderDetails(Set<OrderDetailsDto> orderDetails) {
         this.orderDetails = orderDetails;
         return this;
     }

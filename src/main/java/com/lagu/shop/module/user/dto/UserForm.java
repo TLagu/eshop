@@ -7,10 +7,11 @@ public class UserForm {
 
     private String status;
     private String uuid;
-    @Size(min = 6, max = 45, message = "Długość powinny być pomiędzy 6 i 45")
-    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"
-            , message = "Niepoprawny format maila")
+//    @Size(min = 6, max = 45, message = "Długość powinny być pomiędzy 6 i 45")
+//    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"
+//            , message = "Niepoprawny format maila")
     private String email;
+//    @Size(min = 3, max = 20, message = "Długość powinny być pomiędzy 3 i 20")
     private String password;
     @Size(min = 3, max = 20, message = "Długość powinny być pomiędzy 3 i 20")
     private String firstName;
@@ -29,6 +30,8 @@ public class UserForm {
     private String post;
     @Size(min = 3, max = 200, message = "Długość powinny być pomiędzy 3 i 200")
     private String street;
+    private String contact;
+
 
     public String getStatus() {
         return status;
@@ -153,6 +156,15 @@ public class UserForm {
 
     public UserForm setStreet(String street) {
         this.street = street;
+        return this;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public UserForm setContact(String contact) {
+        this.contact = contact;
         return this;
     }
 
