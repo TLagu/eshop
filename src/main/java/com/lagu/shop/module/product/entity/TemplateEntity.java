@@ -6,13 +6,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "category_attribute")
 @SQLDelete(sql = "UPDATE category_attribute SET status = 'DELETED' WHERE id = ?")
 @Where(clause = "status = 'ACTIVE'")
-public class TemplateEntity {
+public class TemplateEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_attribute_generator")
     @SequenceGenerator(name = "category_attribute_generator", sequenceName = "category_attribute_id_seq", allocationSize = 1)

@@ -1,6 +1,7 @@
 package com.lagu.shop.module.user.dto;
 
 import com.lagu.shop.module.product.entity.Status;
+import com.lagu.shop.module.user.entity.ContactType;
 import com.lagu.shop.module.user.entity.UserRole;
 
 public class UserDto {
@@ -19,6 +20,7 @@ public class UserDto {
     private String postCode;
     private String post;
     private String street;
+    private ContactType contact;
 
     public Status getStatus() {
         return status;
@@ -141,4 +143,12 @@ public class UserDto {
         return this;
     }
 
+    public ContactType getContact() {
+        return contact;
+    }
+
+    public UserDto setContact(ContactType contact) {
+        this.contact = contact;
+        return this;
+    }
 }

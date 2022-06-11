@@ -71,7 +71,7 @@ public class CategoryService {
     public CategoryEntity update(Long id, CategoryForm categoryForm) {
         CategoryEntity parent = categoryRepository.findById(categoryForm.getParent()).orElse(null);
         Set<TemplateEntity> templates = null;
-        if (categoryForm.getTemplates() != null && categoryForm.getTemplates().size() > 0) {
+        if (categoryForm.getTemplates() != null) {
             templates = categoryForm.getTemplates().stream()
                     .map(c -> templateRepository.findById(c.getId())
                             .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono parametru do aktualizacji!!!"))

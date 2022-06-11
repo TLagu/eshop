@@ -31,7 +31,7 @@ class UserServiceTest {
         //given
         when(userRepository.findByEmail(EMAIL)).thenReturn(new UserEntity());
         //when
-        UserDto dto = userService.getByEmail(EMAIL);
+        UserDto dto = userService.getDtoByEmail(EMAIL);
         //then
         assertThat(dto).isNotNull().isInstanceOf(UserDto.class);
         //verify
@@ -43,7 +43,7 @@ class UserServiceTest {
         //given
         when(userRepository.getByUuid(UUID)).thenReturn(new UserEntity());
         //when
-        UserDto dto = userService.getByUuid(UUID);
+        UserDto dto = userService.getDtoByUuid(UUID);
         //then
         assertThat(dto).isNotNull().isInstanceOf(UserDto.class);
         //verify

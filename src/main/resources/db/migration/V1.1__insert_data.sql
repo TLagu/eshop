@@ -22,8 +22,8 @@ INSERT INTO category_attribute (id, created_by, updated_by, status, category_id,
     SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Ilość modułów' FROM category WHERE name = 'RAM' UNION
     SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Całkowita pojemność' FROM category WHERE name = 'RAM' UNION
     SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Częstotliwość pracy' FROM category WHERE name = 'RAM' UNION
-    SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Typ gniazda' FROM category WHERE name = 'CPU' UNION
-    SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Ilość rdzeni' FROM category WHERE name = 'CPU'
+    SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Typ gniazda' FROM category WHERE name IN ('CPU', 'AMD', 'Intel') UNION
+    SELECT nextval('category_attribute_id_seq'), 1, 1, 'ACTIVE', id, 'Ilość rdzeni' FROM category WHERE name IN ('CPU', 'AMD', 'Intel')
 );
 COMMIT;
 ---------------------------------------------

@@ -1,11 +1,10 @@
 <div class="table-responsive cart_info" th:fragment="fragment">
-    <form action="/admin/user" th:object="${userForm}" method="post">
+    <form action="/account" th:object="${userForm}" method="post">
         <div class="chose_area">
             <ul class="user_info">
                 <li class="single_field">
                     <label>E-mail:</label>
-                    <input type="email" th:field="*{email}" placeholder="E-mail...">
-                    <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    <span th:text="${userForm.email}"></span>
                 </li>
             </ul>
             <ul class="user_info">
@@ -26,19 +25,6 @@
                     <label>Nazwisko:</label>
                     <input type="text" th:field="*{lastName}" placeholder="Nazwisko...">
                     <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
-                </li>
-            </ul>
-            <ul class="user_info">
-                <li class="single_field">
-                    <label>Rola:</label>
-                    <select id="role" th:field="${userForm.role}">
-                        <option
-                                th:each="role : ${roles}"
-                                th:value="${role}"
-                                th:text="${role}"
-                                th:selected="${userForm.role == role}"
-                        ></option>
-                    </select>
                 </li>
             </ul>
             <ul class="user_info">
@@ -88,9 +74,22 @@
                     <div class="alert alert-warning" th:if="${#fields.hasErrors('street')}" th:errors="*{street}"></div>
                 </li>
             </ul>
+            <ul class="user_info">
+                <li class="single_field">
+                    <label>Kontakt:</label>
+                    <select id="contact" th:field="*{contact}">
+                        <option
+                                th:each="contact : ${contacts}"
+                                th:value="${contact}"
+                                th:text="${contact}"
+                                th:selected="${userForm.contact == contact}"
+                        ></option>
+                    </select>
+                </li>
+            </ul>
             <button class="btn btn-default check_out" type="submit">Zapisz</button>
             <a class="btn btn-default check_out" href="/admin/user">Cancel</a>
-            <input type="hidden" name="uuid" th:value="*{uuid}">
+            <input type="hidden" name="uuid" th:field="*{uuid}">
         </div>
     </form>
 </div>

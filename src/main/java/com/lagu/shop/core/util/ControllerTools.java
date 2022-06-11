@@ -1,20 +1,21 @@
-package com.lagu.shop.module.product;
+package com.lagu.shop.core.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lagu.shop.core.pagination.MenuNavigator;
+import com.lagu.shop.module.product.ProductWebController;
 import com.lagu.shop.module.product.dto.Forecast;
 import com.lagu.shop.module.product.dto.ProductDto;
 import com.lagu.shop.module.product.service.ForecastService;
 import com.lagu.shop.module.user.dto.UserDto;
-import com.lagu.shop.module.user.repository.UserRepository;
+import com.lagu.shop.module.user.entity.ContactType;
 import com.lagu.shop.module.user.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -100,13 +101,30 @@ public class ControllerTools {
                 // ignore
             }
             if (temperature == null || pressure == null || humidity == null) {
-                UserDto user = userService.getByEmail(authentication.getName());
+                UserDto user = userService.getDtoByEmail(authentication.getName());
                 forecast = forecastService.getForecast(objectMapper, user.getLatitude(), user.getLongitude());
             }
             model.addAttribute("forecast", forecast);
         }
         model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, isLogged));
         model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, isLogged));
+    }
+
+    public static <R> R setEnumValue(R[] enumArray, R enumDefault, String enumText) {
+        for (R enumItem : enumArray) {
+            if (enumItem.toString().equals(enumText)) {
+                return enumItem;
+            }
+        }
+        return enumDefault;
+    }
+
+    public static <R> List<String> getEnumAsStringList(R[] enumArray) {
+        List<String> listSting = new ArrayList<>();
+        for (R enumItem : enumArray) {
+            listSting.add(enumItem.toString());
+        }
+        return listSting;
     }
 
 }

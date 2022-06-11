@@ -25,7 +25,8 @@ public class UserMapper {
                 .setCity(entity.getCity())
                 .setPostCode(entity.getPostCode())
                 .setPost(entity.getPost())
-                .setStreet(entity.getStreet());
+                .setStreet(entity.getStreet())
+                .setContact(entity.getContact());
     }
 
     public static List<UserDto> map(List<UserEntity> entities) {

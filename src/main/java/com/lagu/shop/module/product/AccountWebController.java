@@ -1,76 +1,60 @@
 package com.lagu.shop.module.product;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lagu.shop.module.product.dto.OrderDto;
-import com.lagu.shop.module.product.service.ForecastService;
-import com.lagu.shop.module.product.service.OrderService;
+import com.lagu.shop.core.pagination.MenuNavigator;
+import com.lagu.shop.core.util.ControllerTools;
+import com.lagu.shop.module.user.dto.UserForm;
+import com.lagu.shop.module.user.entity.ContactType;
 import com.lagu.shop.module.user.service.UserService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
+import javax.validation.Valid;
 
 @Controller
 public class AccountWebController {
-
-    private final OrderService service;
-    private final HttpSession httpSession;
     private final UserService userService;
-    private final ForecastService forecastService;
-    private final ObjectMapper objectMapper;
+    private final BCryptPasswordEncoder encoder;
 
-    String uri = "/order";
-    boolean isLogged = true;
-
-    public AccountWebController(
-            OrderService service,
-            HttpSession httpSession,
-            UserService userService,
-            ForecastService forecastService,
-            ObjectMapper objectMapper
-    ) {
-        this.service = service;
-        this.httpSession = httpSession;
+    public AccountWebController(UserService userService, BCryptPasswordEncoder encoder) {
         this.userService = userService;
-        this.forecastService = forecastService;
-        this.objectMapper = objectMapper;
+        this.encoder = encoder;
     }
 
-    @GetMapping({"/order"})
-    public String list(
+    @GetMapping(value = "/account")
+    public String form(Model model, HttpServletRequest request, Authentication authentication) {
+        generateMenu(model, request);
+        model.addAttribute("userForm", userService.getFormByEmail(authentication.getName()));
+        return "shop/account";
+    }
+
+    @PostMapping(value = "/account")
+    public String update(@Valid @ModelAttribute("userForm") UserForm userForm, BindingResult result, Model model,
+                         HttpServletRequest request, Authentication authentication
+    ) {
+        userForm.setEmail(authentication.getName());
+        if (!result.hasErrors() && !userForm.getUuid().isEmpty()) {
+            userService.createOrUpdate(userForm, encoder);
+            model.addAttribute("userForm", userService.getFormByEmail(authentication.getName()));
+        }
+        generateMenu(model, request);
+        return "shop/account";
+    }
+
+    private void generateMenu(
             Model model,
-            HttpServletRequest request,
-            Authentication authentication
+            HttpServletRequest request
     ) {
         String uri = request.getRequestURI();
-        List<OrderDto> orders = service.getUserOrders(authentication);
-        setCommonModelSettings(model, authentication);
-        model.addAttribute("orders", orders);
-        return "shop/orders";
-    }
-
-    @GetMapping({"/order/details/{uuid}"})
-    public String details(
-            @PathVariable String uuid,
-            HttpServletRequest request,
-            Model model,
-            Authentication authentication
-    ) {
-        String uri = request.getRequestURI();
-        OrderDto order = service.getOrderByUuid(authentication, uuid);
-        setCommonModelSettings(model, authentication);
-        model.addAttribute("order", order);
-        return "shop/order";
-    }
-
-    private void setCommonModelSettings(Model model, Authentication authentication) {
-        ControllerTools.setCommonModelSettings(model, authentication, httpSession, userService,
-                objectMapper, forecastService, isLogged, uri);
+        model.addAttribute("bottomMenus", new MenuNavigator().getUserBottomMenu(uri, true));
+        model.addAttribute("middleMenus", new MenuNavigator().getUserMiddleMenu(uri, true));
+        model.addAttribute("contacts", ControllerTools.getEnumAsStringList(ContactType.values()));
     }
 
 }

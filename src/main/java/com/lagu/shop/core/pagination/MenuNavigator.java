@@ -10,9 +10,8 @@ public class MenuNavigator {
     );
 
     private final List<Menu> loggedUserMiddleMenu = List.of(
-            new Menu("", "fa fa-user", "Konto", "/order"),
-            new Menu("", "fa fa-star", "Obserwowane", "/wish-list"),
-            new Menu("", "fa fa-crosshairs", "Porównanie", "/checkout"),
+            new Menu("", "fa fa-user", "Konto", "/account"),
+            new Menu("", "fa fa-star", "Zamówienia", "/order"),
             new Menu("", "fa fa-shopping-cart", "Koszyk", "/cart"),
             new Menu("", "fa fa-lock", "Wylogowanie", "/logout")
     );

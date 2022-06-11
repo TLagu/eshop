@@ -20,9 +20,13 @@ public class ProductMapper {
                 .setPath(entity.getPath())
                 .setCode(entity.getCode());
         if (attribute == null) {
-            return result.setAttributes(entity.getAttributes().stream()
-                    .map(AttributeMapper::map)
-                    .collect(Collectors.toSet()));
+            Set<AttributeDto> attributes = null;
+            if (entity.getAttributes() != null) {
+                 attributes = entity.getAttributes().stream()
+                        .map(AttributeMapper::map)
+                        .collect(Collectors.toSet());
+            }
+            return result.setAttributes(attributes);
         }
         return result.setAttributes(Set.of(attribute));
     }
